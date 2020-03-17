@@ -8,15 +8,86 @@
         <title><%= htmlWebpackPlugin.options.title %></title>
         <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui@2.13.0/lib/theme-chalk/index.css" />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/element-ui@2.13.0/lib/index.js"></script>
     </head>
     <body>
-        <div id="app"></div>
-        <div style="display:none;">
-            <script type="text/javascript" 
-                    src="https://s9.cnzz.com/z_stat.php?id=1277938200&web_id=1277938200">
-            </script>
+
+        <!-- 头部导航 -->
+        <div class="m-header">
+            <ul class="m-header-left">
+                <li><a href="https://www.jx3box.com/macro/">宏库</a></li>
+                <li><a href="https://www.jx3box.com/jx3dat/">插件</a></li>
+                <li><a href="https://www.jx3box.com/fb/">副本</a></li>
+                <li><a href="https://www.jx3box.com/bps/">职业</a></li>
+            </ul>
+            <ul class="m-header-right">
+                <li><a href="https://www.jx3box.com/share/">捏脸</a></li>
+                <li><a href="https://www.jx3box.com/tool/">教程</a></li>
+                <li><a href="https://www.jx3box.com/bbs/">茶馆</a></li>  
+                <li><a href="https://www.jx3box.com/app/">应用</a></li>  
+            </ul>
+            <a class="m-header-center" href="https://www.jx3box.com">
+                <i class="u-logo"><img src="./img/logo.png" alt="JX3BOX"></i>
+                <strong class="u-title">JX3BOX</strong>
+            </a>
         </div>
+
+        <!-- 主体区域 -->
+        <div class="m-main">
+
+            <!-- META -->
+            <div class="m-meta">
+                <span class="u-group">
+                    <em>【意见反馈QQ群】</em>
+                    <b>614370825</b>
+                </span>
+                <span class="u-date">
+                    <span>最后更新于</span>
+                    <em id="updatetime">0000-00-00</em>
+                </span>
+                <span class="u-star">
+                    <span>难度</span>
+                    <span id="stars">⭐️⭐️⭐️⭐️⭐️</span>
+                </span>
+            </div>
+
+            <!-- 核心内容 -->
+            <div class="m-block m-content">
+                <!-- panel -->
+                <div class="m-title" id="title">
+                    <span class="u-label">✔️ 成就攻略</span>
+                    <a class="u-zhtr" href="javascript:void(0)" id="translator">
+                        🌸[
+                        <span class="u-tr">台灣正體</span>
+                        <span class="u-cn">简体中文</span>
+                        ]
+                    </a>
+                    <a class="u-edit" id="edit" href="javascript:void(0)">📝编辑修订</a>
+                </div>
+                <!-- article -->
+                <div class="m-section u-content" id="content">💖Loading...</div>
+                <div class="m-section u-content hide" id="content-tw">云函数接口处理的繁体结果,免得游戏里浏览器卡死</div>
+                <!-- misc -->
+                <div class="m-tips hide">游戏内仅支持简易文本修订,如需上传附件,请至<a href="https://www.jx3box.com">JX3BOX网站</a>操作</div>
+                <div class="m-author isEditable hide">
+                    <div class="u-level">难度<span>(1-5)</span> : <input type="number" id="level" min="1" max="5"/></div>
+                    <div class="u-author">作者 : <input type="text" id="author" disabled/></div>
+                    <div class="u-btn"><button id="submit">提交</button></div>
+                </div>
+                <!-- hide -->
+            </div>
+
+            <!-- 扩展功能 -->
+            <div id="app"></div>
+
+        </div>
+
+        <!-- 底部链接 -->
+        <div class="m-footer">
+            &copy; <a href="https://www.jx3box.com">剑三魔盒</a> [ <a class="u-link" href="https://www.jx3box.com">www.jx3box.com</a> ]
+        </div>
+
     </body>
 </html>

@@ -1,0 +1,133 @@
+//文章内容
+.hide{
+    .none;
+}
+
+.m-content{
+    
+    .u-content{
+        font-size: 15px;
+        line-height: 30px;
+
+        img{
+            padding:5px;
+            border:1px solid #eee;
+            .r(3px);
+            max-width:100%;
+        }
+
+        a{
+            color:@theme-shadow;
+            box-shadow:0 1px 0 @theme-shadow;
+        }
+
+        &.isEditable{
+            box-shadow: 0 0 3px inset;
+        }
+
+    }
+
+    .u-null,.u-error{
+        .x;
+        color:#888;
+        .fz(24px);
+        padding:20px 0;
+    }
+
+    .u-zhtr{
+        .fl;
+        .fz(14px,22px);
+        margin-left:10px;
+        color:#d31765;
+
+        .u-cn{
+            .none;
+        }
+        .u-tr{
+            .di;
+        }
+        &.on{
+            .u-tr{
+                .none;
+            }
+            .u-cn{
+                .di;
+            }
+        }
+    }
+
+    // .isEditable{
+    //     border:2px dashed #ddd;
+    // }
+
+    .u-edit{
+        &.on{
+            cursor: default;
+            .tm(0.5);
+        }
+    }
+}
+
+.m-author{
+    margin-top:10px;
+    padding:5px 10px;
+    background-color: #fafbfc;
+    color: #3d454d;
+    .clearfix;
+
+    input{
+        .fz(14px,28px);
+        .h(28px);
+        border:1px solid #ddd;
+        .r(3px);
+        padding:0 5px;
+    }
+
+
+    .u-level,.u-author{
+        .fz(14px,30px);
+        .fl;
+    }
+    .u-level{
+        margin-right:20px;
+        span{
+            color:#888;
+            .fz(12px);
+        }
+    }
+    .u-author{
+        input{
+            background:#e8e8e8;
+        }
+    }
+    .u-btn{
+        .fr;
+        button{
+            .fz(16px,28px);
+            border:1px solid #ddd;
+            .r(3px);
+            background:none;
+            background-color:@theme-shadow;
+            border:1px solid @theme-border;
+            box-shadow: 0 0 2px @theme;
+            color:#fff;
+            padding:0 30px;
+            .pointer;
+        }
+    }
+}
+
+.m-tips{
+    background-color: #fcf8e3;
+    border: 1px solid #faebcc;
+    color:#8a6d3b;
+    margin-top:10px;
+    padding:5px;
+    .fz(13px,18px);
+    a{
+        color:@theme-shadow;
+        .bold;
+    }
+    .r(3px);
+}
+

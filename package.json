@@ -1,5 +1,5 @@
 {
-  "name": "repo",
+  "name": "jx3-wiki",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -8,7 +8,7 @@
     "inspect": "vue inspect > output.js"
   },
   "dependencies": {
-    "@jx3box/jx3box-common": "^1.0.21",
+    "@jx3box/jx3box-common": "^1.0.22",
     "axios": "^0.19.2",
     "core-js": "^3.4.3",
     "csslab": "^4.0.2",

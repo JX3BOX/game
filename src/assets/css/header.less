@@ -1,0 +1,63 @@
+//头部菜单
+.m-header{
+    background-color: @theme;
+    border-top:1px solid @theme-border;
+    border-bottom:1px solid @theme-border;
+    box-shadow:0 1px 0 lighten(@theme-shadow,40%);
+    color:#fff;
+    .h(@header-height);
+    .x;
+    ul,li{
+        padding:0;
+        margin:0;
+        list-style:none;
+    }
+    ul{
+        .clearfix;
+    }
+    li{
+        .fl;
+        margin-right:5px;
+    }
+    a{
+        color:#fff;
+        .db;
+        padding:0 10px;
+        .fz(1em,@header-height);
+        border-left:1px solid transparent;
+        border-right:1px solid transparent;
+    }
+    li a{
+        letter-spacing:1px;
+        text-shadow:1px 1px @theme-border;
+        &:hover{
+            background-color:@theme-shadow;
+            color:@theme-light;
+            border-left: 1px solid @theme-border;
+            border-right: 1px solid @theme-border;
+        }
+    }
+}
+.m-header-left{
+    .fl;
+}
+.m-header-right{
+    .fr;
+}
+.m-header-center{
+    .u-logo{
+        .dbi;.y(top);
+
+        .h(@header-height - 4px);
+        padding:2px 0;
+        img{.h(100%);}
+
+        // background:url('../img/logo.png') no-repeat center center;
+        // .size(32px);
+        // background-size:80% 80%;
+    }
+    //TODO:不知道弄点什么好
+    // &:hover{
+        
+    // }
+}
