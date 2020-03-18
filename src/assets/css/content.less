@@ -102,11 +102,18 @@
     }
     .u-btn{
         .fr;
-        button{
+        a{
             .fz(16px,28px);
             .r(3px);
             padding:0 30px;
             .pointer;
+            outline: none;
+            .dbi;.y(top);
+
+            &.disabled{
+                cursor: default;
+                .tm(0.5);
+            }
         }
     }
     .u-btn-cancel{
@@ -114,6 +121,7 @@
         margin-right:5px;
         background-color:#eee;
         border:1px solid #ddd;
+        color:#555;
         &:hover{
             background-color:lighten(#eee,2%);       
         }

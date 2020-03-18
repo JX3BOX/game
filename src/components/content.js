@@ -23,19 +23,21 @@ jQuery(function($) {
             //有内容
             if(content){
 
-                //加载内容
+                //初始化内容
                 // $('#stars').html(Math.min(Math.max(1,parseInt(val)),5)) 
+                // $('#level').val(query.player)
                 $('#updatetime').html(post.updated)
                 $('#content').html(content)
-
-                //检查图片加载
-                Utils.checkImageLoad($('#content img'))
+                $('#author').val(query.player)
 
                 //繁简切换
                 setupTranslator(content)
 
                 //编辑
                 setupEditor(post)
+
+                //检查图片加载
+                $('#content img').length && Utils.checkImageLoad($('#content img'))
 
                 //统计
                 setupStat(post)
@@ -66,17 +68,15 @@ function setupTranslator(content){
 }
 
 //TODO:编辑
-function setupEditor(post){
-    
-    //预设值
-    $('#author').val(query.player)
-    // $('#level').val(query.player)
+function setupEditor(){
+
+    var isLocked = false
     
     bindEditEvent()
 
-    bindCancelEvent()
+    bindCancelEvent(isLocked)
 
-    bindSubmitEvent()
+    bindSubmitEvent(isLocked)
 
 }
 
@@ -91,13 +91,16 @@ function bindEditEvent(){
     })
 }
 
-function bindCancelEvent(){
-    resetEditor()
+function bindCancelEvent(isLocked){
+    $('#cancel').on('click',function (){
+        if(isLocked) return 
+        resetEditor()
+    })
 }
 
-function bindSubmitEvent(){
+function bindSubmitEvent(isLocked){
     var isChanged = false
-    var hash_old = $('#content').html().hashCode()
+    // var hash_old = $('#content').html().hashCode()
 
     //检查
     $('#content').one('input',function (){
@@ -106,32 +109,41 @@ function bindSubmitEvent(){
 
     //提交
     $('#submit').on('click',function (){
+
+        //防止重复提交
+        if(isLocked) return 
+
         //确认有修改
         if(!isChanged) {
-            alert('没有任何改动,请勿滥提交')
+            // alert('没有任何改动,请勿滥提交')
             return
         }
 
-        //校验内容HASH
-        var hash_new = $('#content').html().hashCode()
-        if(hash_new == hash_old){
-            alert('没有任何改动,请勿滥提交')
-            return
-        }
+        //校验内容HASH,太影响性能,改由服务端判定
+        // var hash_new = $('#content').html().hashCode()
+        // if(hash_new == hash_old){
+        //     alert('没有任何改动,请勿滥提交')
+        //     return
+        // }
 
+        isLocked = true
+        $('#submit,#cancel').addClass('disabled')
         // TODO:提交数据至接口
 
             //发布成功
-            resetEditor()
+            //resetEditor()
+            // isLocked = false
         
 
         //发布失败
             // alert('提交成功,请等待审核')
+            // isLocked = false
     })
 }
 
 function resetEditor(){
     $('#edit').removeClass('on')
+    $('#submit,#cancel').removeClass('disabled')
     $('#content').removeClass('isEditable')
     $('#content').attr('contenteditable',false)
     $('.m-author,.m-tips').addClass('hide')
