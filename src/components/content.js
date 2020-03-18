@@ -67,11 +67,20 @@ function setupTranslator(content){
 
 //TODO:编辑
 function setupEditor(post){
+    
     //预设值
     $('#author').val(query.player)
     // $('#level').val(query.player)
+    
+    bindEditEvent()
 
-    //编辑
+    bindCancelEvent()
+
+    bindSubmitEvent()
+
+}
+
+function bindEditEvent(){
     $('#edit').on('click',function (){
         if($(this).hasClass('on')) return
 
@@ -80,10 +89,17 @@ function setupEditor(post){
         $('#content').attr('contenteditable',true)
         $('.m-author,.m-tips').removeClass('hide')
     })
+}
 
+function bindCancelEvent(){
+    resetEditor()
+}
+
+function bindSubmitEvent(){
     var isChanged = false
     var hash_old = $('#content').html().hashCode()
-    // console.log(hash_old)
+
+    //检查
     $('#content').one('input',function (){
         isChanged = true
     })
@@ -98,7 +114,6 @@ function setupEditor(post){
 
         //校验内容HASH
         var hash_new = $('#content').html().hashCode()
-        // console.log(hash_new)
         if(hash_new == hash_old){
             alert('没有任何改动,请勿滥提交')
             return
@@ -106,15 +121,20 @@ function setupEditor(post){
 
         // TODO:提交数据至接口
 
-        //发布成功
-        $('#edit').removeClass('on')
-        $('#content').removeClass('isEditable')
-        $('#content').attr('contenteditable',false)
-        $('.m-author,.m-tips').addClass('hide')
+            //发布成功
+            resetEditor()
+        
 
         //发布失败
+            // alert('提交成功,请等待审核')
     })
+}
 
+function resetEditor(){
+    $('#edit').removeClass('on')
+    $('#content').removeClass('isEditable')
+    $('#content').attr('contenteditable',false)
+    $('.m-author,.m-tips').addClass('hide')
 }
 
 //统计

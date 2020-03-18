@@ -70,13 +70,15 @@
                 <div class="m-section u-content" id="content">💖Loading...</div>
                 <div class="m-section u-content hide" id="content-tw">云函数接口处理的繁体结果,免得游戏里浏览器卡死</div>
                 <!-- misc -->
-                <div class="m-tips hide">游戏内仅支持简易文本修订,如需上传附件,请至<a href="https://www.jx3box.com">JX3BOX网站</a>操作</div>
+                <div class="m-tips hide">游戏内仅支持简易文本修订,如需上传图片等,请至<a href="https://www.jx3box.com">JX3BOX网站</a>操作</div>
                 <div class="m-author isEditable hide">
                     <div class="u-level">难度<span>(1-5)</span> : <input type="number" id="level" min="1" max="5"/></div>
                     <div class="u-author">作者 : <input type="text" id="author" disabled/></div>
-                    <div class="u-btn"><button id="submit">提交</button></div>
+                    <div class="u-btn">
+                        <button class="u-btn-cancel" id="cancel">取消</button>
+                        <button class="u-btn-submit" id="submit">提交</button>
+                    </div>
                 </div>
-                <!-- hide -->
             </div>
 
             <!-- 扩展功能 -->
