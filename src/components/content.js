@@ -11,13 +11,13 @@ jQuery(function($) {
 
     //加载数据
     $.ajax({
-        url: `${JX3BOX.__helperUrl}api/achievement/` + query.id + "/posts",
+        url: `${JX3BOX.__helperUrl}api/achievement/${query.id}/post`,
+        headers: {Accept: 'application/prs.helper.v2+json'},
         type: "GET",
         success: function(data) {
 
             //获取采用文章
-            var list = data.data.posts;
-            var post = list[0];
+            var post = data.data.post;
             var content = post ? Utils.resolveImagePath(post.content) : ''
 
             //有内容

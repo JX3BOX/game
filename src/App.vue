@@ -1,16 +1,25 @@
 <template>
     <div id="app">
-        <Revision />
-        <Boss />
         <Comment />
+        <Relation />
+        <Revision />
     </div>
 </template>
 
 <script>
 import '@/components/content.js';
 import Revision from '@/components/Revision.vue';
-import Boss from '@/components/Boss.vue';
+import Relation from '@/components/Relation.vue';
 import Comment from '@/components/Comment.vue';
+
+Vue.filter('date_format', function (timestamp) {
+    let d = new Date(timestamp * 1000);
+    return add_zero(d.getFullYear()) + "-" + add_zero(d.getMonth() + 1) + "-" + add_zero(d.getDate());
+
+    function add_zero(str) {
+        return str < 10 ? `0${str}` : str;
+    }
+});
 
 export default {
     name: "App",
@@ -25,11 +34,11 @@ export default {
     filters: {
     },
     mounted: function() {
-       
+
     },
     components: {
         Revision,
-        Boss,
+        Relation,
         Comment
     }
 };
