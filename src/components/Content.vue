@@ -59,10 +59,8 @@
             <div
                 class="m-section u-content"
                 :class="{ hide: !isTW }"
-                id="content-tw"
-            >
-                云函数接口处理的繁体结果,免得游戏里浏览器卡死
-            </div>
+                id="content-tw" v-html="content_tw"
+            ></div>
             <!-- Tips -->
             <div class="m-tips" :class="{ hide: !isEditMode }">
                 游戏内仅支持简易文本修订,如需上传图片等,请至<a
@@ -79,7 +77,7 @@
                         id="level"
                         min="1"
                         max="5"
-                        v-model="publish.stars"
+                        v-model="publish.level"
                     />
                 </div>
                 <div class="u-author">
@@ -128,10 +126,11 @@ export default {
             isChanged: false,
             isTW: false,
             publish: {
-                stars: 1, //TODO:等待修改
-                author: this.query.player //TODO:插件传递,解密或传递方式
+                level: _.get(this.post,'level') || 1,
+                author: this.query.player, //TODO:插件传递,解密或传递方式
             },
-            ua: {}
+            ua: {},
+            content_tw : ""
         };
     },
     computed: {
