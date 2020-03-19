@@ -82,7 +82,9 @@ export default {
     methods: {
         getRelationList() {
             let that = this;
-            axios.get(`${JX3BOX.__helperUrl}api/achievement/${this.query.id}/relations`, {}, {
+            axios({
+                method: "GET",
+                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/relations`,
                 headers: {Accept: "application/prs.helper.v2+json"},
             }).then((data) => {
                 if (data.code === 200) {
