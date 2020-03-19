@@ -87,6 +87,7 @@ export default {
                 url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/relations`,
                 headers: {Accept: "application/prs.helper.v2+json"},
             }).then((data) => {
+                console.log('debug',data);
                 if (data.code === 200) {
                     that.npcid = data.data.boss_id;
                     that.dungeon_id = data.data.dungeon_id;
