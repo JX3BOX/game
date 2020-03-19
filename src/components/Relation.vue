@@ -141,6 +141,16 @@ export default {
         &.on{
             background-color: @theme-shadow;
         }
+
+        &:before{
+            content:'▼'
+        }
+
+        &.on{
+            &::before{
+                content:'▲'
+            }
+        }
     }
 }
 

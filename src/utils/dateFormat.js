@@ -4,10 +4,8 @@
  * @param {*} dt Date实例
  * @param {object} opt polished:是否补齐两位,separator:连接分隔符
  */
-function dateFormat(dt,opt={polished:true,separator:'-'}){
-    if(typeof dt == 'number') {
-        dt = new Date(dt)
-    }
+function dateFormat(phptimestamp,opt={polished:true,separator:'-'}){
+    var dt = new Date(parseInt(phptimestamp)*1000)
     let year = dt.getFullYear()
     let month = dt.getMonth() + 1
     let date = dt.getDate()

@@ -114,6 +114,7 @@
 const { JX3BOX, Utils } = require("@jx3box/jx3box-common");
 const axios = require("axios");
 const _ = require("lodash");
+import dataFormat from '../utils/dateFormat';
 import UA from "../utils/ua";
 import "../utils/hash";
 
@@ -140,7 +141,7 @@ export default {
             return "⭐️⭐️⭐️⭐️⭐️";
         },
         updatetime: function() {
-            return this.post ? this.post.updated : "0000-00-00";
+            return this.post ? dataFormat(this.post.updated) : "0000-00-00";
         },
         content: function() {
             return (
