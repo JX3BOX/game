@@ -136,7 +136,7 @@ export default {
     },
     computed: {
         stars: function() {
-            return this.post ? this.renderStars(this.post.difficulty) : '⭐️⭐️⭐️⭐️⭐️';
+            return this.post ? this.renderStars(this.post.level) : '⭐️⭐️⭐️⭐️⭐️';
         },
         updatetime: function() {
             return this.post ? dataFormat(this.post.updated) : "0000-00-00";
