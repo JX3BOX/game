@@ -79,7 +79,7 @@
                         id="level"
                         min="1"
                         max="5"
-                        v-model="publish.star"
+                        v-model="publish.stars"
                     />
                 </div>
                 <div class="u-author">
@@ -136,9 +136,7 @@ export default {
     },
     computed: {
         stars: function() {
-            //TODO:
-            // return this.post ? this.renderStars(this.post.stars) : '⭐️⭐️⭐️⭐️⭐️'
-            return "⭐️⭐️⭐️⭐️⭐️";
+            return this.post ? this.renderStars(this.post.difficulty) : '⭐️⭐️⭐️⭐️⭐️';
         },
         updatetime: function() {
             return this.post ? dataFormat(this.post.updated) : "0000-00-00";
