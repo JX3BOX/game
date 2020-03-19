@@ -4,11 +4,12 @@
 // Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
-const { JX3BOX } = require("@jx3box/jx3box-common");
 
 import App from "./App.vue";
+import dateFormat from "./utils/dateFormat";
+
+Vue.filter('dateFormat',dateFormat)
+
 new Vue({
     render: h => h(App),
-    data:{JX3BOX}
 }).$mount("#app");
-

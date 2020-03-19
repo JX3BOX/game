@@ -1,42 +1,36 @@
 <template>
     <div id="app">
-        <Comment />
-        <Relation />
-        <Revision />
+        <Content :query="query" />
+        <Comment :query="query"/>
+        <Relation :query="query"/>
+        <Revision :query="query"/>
     </div>
 </template>
 
 <script>
-import '@/components/content.js';
+const URI = require("urijs");
+
+import Content from '@/components/Content.vue';
 import Revision from '@/components/Revision.vue';
 import Relation from '@/components/Relation.vue';
 import Comment from '@/components/Comment.vue';
-
-Vue.filter('date_format', function (timestamp) {
-    let d = new Date(timestamp * 1000);
-    return add_zero(d.getFullYear()) + "-" + add_zero(d.getMonth() + 1) + "-" + add_zero(d.getDate());
-
-    function add_zero(str) {
-        return str < 10 ? `0${str}` : str;
-    }
-});
 
 export default {
     name: "App",
     data: function() {
         return {
+            query : URI(location.href).query(true),
         };
     },
     computed: {
     },
     methods: {
     },
-    filters: {
-    },
     mounted: function() {
-
+        
     },
     components: {
+        Content,
         Revision,
         Relation,
         Comment
