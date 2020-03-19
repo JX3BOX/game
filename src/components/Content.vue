@@ -81,13 +81,12 @@
                         v-model="publish.level"
                     />
                 </div>
-                <div class="u-author">
-                    作者 :
+                <div class="u-remark">
+                    修订说明 :
                     <input
                         type="text"
-                        id="author"
-                        disabled
-                        v-model="publish.author"
+                        id="remark"
+                        v-model="publish.remark"
                     />
                 </div>
                 <div class="u-btn">
@@ -127,8 +126,8 @@ export default {
             isChanged: false,
             isTW: false,
             publish: {
-                level: _.get(this.post,'level') || 1,
-                author: this.query.player, //TODO:插件传递,解密或传递方式
+                level: _.get(this.post,'level') || '',
+                remark: '',
             },
             ua: {},
             content_tw : ""
@@ -143,7 +142,7 @@ export default {
         },
         content: function() {
             return (
-                this.post && Utils.resolveImagePath(_.get(this.post, "content")) ||
+                this.post && _.get(this.post, "content") && Utils.resolveImagePath(_.get(this.post, "content")) ||
                 "💧 暂无攻略"
             );
         },
@@ -173,23 +172,47 @@ export default {
             e.preventDefault();
 
             if (!this.isChanged) {
-                alert("没有任何改动,请勿滥提交");
-                this.isEditMode = false;
+                alert("没有任何改动，请勿滥提交");
                 return;
             }
 
-            // TODO:提交post请求至接口
-            // axios
-            //     .post(``)
-            //     .then(res => {
-            //         alert("✔️ 提交成功,请等待审核");
-            //     })
-            //     .catch(err => {
-            //         alert("⚠️ 网络异常,提交失败");
-            //     })
-            //     .finally(() => {
-            //         this.isEditMode = false;
-            //     });
+            if (!this.publish.level) {
+                alert("请填写成就综合难度");
+                return;
+            }
+
+            if (!this.publish.remark) {
+                alert("请简单描述本次修订说明");
+                return;
+            }
+
+            axios({
+                method: "POST",
+                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/post`,
+                headers: {Accept: "application/prs.helper.v2+json"},
+                data: {
+                    post: {
+                        achievement_id: this.query.id,
+                        level: this.publish.level,
+                        user_nickname: this.query.player,
+                        content: $('#content').html(),
+                        remark: this.publish.remark,
+                        key: this.query.key,
+                        time: this.query.time,
+                    }
+                }
+            }).then(data => {
+                data = data.data;
+                if(data.code === 200) {
+                    alert("✔️ 提交成功,请等待审核");
+                }else{
+                    alert(`⚠️ ${data.message}`);
+                }
+            }).catch(err => {
+                alert("⚠️ 网络异常,提交失败");
+            }).finally(() => {
+                this.isEditMode = false;
+            });
         },
         changeHandler: function(e) {
             this.isChanged = true;
@@ -207,6 +230,34 @@ export default {
                 cjid: this.query.id,
                 title: this.post.title || "----",
                 ua: JSON.stringify(this.ua)
+            });
+        },
+        createComment: function (parent_id) {
+            if (typeof parent_id === 'undefined') parent_id = 0;
+            axios({
+                method: "POST",
+                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/comment`,
+                headers: {Accept: "application/prs.helper.v2+json"},
+                data: {
+                    comment: {
+                        achievement_id: this.query.id,
+                        parent_id: parent_id,
+                        user_nickname: this.query.player,
+                        content: '',    // TODO: 评论填写入口
+                        key: this.query.key,
+                        time: this.query.time,
+                    }
+                }
+            }).then(data => {
+                data = data.data;
+                if(data.code === 200) {
+                    alert("✔️ 提交成功,请等待审核");
+                }else{
+                    alert(`⚠️ ${data.message}`);
+                }
+            }).catch(err => {
+                alert("⚠️ 网络异常,提交失败");
+            }).finally(() => {
             });
         }
     },
