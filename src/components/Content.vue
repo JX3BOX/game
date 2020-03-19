@@ -18,7 +18,7 @@
         <div class="m-block m-content">
             <!-- Warning -->
             <div class="m-warning" :class="{ hide: !warning }">
-                ❌ 您的浏览器版本太低,将无法正常使用本功能
+                ❌ 您的浏览器版本太低,将无法正常使用本应用
             </div>
 
             <!-- Panel -->
@@ -28,6 +28,7 @@
                     class="u-zhtr"
                     :class="{ on: isTW }"
                     @click="translateHandler"
+                    @click.once="translateTrigger"
                     id="translator"
                 >
                     🌸[
@@ -142,7 +143,7 @@ export default {
         },
         content: function() {
             return (
-                Utils.resolveImagePath(_.get(this.post, "content")) ||
+                this.post && Utils.resolveImagePath(_.get(this.post, "content")) ||
                 "💧 暂无攻略"
             );
         },
@@ -196,8 +197,10 @@ export default {
         translateHandler: function(e) {
             e.preventDefault();
             this.isTW = !this.isTW;
-
-            // TODO:增加翻译
+        },
+        translateTrigger:function (){
+            console.log(11)
+            this.content_tw = Utils.cn2tw(this.content)
         },
         stat: function() {
             axios.post(`${JX3BOX.__spider}jx3stat/cj`, {
@@ -224,9 +227,7 @@ export default {
                 })
                 .finally(() => {
                     this.stat();
-                    //图片备用CDN
-                    $("#content img").length &&
-                        Utils.checkImageLoad($("#content img"));
+                    $("#content img").length && Utils.checkImageLoad($("#content img"));
                 });
         }
     }
