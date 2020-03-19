@@ -28,13 +28,13 @@
             <li class="u-desc">强度<em>Intensity</em>{{npc.Intensity}}</li>
             <li class="u-desc">地图<em>MapName</em>{{npc.MapName}}</li>
             <li class="u-desc">备注<em>_Notation</em>{{npc._Notation}}</li>
-            
+
             <li class="u-desc">血量<em>MaxLife</em>{{npc.MaxLife}}</li>
             <li class="u-desc">蓝量<em>MaxMana</em>{{npc.MaxMana}}</li>
             <li class="u-desc">跑速<em>RunSpeed</em>{{npc.RunSpeed}}</li>
             <li class="u-desc">移速<em>WalkSpeed</em>{{npc.WalkSpeed}}</li>
             <li class="u-desc" title="攻击补偿距离/64">体积<em>TouchRange</em>{{npc.TouchRange}}</li>
-            
+
             <li class="u-desc">识破<em>Sense</em>{{npc.Sense}}</li>
             <li class="u-desc">闪避<em>Dodge</em>{{npc.Dodge}}</li>
             <li class="u-desc">外功防御<em>PhysicsShieldBase</em>{{npc.PhysicsShieldBase}}</li>
@@ -73,7 +73,8 @@ export default {
         return {
             relations: {},
             isPrimary:true,
-            npcid : 0,   //TODO:需要增加此处NPC ID
+            npcid : 0,
+            dungeon_id: null,
             npc : {}
         };
     },
@@ -81,31 +82,32 @@ export default {
     methods: {
         getRelationList() {
             let that = this;
-            $.ajax({
-                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/relations`,
-                headers: { Accept: "application/prs.helper.v2+json" },
-                type: "GET",
-                success: function(data) {
-                    if (data.code === 200) that.relations = data.data.relations;
-                },
-                error: function() {
-                    that.relations = false;
+            axios.get(`${JX3BOX.__helperUrl}api/achievement/${this.query.id}/relations`, {}, {
+                headers: {Accept: "application/prs.helper.v2+json"},
+            }).then((data) => {
+                if (data.code === 200) {
+                    that.npcid = data.data.boss_id;
+                    that.dungeon_id = data.data.dungeon_id;
+                    that.relations = data.data.relations;
+
+                    this.getBossInfo(that.npcid);
                 }
+            }, () => {
+                that.relations = false;
             });
         },
         bossHandler : function (){
             this.isPrimary = !this.isPrimary
         },
-        getBossInfo(){
-            this.npcid && 
-            axios.get(`${JX3BOX.__node}npc/id/${this.npcid}`).then((res) => {
+        getBossInfo(npcid){
+            npcid &&
+            axios.get(`${JX3BOX.__node}npc/id/${npcid}`).then((res) => {
                 this.npc = res.data.length && res.data[0] || {}
             })
         }
     },
     mounted: function() {
         this.getRelationList();
-        this.getBossInfo()
     }
 };
 </script>
