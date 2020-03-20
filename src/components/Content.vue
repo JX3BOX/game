@@ -208,8 +208,6 @@ export default {
                         user_nickname: author,
                         content: $('#content').html(),
                         remark: this.publish.remark,
-                        // key: this.query.key,
-                        // time: this.query.time,
                     }
                 })
             }).then(data => {
@@ -245,36 +243,6 @@ export default {
         resolveLevelValue : function (val){
             return Math.min(Math.max(1, parseInt(val)), 5)
         },
-        createComment: function (content, parent_id) {
-            if (!content) return;
-            if (typeof parent_id === 'undefined') parent_id = 0;
-            axios({
-                method: "POST",
-                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/comment`,
-                headers: {Accept: "application/prs.helper.v2+json"},
-                crossDomain: true,
-                data: qs.stringify({
-                    comment: {
-                        achievement_id: this.query.id,
-                        parent_id: parent_id,
-                        user_nickname: this.query.player,
-                        content: content,
-                        key: this.query.key,
-                        time: this.query.time,
-                    }
-                })
-            }).then(data => {
-                data = data.data;
-                if(data.code === 200) {
-                    alert("✔️ 提交成功,请等待审核");
-                }else{
-                    alert(`⚠️ ${data.message}`);
-                }
-            }).catch(err => {
-                alert("⚠️ 网络异常,提交失败");
-            }).finally(() => {
-            });
-        }
     },
     mounted: function() {
         this.ua = UA();
