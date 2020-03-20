@@ -77,11 +77,12 @@ function comments_filter(comments, parent) {
     font-size: 14px;
 
     .comments {
-        padding-left: 15px;
+        padding-left: 0;
         list-style: none;
 
-        .nickname {
-            font-weight: 600;
+        .m-nickname{
+            .u-nickname { font-weight: 600; color: #d31765; }
+            span + .u-nickname{ color: #548379; }
         }
 
         .comment {
@@ -90,21 +91,39 @@ function comments_filter(comments, parent) {
             overflow: hidden;
         }
 
-        .time {
-            margin-left: 10px;
-            font-size: 12px;
-            opacity: 0.5;
+        .u-content {
+            margin: 10px 0;
+            opacity: 0.8;
         }
 
-        .content {
-            margin: 10px 0 5px;
-            opacity: 0.8;
+        .m-reply {
+            padding-bottom:10px;
+
+            .u-reply {
+                padding:5px 10px;
+                outline: none;
+                border: none;
+                color: #FFFFFF;
+                background-color: #1E9FFF;
+                cursor: pointer;
+            }
+
+            .u-time {
+                float: right;
+                margin-top: 5px;
+                font-size: 12px;
+                opacity: 0.5;
+            }
         }
     }
 
     & > .comments {
         margin: 0;
         padding: 0;
+    }
+
+    & > .comments > .c-comment > .comments {
+        padding-left: 15px;
     }
 }
 </style>

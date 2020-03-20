@@ -112,6 +112,7 @@
 const { JX3BOX, Utils } = require("@jx3box/jx3box-common");
 const axios = require("axios");
 const _ = require("lodash");
+var qs = require('qs');
 import dataFormat from '../utils/dateFormat';
 import UA from "../utils/ua";
 import "../utils/hash";
@@ -190,7 +191,7 @@ export default {
                 method: "POST",
                 url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/post`,
                 headers: {Accept: "application/prs.helper.v2+json"},
-                data: {
+                data: qs.stringify({
                     post: {
                         achievement_id: this.query.id,
                         level: this.publish.level,
@@ -200,7 +201,7 @@ export default {
                         key: this.query.key,
                         time: this.query.time,
                     }
-                }
+                })
             }).then(data => {
                 data = data.data;
                 if(data.code === 200) {
@@ -232,22 +233,24 @@ export default {
                 ua: JSON.stringify(this.ua)
             });
         },
-        createComment: function (parent_id) {
+        createComment: function (content, parent_id) {
+            if (!content) return;
             if (typeof parent_id === 'undefined') parent_id = 0;
             axios({
                 method: "POST",
                 url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/comment`,
                 headers: {Accept: "application/prs.helper.v2+json"},
-                data: {
+                crossDomain: true,
+                data: qs.stringify({
                     comment: {
                         achievement_id: this.query.id,
                         parent_id: parent_id,
                         user_nickname: this.query.player,
-                        content: '',    // TODO: 评论填写入口
+                        content: content,
                         key: this.query.key,
                         time: this.query.time,
                     }
-                }
+                })
             }).then(data => {
                 data = data.data;
                 if(data.code === 200) {
