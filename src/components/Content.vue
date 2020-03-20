@@ -198,8 +198,8 @@ export default {
                         user_nickname: this.query.player,
                         content: $('#content').html(),
                         remark: this.publish.remark,
-                        key: this.query.key,
-                        time: this.query.time,
+                        // key: this.query.key,
+                        // time: this.query.time,
                     }
                 })
             }).then(data => {
@@ -247,8 +247,8 @@ export default {
                         parent_id: parent_id,
                         user_nickname: this.query.player,
                         content: content,
-                        key: this.query.key,
-                        time: this.query.time,
+                        // key: this.query.key,
+                        // time: this.query.time,
                     }
                 })
             }).then(data => {
