@@ -184,6 +184,15 @@ export default {
         padding: 5px 10px;
         border-radius: 3px;
         background-color: #eeeeee;
+        &:hover{
+            a{color:#fff;}
+            background-color: @theme-shadow;
+        }
+    }
+
+    a{
+        color:@theme-border;
+        .fz(15px);
     }
 }
 
@@ -191,7 +200,7 @@ export default {
     .u-boss {
         .fr;
         .fz(13px);
-        background-color: @theme;
+        background-color: @theme-shadow;
         color: #fff;
         font-weight: normal;
         padding: 2px 5px;
@@ -200,9 +209,9 @@ export default {
         .pointer;
         user-select: none;
 
-        &.on {
-            background-color: @theme-shadow;
-        }
+        // &.on {
+        //     background-color: @theme-shadow;
+        // }
 
         &:before {
             content: "▼";

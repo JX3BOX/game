@@ -89,6 +89,14 @@
                         v-model="publish.author"
                     />
                 </div>
+                <div class="u-remark">
+                    修订说明 :
+                    <input
+                        type="text"
+                        id="remark"
+                        v-model="publish.remark"
+                    />
+                </div>
                 <div class="u-btn">
                     <a
                         class="u-btn-cancel"
@@ -112,9 +120,10 @@
 const { JX3BOX, Utils } = require("@jx3box/jx3box-common");
 const axios = require("axios");
 const _ = require("lodash");
+var qs = require('qs');
 import dataFormat from '../utils/dateFormat';
 import UA from "../utils/ua";
-import "../utils/hash";
+// import "../utils/hash";
 
 export default {
     name: "Content",
@@ -128,6 +137,7 @@ export default {
             publish: {
                 level: 1,
                 author: this.query.player || '',
+                remark: '',
             },
             ua: {},
             content_tw : ""
@@ -142,7 +152,7 @@ export default {
         },
         content: function() {
             return (
-                this.post && Utils.resolveImagePath(_.get(this.post, "content")) ||
+                this.post && _.get(this.post, "content") && Utils.resolveImagePath(_.get(this.post, "content")) ||
                 "💧 暂无攻略"
             );
         },
@@ -172,23 +182,48 @@ export default {
             e.preventDefault();
 
             if (!this.isChanged) {
-                alert("没有任何改动,请勿滥提交");
-                this.isEditMode = false;
+                alert("没有任何改动，请勿滥提交");
                 return;
             }
 
-            // TODO:提交post请求至接口
-            // axios
-            //     .post(``)
-            //     .then(res => {
-            //         alert("✔️ 提交成功,请等待审核");
-            //     })
-            //     .catch(err => {
-            //         alert("⚠️ 网络异常,提交失败");
-            //     })
-            //     .finally(() => {
-            //         this.isEditMode = false;
-            //     });
+            if (!this.publish.remark) {
+                alert("请简单描述本次修订说明");
+                return;
+            }
+
+            // Level校验
+            let level = parseInt(!this.publish.level) ? this.resolveLevelValue(this.publish.level) : this.post.level
+
+            // 用户名
+            let author = this.publish.author || '匿名'
+            
+            axios({
+                method: "POST",
+                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/post`,
+                headers: {Accept: "application/prs.helper.v2+json"},
+                data: qs.stringify({
+                    post: {
+                        achievement_id: this.query.id,
+                        level: level,
+                        user_nickname: author,
+                        content: $('#content').html(),
+                        remark: this.publish.remark,
+                        // key: this.query.key,
+                        // time: this.query.time,
+                    }
+                })
+            }).then(data => {
+                data = data.data;
+                if(data.code === 200) {
+                    alert("✔️ 提交成功,请等待审核");
+                }else{
+                    alert(`⚠️ ${data.message}`);
+                }
+            }).catch(err => {
+                alert("⚠️ 网络异常,提交失败");
+            }).finally(() => {
+                this.isEditMode = false;
+            });
         },
         changeHandler: function(e) {
             this.isChanged = true;
@@ -209,12 +244,40 @@ export default {
         },
         resolveLevelValue : function (val){
             return Math.min(Math.max(1, parseInt(val)), 5)
+        },
+        createComment: function (content, parent_id) {
+            if (!content) return;
+            if (typeof parent_id === 'undefined') parent_id = 0;
+            axios({
+                method: "POST",
+                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/comment`,
+                headers: {Accept: "application/prs.helper.v2+json"},
+                crossDomain: true,
+                data: qs.stringify({
+                    comment: {
+                        achievement_id: this.query.id,
+                        parent_id: parent_id,
+                        user_nickname: this.query.player,
+                        content: content,
+                        key: this.query.key,
+                        time: this.query.time,
+                    }
+                })
+            }).then(data => {
+                data = data.data;
+                if(data.code === 200) {
+                    alert("✔️ 提交成功,请等待审核");
+                }else{
+                    alert(`⚠️ ${data.message}`);
+                }
+            }).catch(err => {
+                alert("⚠️ 网络异常,提交失败");
+            }).finally(() => {
+            });
         }
     },
     mounted: function() {
         this.ua = UA();
-
-        console.log(this.publish.level)
 
         if (this.query.id) {
             axios({
