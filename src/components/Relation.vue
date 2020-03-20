@@ -15,8 +15,8 @@
             <span v-if="relations && !relations.length">💧 无相关数据</span>
             <ul class="m-relations" v-if="relations && relations.length">
                 <li v-for="(cj, key) in relations" :key="key">
-                    <!--<img class="u-icon" :src="'https://oss.jx3box.com/icon/'+cj.IconID+'.png'"
-                         onerror="javascript:this.src='https://oss.jx3box.com/image/common/nullicon.png';">-->
+                    <img class="u-icon" :src="'https://oss.jx3box.com/icon/'+cj.IconID+'.png'"
+                         onerror="javascript:this.src='https://oss.jx3box.com/image/common/nullicon.png';">
                     <a
                         class="u-title"
                         href="javascript::void(0)"
@@ -178,12 +178,22 @@ export default {
     padding: 0;
     list-style: none;
 
+    .u-icon {
+        .w(16px);
+        .h(16px);
+        background-color:#000;
+        margin-right: 5px;
+        border-radius: 2px;
+        vertical-align: middle;
+    }
+
     li {
         display: inline-block;
         margin: 5px;
         padding: 5px 10px;
         border-radius: 3px;
         background-color: #eeeeee;
+        line-height: 1em;
         &:hover{
             a{color:#fff;}
             background-color: @theme-shadow;
@@ -193,6 +203,7 @@ export default {
     a{
         color:@theme-border;
         .fz(15px);
+        vertical-align: middle;
     }
 }
 
