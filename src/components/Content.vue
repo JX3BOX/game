@@ -86,7 +86,6 @@
                     <input
                         type="text"
                         id="author"
-                        disabled
                         v-model="publish.author"
                     />
                 </div>
@@ -127,8 +126,8 @@ export default {
             isChanged: false,
             isTW: false,
             publish: {
-                level: _.get(this.post,'level') || 1,
-                author: this.query.player, //TODO:插件传递,解密或传递方式
+                level: 1,
+                author: this.query.player || '',
             },
             ua: {},
             content_tw : ""
@@ -158,7 +157,7 @@ export default {
     },
     methods: {
         renderStars: function(val) {
-            return "⭐️".repeat(Math.min(Math.max(1, parseInt(val)), 5));
+            return "⭐️".repeat(this.resolveLevelValue(val));
         },
         editHandler: function(e) {
             e.preventDefault();
@@ -199,7 +198,6 @@ export default {
             this.isTW = !this.isTW;
         },
         translateTrigger:function (){
-            console.log(11)
             this.content_tw = Utils.cn2tw(this.content)
         },
         stat: function() {
@@ -208,10 +206,15 @@ export default {
                 title: this.post.title || "----",
                 ua: JSON.stringify(this.ua)
             });
+        },
+        resolveLevelValue : function (val){
+            return Math.min(Math.max(1, parseInt(val)), 5)
         }
     },
     mounted: function() {
         this.ua = UA();
+
+        console.log(this.publish.level)
 
         if (this.query.id) {
             axios({
@@ -220,6 +223,7 @@ export default {
             })
                 .then(res => {
                     this.post = res.data.data.post || {};
+                    this.publish.level = this.resolveLevelValue(_.get(this.post,'level'));
                 })
                 .catch(err => {
                     this.isnull = true;
