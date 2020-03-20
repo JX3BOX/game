@@ -81,6 +81,14 @@
                         v-model="publish.level"
                     />
                 </div>
+                <div class="u-author">
+                    作者 :
+                    <input
+                        type="text"
+                        id="author"
+                        v-model="publish.author"
+                    />
+                </div>
                 <div class="u-remark">
                     修订说明 :
                     <input
@@ -115,7 +123,7 @@ const _ = require("lodash");
 var qs = require('qs');
 import dataFormat from '../utils/dateFormat';
 import UA from "../utils/ua";
-import "../utils/hash";
+// import "../utils/hash";
 
 export default {
     name: "Content",
@@ -127,7 +135,8 @@ export default {
             isChanged: false,
             isTW: false,
             publish: {
-                level: _.get(this.post,'level') || '',
+                level: 1,
+                author: this.query.player || '',
                 remark: '',
             },
             ua: {},
@@ -158,7 +167,7 @@ export default {
     },
     methods: {
         renderStars: function(val) {
-            return "⭐️".repeat(Math.min(Math.max(1, parseInt(val)), 5));
+            return "⭐️".repeat(this.resolveLevelValue(val));
         },
         editHandler: function(e) {
             e.preventDefault();
@@ -177,16 +186,17 @@ export default {
                 return;
             }
 
-            if (!this.publish.level) {
-                alert("请填写成就综合难度");
-                return;
-            }
-
             if (!this.publish.remark) {
                 alert("请简单描述本次修订说明");
                 return;
             }
 
+            // Level校验
+            let level = parseInt(!this.publish.level) ? this.resolveLevelValue(this.publish.level) : this.post.level
+
+            // 用户名
+            let author = this.publish.author || '匿名'
+            
             axios({
                 method: "POST",
                 url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/post`,
@@ -194,8 +204,8 @@ export default {
                 data: qs.stringify({
                     post: {
                         achievement_id: this.query.id,
-                        level: this.publish.level,
-                        user_nickname: this.query.player,
+                        level: level,
+                        user_nickname: author,
                         content: $('#content').html(),
                         remark: this.publish.remark,
                         // key: this.query.key,
@@ -223,7 +233,6 @@ export default {
             this.isTW = !this.isTW;
         },
         translateTrigger:function (){
-            console.log(11)
             this.content_tw = Utils.cn2tw(this.content)
         },
         stat: function() {
@@ -232,6 +241,9 @@ export default {
                 title: this.post.title || "----",
                 ua: JSON.stringify(this.ua)
             });
+        },
+        resolveLevelValue : function (val){
+            return Math.min(Math.max(1, parseInt(val)), 5)
         },
         createComment: function (content, parent_id) {
             if (!content) return;
@@ -274,6 +286,7 @@ export default {
             })
                 .then(res => {
                     this.post = res.data.data.post || {};
+                    this.publish.level = this.resolveLevelValue(_.get(this.post,'level'));
                 })
                 .catch(err => {
                     this.isnull = true;

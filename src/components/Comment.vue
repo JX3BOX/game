@@ -81,8 +81,8 @@ function comments_filter(comments, parent) {
         list-style: none;
 
         .m-nickname{
-            .u-nickname { font-weight: 600; color: #d31765; }
-            span + .u-nickname{ color: #548379; }
+            .u-nickname { font-weight: 600; color: @theme-shadow; }
+            span + .u-nickname{ color: #888; }
         }
 
         .comment {
@@ -104,7 +104,7 @@ function comments_filter(comments, parent) {
                 outline: none;
                 border: none;
                 color: #FFFFFF;
-                background-color: #1E9FFF;
+                background-color: @theme-shadow;
                 cursor: pointer;
             }
 

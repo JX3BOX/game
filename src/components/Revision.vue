@@ -43,7 +43,7 @@ export default {
     },
     computed: {},
     methods: {
-        get_versions() {
+        getVersions() {
             let that = this;
             $.ajax({
                 url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/versions`,
@@ -59,7 +59,7 @@ export default {
         }
     },
     mounted: function() {
-        this.get_versions();
+        this.getVersions();
     }
 };
 </script>
@@ -78,6 +78,13 @@ export default {
     td {
         padding: 8px 10px;
         font-weight: normal;
+    }
+
+    a{
+        color:@theme-shadow;
+        &:hover{
+            box-shadow:0 1px 0 @theme-shadow;
+        }
     }
 
     th {
