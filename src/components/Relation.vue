@@ -179,10 +179,11 @@ export default {
     list-style: none;
 
     .u-icon {
+        display: inline-block;
         .w(16px);
         .h(16px);
         background-color:#000;
-        margin-right: 5px;
+        margin-right: 6px;
         border-radius: 2px;
         vertical-align: middle;
     }
@@ -190,7 +191,7 @@ export default {
     li {
         display: inline-block;
         margin: 5px;
-        padding: 5px 10px;
+        padding: 8px 10px;
         border-radius: 3px;
         background-color: #eeeeee;
         line-height: 1em;
@@ -201,8 +202,9 @@ export default {
     }
 
     a{
+        display: inline-block;
         color:@theme-border;
-        .fz(15px);
+        .fz(14px);
         vertical-align: middle;
     }
 }
