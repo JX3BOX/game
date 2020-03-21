@@ -171,9 +171,9 @@ export default {
             e.target.src = JX3BOX.__imagePath + "common/nullicon.png"
         },
         resolveCjLink(id){
-            let cjid = id || 0
-            let player = this.query.player || ''
-            return `https://wiki.jx3box.com/?id=${cjid}&${player}`;
+            let cjid = id || 0;
+            let player = this.query.player || '';
+            return `https://wiki.jx3box.com/?id=${cjid}` + (player ? `&player=${player}` : '');
         },
         bossHandler: function() {
             this.isPrimary = !this.isPrimary;
