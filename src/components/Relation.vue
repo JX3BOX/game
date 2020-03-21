@@ -15,13 +15,17 @@
             <span v-if="relations && !relations.length">💧 无相关数据</span>
             <ul class="m-relations" v-if="relations && relations.length">
                 <li v-for="(cj, key) in relations" :key="key">
-                    <img class="u-icon" :src="'https://oss.jx3box.com/icon/'+cj.IconID+'.png'"
-                         onerror="javascript:this.src='https://oss.jx3box.com/image/common/nullicon.png';">
                     <a
                         class="u-title"
-                        href="javascript::void(0)"
-                        v-text="cj.Name"
-                    ></a>
+                        :href="resolveCjLink(cj.ID)"
+                    >
+                    <img
+                        class="u-icon"
+                        :src="resolveIconPath(cj.IconID)"
+                        @error.once="iconErrorHandler($event)"
+                    />
+                    <span class="u-text">{{cj.Name}}</span>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -138,8 +142,10 @@ export default {
                 headers: { Accept: "application/prs.helper.v2+json" }
             }).then(
                 res => {
-
-                    if (res.data.code !== 200 || !res.data.data.relations.length) {
+                    if (
+                        res.data.code !== 200 ||
+                        !res.data.data.relations.length
+                    ) {
                         this.hasRelations = false;
                         return;
                     }
@@ -155,6 +161,19 @@ export default {
                     that.relations = false;
                 }
             );
+        },
+        resolveIconPath(id) {
+            return id
+                ? JX3BOX.__iconPath + id + ".png"
+                : JX3BOX.__imagePath + "common/nullicon.png";
+        },
+        iconErrorHandler(e){
+            e.target.src = JX3BOX.__imagePath + "common/nullicon.png"
+        },
+        resolveCjLink(id){
+            let cjid = id || 0
+            let player = this.query.player || ''
+            return `https://wiki.jx3box.com/?id=${cjid}&${player}`;
         },
         bossHandler: function() {
             this.isPrimary = !this.isPrimary;
@@ -182,30 +201,31 @@ export default {
         display: inline-block;
         .w(16px);
         .h(16px);
-        background-color:#000;
+        .y(top);
+        // background-color: #000;
         margin-right: 6px;
         border-radius: 2px;
-        vertical-align: middle;
     }
 
     li {
         display: inline-block;
         margin: 5px;
-        padding: 8px 10px;
         border-radius: 3px;
         background-color: #eeeeee;
         line-height: 1em;
-        &:hover{
-            a{color:#fff;}
-            background-color: @theme-shadow;
+        &:hover {
+            a {
+                color: #fff;
+            }
+            background-color: @theme;
         }
     }
 
-    a{
+    a {
+        padding: 8px 10px;
         display: inline-block;
-        color:@theme-border;
-        .fz(14px);
-        vertical-align: middle;
+        color: @theme-border;
+        .fz(14px,16px);
     }
 }
 
