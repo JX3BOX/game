@@ -8,7 +8,7 @@
             <span v-if="comments === false">⚠️ 数据加载异常</span>
             <span v-if="comments && !comments.length">💧 暂无评论</span>
             <div class="m-comments">
-                <CommentItem :comments="comments" />
+                <CommentItem :comments="comments" :query="query"/>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
 <script>
 import CommentItem from "@/components/CommentItem.vue";
 const { JX3BOX } = require("@jx3box/jx3box-common");
-
+const axios = require("axios");
 export default {
     name: "Comment",
     props: ["query"],
@@ -30,17 +30,25 @@ export default {
     methods: {
         get_comments() {
             let that = this;
-            $.ajax({
+            axios({
+                method: "GET",
                 url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/comments`,
-                headers: { Accept: "application/prs.helper.v2+json" },
-                type: "GET",
-                success: function(data) {
-                    if (data.code === 200)
-                        that.comments = comments_filter(data.data.comments, 0);
-                },
-                error: function() {
-                    that.comments = false;
+                headers: {Accept: "application/prs.helper.v2+json"}
+            }).then(function (data) {
+                data = data.data;
+                if (data.code === 200) {
+                    let comments = data.data.comments;
+                    for(var i = 0; i<comments.length;i++){
+                        comments[i]['reply_form'] = {
+                            show: false,
+                            content: '',
+                            user_nickname: that.query.player || '匿名',
+                        }
+                    }
+                    that.comments = comments_filter(comments, 0);
                 }
+            }, function () {
+                that.comments = false;
             });
         }
     },
@@ -106,6 +114,10 @@ function comments_filter(comments, parent) {
                 color: #FFFFFF;
                 background-color: @theme-shadow;
                 cursor: pointer;
+
+                &.show{
+                    background-color: @theme;
+                }
             }
 
             .u-time {
@@ -113,6 +125,36 @@ function comments_filter(comments, parent) {
                 margin-top: 5px;
                 font-size: 12px;
                 opacity: 0.5;
+            }
+        }
+
+        .m-reply-form {
+            .u-reply-content {
+                width: 100%;
+                height: 4em;
+                padding: 5px;
+                line-height: 1.5em;
+                box-sizing: border-box;
+            }
+            .u-author {
+                .fl;
+
+                input{
+                    .fz(14px,28px);
+                    .h(28px);
+                    border:1px solid #ddd;
+                    .r(3px);
+                    padding:0 5px;
+                }
+            }
+            .u-submit {
+                float: right;
+                padding:5px 10px;
+                outline: none;
+                border: none;
+                color: #FFFFFF;
+                background-color: @theme-border;
+                cursor: pointer;
             }
         }
     }
