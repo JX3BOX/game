@@ -2,17 +2,17 @@
     <div class="m-content-wrapper">
         <!-- META -->
         <div class="m-meta">
+            <span class="u-title">
+                <img
+                    class="u-icon"
+                    :src="resolveIconPath(achievement.IconID)"
+                    @error.once="iconErrorHandler($event)"
+                />
+                <span class="u-text">{{achievement.Name}}</span>
+            </span>
             <span class="u-group">
                 <em>【意见反馈QQ群】</em>
                 <b>614370825</b>
-            </span>
-            <span class="u-date">
-                <span>最后更新于</span>
-                <em id="updatetime">{{ this.updatetime }}</em>
-            </span>
-            <span class="u-star">
-                <span>难度</span>
-                <span id="stars">{{ this.stars }}</span>
             </span>
         </div>
         <div class="m-block m-content">
@@ -36,6 +36,14 @@
                     <span class="u-cn">简体中文</span>
                     ]
                 </a>
+                <span class="u-star">
+                    <span>难度</span>
+                    <span id="stars">{{ this.stars }}</span>
+                </span>
+                <span class="u-date">
+                    <span>最后更新于</span>
+                    <em id="updatetime">{{ this.updatetime }}</em>
+                </span>
                 <a
                     class="u-edit"
                     :class="{ on: isEditMode }"
@@ -130,6 +138,7 @@ export default {
     props: ["query"],
     data: function() {
         return {
+            achievement: {},
             post: {},
             isEditMode: false,
             isChanged: false,
@@ -196,7 +205,7 @@ export default {
 
             // 用户名
             let author = this.publish.author || '匿名'
-            
+
             axios({
                 method: "POST",
                 url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/post`,
@@ -233,15 +242,36 @@ export default {
         translateTrigger:function (){
             this.content_tw = Utils.cn2tw(this.content)
         },
-        stat: function() {
+        stat: function(cj_id, cj_title) {
             axios.post(`${JX3BOX.__spider}jx3stat/cj`, {
-                cjid: this.query.id,
-                title: this.post.title || "----",
+                cjid: cj_id,
+                title: cj_title || "----",
                 ua: JSON.stringify(this.ua)
             });
         },
         resolveLevelValue : function (val){
             return Math.min(Math.max(1, parseInt(val)), 5)
+        },
+        getAchievement : function () {
+            axios({
+                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}`,
+                headers: { Accept: "application/prs.helper.v2+json" }
+            }).then(data => {
+                data = data.data;
+                if (data.code === 200) this.achievement = data.data.achievement;
+            }).catch(() => {
+                this.achievement = false;
+            }).finally(() => {
+                this.stat(this.query.id, this.achievement.Name);
+            });
+        },
+        resolveIconPath(id) {
+            return id
+                ? JX3BOX.__iconPath + id + ".png"
+                : JX3BOX.__imagePath + "common/nullicon.png";
+        },
+        iconErrorHandler(e){
+            e.target.src = JX3BOX.__imagePath + "common/nullicon.png"
         },
     },
     mounted: function() {
@@ -261,9 +291,10 @@ export default {
                     this.post.content = "⚠️ 数据加载异常";
                 })
                 .finally(() => {
-                    this.stat();
                     $("#content img").length && Utils.checkImageLoad($("#content img"));
                 });
+
+            this.getAchievement();
         }
     }
 };
