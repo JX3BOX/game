@@ -212,7 +212,6 @@ export default {
                 headers: {Accept: "application/prs.helper.v2+json"},
                 data: qs.stringify({
                     post: {
-                        achievement_id: this.query.id,
                         level: level,
                         user_nickname: author,
                         content: $('#content').html(),
