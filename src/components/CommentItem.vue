@@ -18,7 +18,7 @@
                     <span class="u-time">{{ comment.updated | dateFormat }}</span>
                 </div>
                 <div class="m-reply-form" v-if="comment.reply_form.show">
-                    <textarea class="u-reply-content" v-model="comment.reply_form.content"></textarea>
+                    <textarea class="u-reply-content" style="resize:vertical" v-model="comment.reply_form.content"></textarea>
                     <div class="u-author">
                         <span>作者 : </span>
                         <input v-model="comment.reply_form.user_nickname" type="text">
