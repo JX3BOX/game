@@ -7,8 +7,10 @@ Vue.config.productionTip = false;
 
 import App from "./App.vue";
 import dateFormat from "./utils/dateFormat";
+import playerName from "./utils/playerName";
 
-Vue.filter('dateFormat',dateFormat)
+Vue.filter('dateFormat', dateFormat);
+Vue.filter('playerName', playerName);
 
 new Vue({
     render: h => h(App),

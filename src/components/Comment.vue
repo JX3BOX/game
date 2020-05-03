@@ -37,7 +37,7 @@
                 comments: null,
                 reply_form: {
                     content: '',
-                    user_nickname: this.query.player
+                    user_nickname: this.$options.filters.playerName(this.query.player)
                 }
             };
         },
@@ -57,7 +57,7 @@
                             comments[i]['reply_form'] = {
                                 show: false,
                                 content: '',
-                                user_nickname: that.query.player || '匿名',
+                                user_nickname: that.$options.filters.playerName(that.query.player),
                             }
                         }
                         that.comments = comments_filter(comments, 0);
@@ -85,7 +85,7 @@
                         comment: {
                             achievement_id: this.query.id,
                             parent_id: parent_id,
-                            user_nickname: form.user_nickname || '匿名',
+                            user_nickname: this.$options.filters.playerName(form.user_nickname),
                             content: form.content,
                         }
                     })
