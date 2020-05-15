@@ -272,11 +272,11 @@ export default {
         },
         resolveIconPath(id) {
             return id
-                ? JX3BOX.__iconPath + id + ".png"
-                : JX3BOX.__imagePath + "common/nullicon.png";
+                ? JX3BOX.__iconPath + 'icon/' + id + ".png"
+                : JX3BOX.__imgPath + "image/common/nullicon.png";
         },
         iconErrorHandler(e) {
-            e.target.src = JX3BOX.__imagePath + "common/nullicon.png";
+            e.target.src = JX3BOX.__imgPath + "image/common/nullicon.png";
         },
     },
     mounted: function() {
