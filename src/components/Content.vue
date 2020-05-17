@@ -124,7 +124,7 @@ const _ = require("lodash");
 var qs = require("qs");
 import dataFormat from "../utils/dateFormat";
 import UA from "../utils/ua";
-// import "../utils/hash";
+import cn2tw from "../utils/cn2tw";
 
 export default {
     name: "Content",
@@ -241,7 +241,7 @@ export default {
             this.isTW = !this.isTW;
         },
         translateTrigger: function() {
-            this.content_tw = Utils.cn2tw(this.content);
+            this.content_tw = cn2tw(this.content);
         },
         stat: function(cj_id, cj_title) {
             axios.post(`${JX3BOX.__spider}jx3stat/cj`, {
