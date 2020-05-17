@@ -92,11 +92,11 @@
                 </div>
                 <div class="u-author">
                     作者 :
-                    <input type="text" id="author" v-model="publish.author" />
+                    <input type="text" id="author" v-model="publish.author" autocomplete="off" />
                 </div>
                 <div class="u-remark">
                     修订说明 :
-                    <input type="text" id="remark" v-model="publish.remark" />
+                    <input type="text" id="remark" v-model="publish.remark" autocomplete="off" />
                 </div>
                 <div class="u-btn">
                     <a
@@ -213,7 +213,7 @@ export default {
                     post: {
                         level: level,
                         user_nickname: author,
-                        content: $("#content").html(),
+                        content: document.getElementById("content").innerHTML,
                         remark: this.publish.remark,
                     },
                 }),
@@ -272,7 +272,7 @@ export default {
         },
         resolveIconPath(id) {
             return id
-                ? JX3BOX.__iconPath + id + ".png"
+                ? JX3BOX.__iconPath + 'icon/' + id + ".png"
                 : JX3BOX.__imagePath + "common/nullicon.png";
         },
         iconErrorHandler(e) {
@@ -298,8 +298,7 @@ export default {
                     this.post.content = "⚠️ 数据加载异常";
                 })
                 .finally(() => {
-                    $("#content img").length &&
-                        Utils.checkImageLoad($("#content img"));
+                    $("#content img").length && Utils.checkImageLoad($("#content img"));
                 });
 
             this.getAchievement();

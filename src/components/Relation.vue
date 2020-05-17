@@ -164,7 +164,7 @@ export default {
         },
         resolveIconPath(id) {
             return id
-                ? JX3BOX.__iconPath + id + ".png"
+                ? JX3BOX.__iconPath + 'icon/' + id + ".png"
                 : JX3BOX.__imagePath + "common/nullicon.png";
         },
         iconErrorHandler(e){

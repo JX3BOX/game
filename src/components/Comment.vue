@@ -117,8 +117,9 @@
 
     function comments_filter(comments, parent) {
         let outputs = [];
-        $.each(comments, function (index, item) {
-            if (!item) return true;
+        for (let index in comments) {
+            let item = comments[index];
+            if (!item) continue;
             if (item.parent_id === parent) {
                 // 置空当前元素
                 comments[index] = null;
@@ -127,7 +128,7 @@
                 item.children = children ? children : [];
                 outputs.push(item);
             }
-        });
+        }
         return outputs;
     }
 </script>
@@ -201,7 +202,7 @@
 
             .u-title {
                 margin-bottom: 10px;
-                padding-bottom:10px;
+                padding-bottom: 10px;
                 border-bottom: 1px solid @theme-border;
             }
 

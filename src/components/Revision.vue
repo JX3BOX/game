@@ -17,9 +17,9 @@
                 <tr class="history" v-for="(ver, key) in versions" :key="key">
                     <td>
                         <a
-                            target="_blank"
-                            href="javascript:void(0)"
-                            v-text="'v' + (versions.length - key)"
+                                target="_blank"
+                                href="javascript:void(0)"
+                                v-text="'v' + (versions.length - key)"
                         ></a>
                     </td>
                     <td>{{ ver.updated | dateFormat }}</td>
@@ -32,71 +32,72 @@
 </template>
 
 <script>
-const { JX3BOX } = require("@jx3box/jx3box-common");
-export default {
-    name: "Revision",
-    props: ["query"],
-    data: function() {
-        return {
-            versions: null
-        };
-    },
-    computed: {},
-    methods: {
-        getVersions() {
-            let that = this;
-            $.ajax({
-                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/versions`,
-                headers: { Accept: "application/prs.helper.v2+json" },
-                type: "GET",
-                success: function(data) {
+    const {JX3BOX} = require("@jx3box/jx3box-common");
+    const axios = require("axios");
+    export default {
+        name: "Revision",
+        props: ["query"],
+        data: function () {
+            return {
+                versions: null
+            };
+        },
+        computed: {},
+        methods: {
+            getVersions() {
+                let that = this;
+                axios({
+                    method: "GET",
+                    url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/versions`,
+                    headers: {Accept: "application/prs.helper.v2+json"},
+                }).then(function (data) {
+                    data = data.data;
                     if (data.code === 200) that.versions = data.data.versions;
-                },
-                error: function() {
+                }, function () {
                     that.versions = false;
-                }
-            });
+                });
+            }
+        },
+        mounted: function () {
+            this.getVersions();
         }
-    },
-    mounted: function() {
-        this.getVersions();
-    }
-};
+    };
 </script>
 
 <style lang="less">
-#histories {
-    width: 100%;
-    margin: -5px 0;
-    opacity: 0.8;
-    font-size: 14px;
-    text-align: left;
-    border-collapse: collapse;
-    border-spacing: 0;
+    #histories {
+        width: 100%;
+        margin: -5px 0;
+        opacity: 0.8;
+        font-size: 14px;
+        text-align: left;
+        border-collapse: collapse;
+        border-spacing: 0;
 
-    th,
-    td {
-        padding: 8px 10px;
-        font-weight: normal;
-    }
+        th,
+        td {
+            padding: 8px 10px;
+            font-weight: normal;
+        }
 
-    a{
-        color:@theme-shadow;
-        &:hover{
-            box-shadow:0 1px 0 @theme-shadow;
+        a {
+            color: @theme-shadow;
+
+            &:hover {
+                box-shadow: 0 1px 0 @theme-shadow;
+            }
+        }
+
+        th {
+            border-bottom: 2px solid #dddddd;
+        }
+
+        td {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
         }
     }
-
-    th {
-        border-bottom: 2px solid #dddddd;
-    }
-
-    td {
-        border-bottom: 1px solid #dddddd;
-    }
-
-    tr:last-child td {
-        border-bottom: none;
-    }
-}
 </style>
