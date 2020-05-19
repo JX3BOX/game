@@ -16,11 +16,8 @@
                 </tr>
                 <tr class="history" v-for="(ver, key) in versions" :key="key">
                     <td>
-                        <a
-                                target="_blank"
-                                href="javascript:void(0)"
-                                v-text="'v' + (versions.length - key)"
-                        ></a>
+                        <span class="u-version" :class="{bold:post_id==ver.id}" @click="setPostId(ver.id)"
+                              v-text="'v' + (versions.length - key)"></span>
                     </td>
                     <td>{{ ver.updated | dateFormat }}</td>
                     <td v-text="ver.user_nickname"></td>
@@ -39,11 +36,16 @@
         props: ["query"],
         data: function () {
             return {
-                versions: null
+                versions: null,
+                post_id: null,
             };
         },
         computed: {},
         methods: {
+            setPostId(post_id) {
+                this.post_id = post_id;
+                this.$emit('setPostId', post_id);
+            },
             getVersions() {
                 let that = this;
                 axios({
@@ -98,6 +100,16 @@
 
         tr:last-child td {
             border-bottom: none;
+        }
+
+        .u-version {
+            color: #0366d6;
+            cursor: pointer;
+
+            &.bold {
+                color: inherit;
+                font-weight: bold;
+            }
         }
     }
 </style>
