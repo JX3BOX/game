@@ -8,6 +8,8 @@ Vue.use(ElementUI);
 // import JX3BOX_UI from '@jx3box/jx3box-common-ui'
 // import "@jx3box/jx3box-common/css/element.css";
 // Vue.use(JX3BOX_UI);
+import Article from "@jx3box/jx3box-common-ui/src/Article.vue"
+Vue.component('Article', Article)
 
 import App from "./App.vue";
 import dateFormat from "./utils/dateFormat";

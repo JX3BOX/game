@@ -32,8 +32,8 @@
                     id="translator"
                 >
                     🌸[
-                    <span class="u-tr">台灣正體</span>
-                    <span class="u-cn">简体中文</span>
+                    <span class="u-tr">繁體</span>
+                    <span class="u-cn">简体</span>
                     ]
                 </a>
                 <span class="u-star">
@@ -63,8 +63,9 @@
                 :contenteditable="isEditMode ? true : false"
                 @input.once="changeHandler"
                 id="content"
-                v-html="content"
-            ></div>
+            >
+                <Article :content="content" />
+            </div>
             <div
                 class="m-section u-content"
                 :class="{ hide: !isTW }"
@@ -92,11 +93,21 @@
                 </div>
                 <div class="u-author">
                     作者 :
-                    <input type="text" id="author" v-model="publish.author" autocomplete="off" />
+                    <input
+                        type="text"
+                        id="author"
+                        v-model="publish.author"
+                        autocomplete="off"
+                    />
                 </div>
                 <div class="u-remark">
                     修订说明 :
-                    <input type="text" id="remark" v-model="publish.remark" autocomplete="off" />
+                    <input
+                        type="text"
+                        id="remark"
+                        v-model="publish.remark"
+                        autocomplete="off"
+                    />
                 </div>
                 <div class="u-btn">
                     <a
@@ -272,7 +283,7 @@ export default {
         },
         resolveIconPath(id) {
             return id
-                ? JX3BOX.__iconPath + 'icon/' + id + ".png"
+                ? JX3BOX.__iconPath + "icon/" + id + ".png"
                 : JX3BOX.__imgPath + "image/common/nullicon.png";
         },
         iconErrorHandler(e) {
@@ -298,7 +309,8 @@ export default {
                     this.post.content = "⚠️ 数据加载异常";
                 })
                 .finally(() => {
-                    $("#content img").length && Utils.checkImageLoad($("#content img"));
+                    $("#content img").length &&
+                        Utils.checkImageLoad($("#content img"));
                 });
 
             this.getAchievement();

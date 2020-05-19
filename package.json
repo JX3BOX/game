@@ -5,11 +5,12 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "inspect": "vue inspect > output.js"
+    "inspect": "vue inspect > output.js",
+    "update": "npm --registry https://registry.npmjs.org install @jx3box/jx3box-common-ui@latest @jx3box/jx3box-common@latest"
   },
   "dependencies": {
-    "@jx3box/jx3box-common": "^4.1.0",
-    "@jx3box/jx3box-common-ui": "^0.1.0",
+    "@jx3box/jx3box-common": "^4.2.3",
+    "@jx3box/jx3box-common-ui": "^1.0.2",
     "axios": "^0.19.2",
     "core-js": "^3.4.3",
     "csslab": "^4.0.2",
