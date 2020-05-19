@@ -1,9 +1,9 @@
 <template>
     <div id="app">
-        <Content :query="query" />
-        <Relation :query="query"/>
-        <Revision :query="query"/>
-        <Comment :query="query"/>
+        <Content :query="query" ref="content" @setPostId="setPostId"/>
+        <Relation :query="query" ref="relation"/>
+        <Revision :query="query" ref="revision" @setPostId="setPostId"/>
+        <Comment :query="query" ref="comment"/>
     </div>
 </template>
 
@@ -25,9 +25,13 @@ export default {
     computed: {
     },
     methods: {
+        setPostId(post_id){
+            this.$refs.content.post_id = post_id;
+            this.$refs.revision.post_id = post_id;
+        }
     },
     mounted: function() {
-        
+
     },
     components: {
         Content,
