@@ -64,7 +64,10 @@
                 @input.once="changeHandler"
                 id="content"
             >
-                <Article :content="content" />
+                <Article v-if="content" :content="content" />
+                <div v-else>
+                    💧 暂无攻略 , <a class="u-edit" @click="editHandler($event)">我来写</a>
+                </div>
             </div>
             <div
                 class="m-section u-content"
@@ -137,201 +140,200 @@ import dataFormat from "../utils/dateFormat";
 import UA from "../utils/ua";
 import cn2tw from "../utils/cn2tw";
 
-    export default {
-        name: "Content",
-        props: ["query"],
-        data: function () {
-            return {
-                achievement: {},
-                post_id: null,
-                post: {},
-                isEditMode: false,
-                isChanged: false,
-                isTW: false,
-                publish: {
-                    level: 1,
-                    author: this.$options.filters.playerName(this.query.player),
-                    remark: "",
-                },
-                ua: {},
-                content_tw: "",
-            };
+export default {
+    name: "Content",
+    props: ["query"],
+    data: function() {
+        return {
+            achievement: {},
+            post_id: null,
+            post: {},
+            isEditMode: false,
+            isChanged: false,
+            isTW: false,
+            publish: {
+                level: 1,
+                author: this.$options.filters.playerName(this.query.player),
+                remark: "",
+            },
+            ua: {},
+            content_tw: "",
+        };
+    },
+    computed: {
+        stars: function() {
+            return this.post
+                ? this.renderStars(this.post.level)
+                : "⭐️⭐️⭐️⭐️⭐️";
         },
-        computed: {
-            stars: function () {
-                return this.post
-                    ? this.renderStars(this.post.level)
-                    : "⭐️⭐️⭐️⭐️⭐️";
-            },
-            updatetime: function () {
-                return this.post ? dataFormat(this.post.updated) : "0000-00-00";
-            },
-            content: function () {
-                return (
-                    (this.post &&
-                        _.get(this.post, "content") &&
-                        Utils.resolveImagePath(_.get(this.post, "content"))) ||
-                    "💧 暂无攻略"
-                );
-            },
-            isnull: function () {
-                return this.post.content ? false : true;
-            },
-            warning: function () {
-                return this.ua.browser == "ie" && this.ua.version < 9
-                    ? true
-                    : false;
-            },
+        updatetime: function() {
+            return this.post ? dataFormat(this.post.updated) : "0000-00-00";
         },
-        methods: {
-            setPostId(post_id) {
-                this.post_id = post_id;
-                this.$emit('setPostId', post_id);
-            },
-            renderStars: function (val) {
-                return "⭐️".repeat(this.resolveLevelValue(val));
-            },
-            editHandler: function (e) {
-                e.preventDefault();
-                this.isTW = false;
-                this.isEditMode = true;
-            },
-            cancelHandler: function (e) {
-                e.preventDefault();
-                this.isEditMode = false;
-            },
-            submitHanlder: function (e) {
-                e.preventDefault();
-
-                if (!this.isChanged) {
-                    alert("没有任何改动，请勿滥提交");
-                    return;
-                }
-
-                if (!this.publish.remark) {
-                    alert("请简单描述本次修订说明");
-                    return;
-                }
-
-                // Level校验
-                let level = this.resolveLevelValue(
-                    this.publish.level ? this.publish.level : this.post.level
-                );
-
-                // 用户名
-                let author = this.$options.filters.playerName(this.publish.author);
-
-                axios({
-                    method: "POST",
-                    url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/post`,
-                    headers: {Accept: "application/prs.helper.v2+json"},
-                    data: qs.stringify({
-                        post: {
-                            level: level,
-                            user_nickname: author,
-                            content: document.getElementById("content").innerHTML,
-                            remark: this.publish.remark,
-                        },
-                    }),
-                })
-                    .then((data) => {
-                        data = data.data;
-                        if (data.code === 200) {
-                            alert("✔️ 提交成功,请等待审核");
-                        } else {
-                            alert(`⚠️ ${data.message}`);
-                        }
-                    })
-                    .catch((err) => {
-                        alert("⚠️ 网络异常,提交失败");
-                    })
-                    .finally(() => {
-                        this.isEditMode = false;
-                    });
-            },
-            changeHandler: function (e) {
-                this.isChanged = true;
-            },
-            translateHandler: function (e) {
-                e.preventDefault();
-                this.isTW = !this.isTW;
-            },
-            translateTrigger: function () {
-                this.content_tw = cn2tw(this.content);
-            },
-            stat: function (cj_id, cj_title) {
-                axios.post(`${JX3BOX.__spider}jx3stat/cj`, {
-                    cjid: cj_id,
-                    title: cj_title || "----",
-                    ua: JSON.stringify(this.ua),
-                });
-            },
-            resolveLevelValue: function (val) {
-                return Math.min(Math.max(1, parseInt(val)), 5);
-            },
-            // 获取成就最新攻略
-            get_achievement_newest_post() {
-                axios({
-                    url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/post`,
-                    headers: {Accept: "application/prs.helper.v2+json"},
-                })
-                    .then((res) => {
-                        this.post = res.data.data.post || {};
-                        this.publish.level = this.resolveLevelValue(
-                            _.get(this.post, "level")
-                        );
-                        this.achievement = res.data.data.achievement;
-                        this.setPostId(this.post.id);
-                    })
-                    .catch((err) => {
-                        this.isnull = true;
-                        this.post.content = "⚠️ 数据加载异常";
-                    })
-                    .finally(() => {
-                        // $("#content img").length && Utils.checkImageLoad($("#content img"));
-                        this.stat(this.query.id, this.achievement.Name);
-                    });
-            },
-            // 获取成就攻略
-            get_achievement_post() {
-                if (!this.post_id) return;
-                axios({
-                    url: `${JX3BOX.__helperUrl}api/achievement/post/${this.post_id}`,
-                    headers: {Accept: "application/prs.helper.v2+json"},
-                })
-                    .then(res => {
-                        this.post = res.data.data.post || {};
-                        this.publish.level = this.resolveLevelValue(
-                            _.get(this.post, "level")
-                        );
-                    })
-                    .catch(err => {
-                        this.isnull = true;
-                        this.post.content = "⚠️ 数据加载异常";
-                    })
-                    // .finally(() => {
-                    //     $("#content img").length && Utils.checkImageLoad($("#content img"));
-                    // });
-            },
-            resolveIconPath(id) {
-                return id
-                    ? JX3BOX.__iconPath + 'icon/' + id + ".png"
-                    : JX3BOX.__imgPath + "image/common/nullicon.png";
-            },
-            iconErrorHandler(e) {
-                e.target.src = JX3BOX.__imgPath + "image/common/nullicon.png";
-            },
+        content: function() {
+            return (
+                this.post &&
+                _.get(this.post, "content") &&
+                Utils.resolveImagePath(_.get(this.post, "content"))
+            );
         },
-        mounted: function () {
-            this.ua = UA();
-
-            // 获取成就最新攻略
-            if (this.query.id) this.get_achievement_newest_post();
+        isnull: function() {
+            return this.post.content ? false : true;
         },
-        watch: {
-            post_id() {
-                this.get_achievement_post();
+        warning: function() {
+            return this.ua.browser == "ie" && this.ua.version < 9
+                ? true
+                : false;
+        },
+    },
+    methods: {
+        setPostId(post_id) {
+            this.post_id = post_id;
+            this.$emit("setPostId", post_id);
+        },
+        renderStars: function(val) {
+            return "⭐️".repeat(this.resolveLevelValue(val));
+        },
+        editHandler: function(e) {
+            e.preventDefault();
+            this.isTW = false;
+            this.isEditMode = true;
+        },
+        cancelHandler: function(e) {
+            e.preventDefault();
+            this.isEditMode = false;
+        },
+        submitHanlder: function(e) {
+            e.preventDefault();
+
+            if (!this.isChanged) {
+                alert("没有任何改动，请勿滥提交");
+                return;
             }
-        }
-    };
+
+            if (!this.publish.remark) {
+                alert("请简单描述本次修订说明");
+                return;
+            }
+
+            // Level校验
+            let level = this.resolveLevelValue(
+                this.publish.level ? this.publish.level : this.post.level
+            );
+
+            // 用户名
+            let author = this.$options.filters.playerName(this.publish.author);
+
+            axios({
+                method: "POST",
+                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/post`,
+                headers: { Accept: "application/prs.helper.v2+json" },
+                data: qs.stringify({
+                    post: {
+                        level: level,
+                        user_nickname: author,
+                        content: document.getElementById("content").innerHTML,
+                        remark: this.publish.remark,
+                    },
+                }),
+            })
+                .then((data) => {
+                    data = data.data;
+                    if (data.code === 200) {
+                        alert("✔️ 提交成功,请等待审核");
+                    } else {
+                        alert(`⚠️ ${data.message}`);
+                    }
+                })
+                .catch((err) => {
+                    alert("⚠️ 网络异常,提交失败");
+                })
+                .finally(() => {
+                    this.isEditMode = false;
+                });
+        },
+        changeHandler: function(e) {
+            this.isChanged = true;
+        },
+        translateHandler: function(e) {
+            e.preventDefault();
+            this.isTW = !this.isTW;
+        },
+        translateTrigger: function() {
+            this.content_tw = cn2tw(this.content);
+        },
+        stat: function(cj_id, cj_title) {
+            axios.post(`${JX3BOX.__spider}jx3stat/cj`, {
+                cjid: cj_id,
+                title: cj_title || "----",
+                ua: JSON.stringify(this.ua),
+            });
+        },
+        resolveLevelValue: function(val) {
+            return Math.min(Math.max(1, parseInt(val)), 5);
+        },
+        // 获取成就最新攻略
+        get_achievement_newest_post() {
+            axios({
+                url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/post`,
+                headers: { Accept: "application/prs.helper.v2+json" },
+            })
+                .then((res) => {
+                    this.post = res.data.data.post || {};
+                    this.publish.level = this.resolveLevelValue(
+                        _.get(this.post, "level")
+                    );
+                    this.achievement = res.data.data.achievement;
+                    this.setPostId(this.post.id);
+                })
+                .catch((err) => {
+                    this.isnull = true;
+                    this.post.content = "⚠️ 数据加载异常";
+                })
+                .finally(() => {
+                    // $("#content img").length && Utils.checkImageLoad($("#content img"));
+                    this.stat(this.query.id, this.achievement.Name);
+                });
+        },
+        // 获取成就攻略
+        get_achievement_post() {
+            if (!this.post_id) return;
+            axios({
+                url: `${JX3BOX.__helperUrl}api/achievement/post/${this.post_id}`,
+                headers: { Accept: "application/prs.helper.v2+json" },
+            })
+                .then((res) => {
+                    this.post = res.data.data.post || {};
+                    this.publish.level = this.resolveLevelValue(
+                        _.get(this.post, "level")
+                    );
+                })
+                .catch((err) => {
+                    this.isnull = true;
+                    this.post.content = "⚠️ 数据加载异常";
+                });
+            // .finally(() => {
+            //     $("#content img").length && Utils.checkImageLoad($("#content img"));
+            // });
+        },
+        resolveIconPath(id) {
+            return id
+                ? JX3BOX.__iconPath + "icon/" + id + ".png"
+                : JX3BOX.__imgPath + "image/common/nullicon.png";
+        },
+        iconErrorHandler(e) {
+            e.target.src = JX3BOX.__imgPath + "image/common/nullicon.png";
+        },
+    },
+    mounted: function() {
+        this.ua = UA();
+
+        // 获取成就最新攻略
+        if (this.query.id) this.get_achievement_newest_post();
+    },
+    watch: {
+        post_id() {
+            this.get_achievement_post();
+        },
+    },
+};
 </script>
