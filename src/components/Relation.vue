@@ -247,12 +247,13 @@ export default {
         // }
 
         &:before {
-            content: "▼";
+            content: "▶";
+            margin-right:3px;
         }
 
         &.on {
             &::before {
-                content: "▲";
+                content: "▼";
             }
         }
     }
