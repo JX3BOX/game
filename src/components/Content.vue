@@ -53,19 +53,20 @@
                 >
             </div>
             <!-- Article -->
-            <div
-                class="m-section u-content"
-                :class="{
-                    'u-null': isnull,
-                    isEditable: isEditMode,
-                    hide: isTW,
-                }"
-                :contenteditable="isEditMode ? true : false"
-                @input.once="changeHandler"
-                id="content"
-            >
-                <Article v-if="content" :content="content" />
-                <div v-else>
+            <div class="m-section u-content" style="padding:0">
+                <div
+                    v-show="content.trim() || isEditMode"
+                    :class="{
+                        isEditable: isEditMode,
+                        hide: isTW,
+                    }"
+                    :contenteditable="isEditMode ? true : false"
+                    @input.once="changeHandler"
+                    id="content"
+                >
+                    <Article :content="content" />
+                </div>
+                <div v-show="!content.trim() && !isEditMode" class="u-null">
                     💧 暂无攻略 , <a class="u-edit" @click="editHandler($event)">我来写</a>
                 </div>
             </div>
@@ -167,14 +168,13 @@ export default {
                 : "⭐️⭐️⭐️⭐️⭐️";
         },
         updatetime: function() {
-            return this.post ? dataFormat(this.post.updated) : "0000-00-00";
+            return this.post && this.post.updated ? dataFormat(this.post.updated) : "0000-00-00";
         },
         content: function() {
-            return (
-                this.post &&
-                _.get(this.post, "content") &&
-                Utils.resolveImagePath(_.get(this.post, "content"))
-            );
+            let content = this.post &&
+                _.get(this, "post.content", '') &&
+                Utils.resolveImagePath(_.get(this, "post.content", ''));
+            return content ? content : ' ';
         },
         isnull: function() {
             return this.post.content ? false : true;
@@ -269,6 +269,7 @@ export default {
             });
         },
         resolveLevelValue: function(val) {
+            val = val ? val : 0;
             return Math.min(Math.max(1, parseInt(val)), 5);
         },
         // 获取成就最新攻略
