@@ -140,6 +140,7 @@ let qs = require("qs");
 import dataFormat from "../utils/dateFormat";
 import UA from "../utils/ua";
 import cn2tw from "../utils/cn2tw";
+import {__ossMirror} from '@jx3box/jx3box-common/js/jx3box.json'
 
 export default {
     name: "Content",
@@ -318,11 +319,11 @@ export default {
         },
         resolveIconPath(id) {
             return id
-                ? JX3BOX.__iconPath + "icon/" + id + ".png"
-                : JX3BOX.__imgPath + "image/common/nullicon.png";
+                ? JX3BOX.__ossMirror + "icon/" + id + ".png"
+                : JX3BOX.__ossMirror + "image/common/nullicon.png";
         },
         iconErrorHandler(e) {
-            e.target.src = JX3BOX.__imgPath + "image/common/nullicon.png";
+            e.target.src = JX3BOX.__ossMirror + "image/common/nullicon.png";
         },
     },
     mounted: function() {
