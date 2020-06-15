@@ -11,10 +11,12 @@
   "dependencies": {
     "@jx3box/jx3box-common": "^4.2.7",
     "@jx3box/jx3box-common-ui": "^1.1.0",
+    "@jx3box/jx3box-data": "^0.2.3",
     "axios": "^0.19.2",
     "core-js": "^3.4.3",
     "csslab": "^4.0.2",
     "element-ui": "^2.13.0",
+    "jquery": "^3.5.1",
     "localforage": "^1.7.3",
     "lodash": "^4.17.15",
     "register-service-worker": "^1.6.2",

@@ -21,8 +21,8 @@ jobs:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BRANCH: gh-pages
         FOLDER: dist
-        CLEAN: false
-        CLEAN_EXCLUDE: '["css", "js"]'
+        CLEAN: true
+        # CLEAN_EXCLUDE: '["css", "js"]'
 
     - name: OSS
       uses: manyuanrong/setup-ossutil@v1.0

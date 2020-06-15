@@ -5,6 +5,28 @@ const Setting = require("./setting.json");
 
 module.exports = {
 
+    //❤️ Multiple pages ~
+    pages:{
+        index : {
+            title : '成就百科 - JX3BOX',
+            entry:'src/main.js',
+            template : 'public/index.html',
+            filename:'index.html',
+        },
+        macros : {
+            title : '云端宏排行榜 - JX3BOX',
+            entry:'src/driver/macros.js',
+            template : 'public/macros.html',
+            filename:'macros.html',
+        },
+        macro : {
+            title : '云端宏 - JX3BOX',
+            entry:'src/driver/macro.js',
+            template : 'public/macro.html',
+            filename:'macro.html',
+        },
+    },
+
     //❤️ define path for static files ~
     publicPath:
         //FOR Localhost => development
@@ -34,14 +56,14 @@ module.exports = {
     chainWebpack: config => {
 
         //💘 html-webpack-plugin ~
-        config.plugin("html").tap(args => {
-            args[0].meta = {                            //------设置SEO信息
-                Keywords: Setting.keys,
-                Description: Setting.desc
-            };
-            args[0].title = Setting.title + SEO.title;  //------自动添加标题后缀
-            return args;
-        });
+        // config.plugin("html").tap(args => {
+        //     args[0].meta = {                            //------设置SEO信息
+        //         Keywords: Setting.keys,
+        //         Description: Setting.desc
+        //     };
+        //     args[0].title = Setting.title + SEO.title;  //------自动添加标题后缀
+        //     return args;
+        // });
 
 
         //💝 in-line small imgs ~
