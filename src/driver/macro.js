@@ -1,5 +1,6 @@
 import jquery from "jquery";
-let search = location.search.slice(1).split("=")[1];
+const qs = require('qs');
+let search = qs.parse(location.search,{ ignoreQueryPrefix: true }).name
 search = decodeURIComponent(search)
 jquery.ajax({
     async: true,
@@ -8,11 +9,10 @@ jquery.ajax({
     data: { name: search },
     dataType: "json",
     success: function(data) {
-        console.log(data)
+        alert(search)
         location.href = data.about;
     },
     error: function(err) {
         location.href = "https://www.jx3box.com/macro/";
-        console.log(err)
     },
 });
