@@ -8,3 +8,17 @@
 + ***player*** : 角色名@服务器
 
 ## rewrite
+```
+rewrite ^/wiki/(\d+) /wiki/index.html?id=$1 permanent;
+location /wiki {
+    alias /www/wwwroot/wiki/;
+}
+location /macro/tops {
+    alias /www/wwwroot/wiki/;
+    index macros.html;
+}
+location /macro/details {
+    alias /www/wwwroot/wiki/;
+    index macro.html;
+}
+```

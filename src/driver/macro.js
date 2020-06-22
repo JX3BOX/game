@@ -9,10 +9,10 @@ jquery.ajax({
     dataType: "json",
     success: function(data) {
         console.log(data)
-        // location.href = data.about;
+        location.href = data.about;
     },
     error: function(err) {
-        // location.href = "https://www.jx3box.com/macro/";
+        location.href = "https://www.jx3box.com/macro/";
         console.log(err)
     },
 });
