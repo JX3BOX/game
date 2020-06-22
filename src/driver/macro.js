@@ -9,7 +9,7 @@ jquery.ajax({
     data: { name: search },
     dataType: "json",
     success: function(data) {
-        alert(search)
+        // alert(search)
         location.href = data.about;
     },
     error: function(err) {
