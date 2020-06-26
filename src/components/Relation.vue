@@ -119,6 +119,7 @@
 <script>
 const { JX3BOX } = require("@jx3box/jx3box-common");
 const axios = require("axios");
+import {__ossMirror,__iconPath,__imgPath} from '@jx3box/jx3box-common/js/jx3box.json'
 export default {
     name: "Relation",
     props: ["query"],
@@ -164,11 +165,11 @@ export default {
         },
         resolveIconPath(id) {
             return id
-                ? JX3BOX.__ossMirror + 'icon/' + id + ".png"
-                : JX3BOX.__ossMirror + "image/common/nullicon.png";
+                ? __iconPath + 'icon/' + id + ".png"
+                : __imgPath + "image/common/nullicon.png";
         },
         iconErrorHandler(e){
-            e.target.src = JX3BOX.__ossMirror + "image/common/nullicon.png"
+            e.target.src = __imgPath + "image/common/nullicon.png"
         },
         resolveCjLink(id){
             let cjid = id || 0;
