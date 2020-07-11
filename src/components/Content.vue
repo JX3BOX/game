@@ -141,7 +141,8 @@ import dataFormat from "../utils/dateFormat";
 import UA from "../utils/ua";
 import cn2tw from "../utils/cn2tw";
 import {__ossMirror,__iconPath,__imgPath} from '@jx3box/jx3box-common/js/jx3box.json'
-
+import Article from "@jx3box/jx3box-editor/src/Article.vue"
+import {postStat} from '../service/stat'
 export default {
     name: "Content",
     props: ["query"],
@@ -263,11 +264,12 @@ export default {
             this.content_tw = cn2tw(this.content);
         },
         stat: function(cj_id, cj_title) {
-            axios.post(`${JX3BOX.__spider}jx3stat/cj`, {
-                cjid: cj_id,
-                title: cj_title || "----",
-                ua: JSON.stringify(this.ua),
-            });
+            // axios.post(`${JX3BOX.__spider}jx3stat/cj`, {
+            //     cjid: cj_id,
+            //     title: cj_title || "----",
+            //     ua: JSON.stringify(this.ua),
+            // });
+            postStat(cj_id)
         },
         resolveLevelValue: function(val) {
             val = val ? val : 0;
@@ -337,5 +339,12 @@ export default {
             this.get_achievement_post();
         },
     },
+    components : {
+        Article
+    }
 };
 </script>
+
+<style lang="less">
+    @import '../assets/css/content.less';
+</style>

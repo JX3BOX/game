@@ -31,13 +31,14 @@ export default {
         }
     },
     mounted: function() {
-
+        
     },
     components: {
         Content,
         Revision,
         Relation,
-        Comment
+        Comment,
+        
     }
 };
 </script>
@@ -62,8 +63,5 @@ export default {
 @import './assets/css/header.less';
 @import './assets/css/meta.less';
 @import './assets/css/block.less';
-@import './assets/css/content.less';
 @import './assets/css/footer.less';
-
-
 </style>
