@@ -176,6 +176,9 @@ export default {
             let content = this.post &&
                 _.get(this, "post.content", '') &&
                 Utils.resolveImagePath(_.get(this, "post.content", ''));
+            content = content.replace(/(<p>)?\s*◆成就难度 [★]+\s*(<\/p>)?/ig,'');
+            content = content.replace(/(<p>)?\s*◆花费时长 [★]+\s*(<\/p>)?/ig,'');
+            content = content.replace(/(<p>)?\s*◆成就攻略\s*(<\/p>)?/ig,'');
             return content ? content : ' ';
         },
         isnull: function() {
