@@ -1,8 +1,9 @@
 # 游戏内嵌页
 
-## 成就百科
-+ 线上地址：https://page.j3cx.com/wiki/1?player=浮烟
-+ 测试地址：https://jx3box.github.io/?id=7089&player=浮烟@蝶恋花
+## 访问地址
++ 成就百科：https://page.j3cx.com/wiki/index.html?type=achievement&id=5081
++ 物品百科：https://page.j3cx.com/wiki/index.html?type=item&id=67115_7764
+type缺省时默认为achievement
 
 ## rewrite
 ```
