@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <Content :query="query" ref="content" @setPostId="setPostId"/>
-        <Relation :query="query" ref="relation"/>
+        <Relation :query="query" ref="relation" v-if="type=='achievement'"/>
         <Revision :query="query" ref="revision" @setPostId="setPostId"/>
         <Comment :query="query" ref="comment"/>
     </div>
@@ -9,7 +9,7 @@
 
 <script>
 const URI = require("urijs");
-
+const _ = require("lodash");
 import Content from '@/components/Content.vue';
 import Revision from '@/components/Revision.vue';
 import Relation from '@/components/Relation.vue';
@@ -20,9 +20,13 @@ export default {
     data: function() {
         return {
             query : URI(location.href).query(true),
+            
         };
     },
     computed: {
+        type: function (){
+            return this.query && this.query.type || 'achievement'
+        }
     },
     methods: {
         setPostId(post_id){

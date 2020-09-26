@@ -20,7 +20,7 @@
 
             <!-- Panel -->
             <div class="m-title" id="title">
-                <span class="u-label">✔️ {{type|moduleName}}百科攻略</span>
+                <span class="u-label">✔️ {{type|moduleName}}攻略</span>
                 <a class="u-zhtr" :class="{ on: isTW }" @click="translateHandler" @click.once="translateTrigger"
                    id="translator">
                     🌸[
