@@ -10,13 +10,17 @@ Vue.use(ElementUI);
 // import "@jx3box/jx3box-common/css/normalize.css";
 // Vue.use(JX3BOX_UI);
 
-import App from "./App.vue";
-import dateFormat from "./utils/dateFormat";
-import playerName from "./utils/playerName";
+// 注册全局过滤器
+import * as utils from "./utils";
+Object.keys(utils).forEach((key) => {
+    Vue.filter(key, utils[key]);
+});
 
-Vue.filter('dateFormat', dateFormat);
-Vue.filter('playerName', playerName);
+import App from "./App.vue";
 
 new Vue({
     render: h => h(App),
 }).$mount("#app");
+
+
+
