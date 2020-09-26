@@ -1,5 +1,5 @@
 <template>
-    <div class="m-block m-boss" id="relation" v-show="hasRelations">
+    <div class="m-block m-boss" id="relation" v-show="type=='achievement' && hasRelations">
         <div class="m-title" id="title">
             <span class="u-label">🔗 相关成就 <em>同BOSS其它成就</em></span>
             <span
@@ -119,12 +119,14 @@
 <script>
 const { JX3BOX } = require("@jx3box/jx3box-common");
 const axios = require("axios");
+const _ = require("lodash");
 import {__ossMirror,__iconPath,__imgPath} from '@jx3box/jx3box-common/js/jx3box.json'
 export default {
     name: "Relation",
     props: ["query"],
     data: function() {
         return {
+            type: _.get(this, 'query.type', 'achievement'),
             relations: {},
             isPrimary: true,
             npcid: 0,

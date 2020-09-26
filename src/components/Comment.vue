@@ -28,12 +28,15 @@
 
     const {JX3BOX} = require("@jx3box/jx3box-common");
     const axios = require("axios");
-    var qs = require('qs');
+    const _ = require("lodash");
+    const qs = require('qs');
+
     export default {
         name: "Comment",
         props: ["query"],
         data: function () {
             return {
+                type: _.get(this, 'query.type', 'achievement'),
                 comments: null,
                 reply_form: {
                     content: '',
@@ -47,8 +50,9 @@
                 let that = this;
                 axios({
                     method: "GET",
-                    url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/comments`,
-                    headers: {Accept: "application/prs.helper.v2+json"}
+                    url: `${JX3BOX.__helperUrl}api/wiki/comments`,
+                    headers: {Accept: "application/prs.helper.v2+json"},
+                    params: {type: this.type, source_id: this.query.id},
                 }).then(function (data) {
                     data = data.data;
                     if (data.code === 200) {

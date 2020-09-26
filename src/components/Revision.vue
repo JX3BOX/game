@@ -31,11 +31,13 @@
 <script>
     const {JX3BOX} = require("@jx3box/jx3box-common");
     const axios = require("axios");
+    const _ = require("lodash");
     export default {
         name: "Revision",
         props: ["query"],
         data: function () {
             return {
+                type: _.get(this, 'query.type', 'achievement'),
                 versions: null,
                 post_id: null,
             };
@@ -50,8 +52,9 @@
                 let that = this;
                 axios({
                     method: "GET",
-                    url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/versions`,
+                    url: `${JX3BOX.__helperUrl}api/wiki/post/versions`,
                     headers: {Accept: "application/prs.helper.v2+json"},
+                    params: {type: this.type, source_id: this.query.id},
                 }).then(function (data) {
                     data = data.data;
                     if (data.code === 200) that.versions = data.data.versions;
