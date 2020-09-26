@@ -60,15 +60,15 @@
             <!-- Author -->
             <div class="m-author isEditable" :class="{ hide: !isEditMode }">
                 <div class="u-level">
-                    <span>难度(1-5) :</span>
+                    <span>难度(1-5)： </span>
                     <input type="number" id="level" min="1" max="5" v-model="publish.level"/>
                 </div>
                 <div class="u-author">
-                    <span>作者 :</span>
+                    <span>作者： </span>
                     <input type="text" id="author" v-model="publish.author" autocomplete="off"/>
                 </div>
                 <div class="u-remark">
-                    <span>修订说明 :</span>
+                    <span>修订说明： </span>
                     <input type="text" id="remark" v-model="publish.remark" autocomplete="off"/>
                 </div>
                 <div class="u-btn">
@@ -161,10 +161,12 @@
 
                 axios({
                     method: "POST",
-                    url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/post`,
+                    url: `${JX3BOX.__helperUrl}api/wiki/post`,
                     headers: {Accept: "application/prs.helper.v2+json"},
                     data: qs.stringify({
                         post: {
+                            type: this.type,
+                            source_id: this.query.id,
                             level: level,
                             user_nickname: author,
                             content: document.getElementById("content").innerHTML,

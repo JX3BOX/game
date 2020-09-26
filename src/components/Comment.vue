@@ -82,12 +82,13 @@
 
                 axios({
                     method: "POST",
-                    url: `${JX3BOX.__helperUrl}api/achievement/${this.query.id}/comment`,
+                    url: `${JX3BOX.__helperUrl}api/wiki/comment`,
                     headers: {Accept: "application/prs.helper.v2+json"},
                     crossDomain: true,
                     data: qs.stringify({
                         comment: {
-                            achievement_id: this.query.id,
+                            type: this.type,
+                            source_id: this.query.id,
                             parent_id: parent_id,
                             user_nickname: this.$options.filters.playerName(form.user_nickname),
                             content: form.content,
