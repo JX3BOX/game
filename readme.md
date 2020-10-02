@@ -2,7 +2,9 @@
 
 ## 访问地址
 + 成就百科：https://page.j3cx.com/wiki/index.html?type=achievement&id=5081
-+ 物品百科：https://page.j3cx.com/wiki/index.html?type=item&id=67115_7764
++ 物品百科：  
+普通：https://page.j3cx.com/wiki/index.html?type=item&id=5_7764   
+书籍：https://page.j3cx.com/wiki/index.html?type=item&id=5_8029_482  
 type缺省时默认为achievement
 
 ## rewrite
