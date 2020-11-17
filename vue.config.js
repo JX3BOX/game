@@ -25,6 +25,12 @@ module.exports = {
             template : 'public/macro.html',
             filename:'macro.html',
         },
+        flower : {
+            title : '花价查询 - JX3BOX',
+            entry:'src/flower.js',
+            template : 'public/index.html',
+            filename:'index.html',
+        },
     },
 
     //❤️ define path for static files ~
