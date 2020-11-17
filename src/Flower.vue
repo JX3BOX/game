@@ -46,7 +46,6 @@ export default {
     },
     methods: {},
     mounted: function() {
-        console.log(111);
         $next
             .get("api/flower/price/rank", {
                 params: {
