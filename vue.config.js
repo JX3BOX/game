@@ -28,9 +28,22 @@ module.exports = {
         flower : {
             title : '花价查询 - JX3BOX',
             entry:'src/flower.js',
-            template : 'public/index.html',
-            filename:'index.html',
+            template : 'public/flower.html',
+            filename:'flower/index.html',
         },
+    },
+
+    //❤️ Porxy ~
+    devServer: {
+        proxy: {
+            "/api": {
+                "target": process.env["DEV_SERVER"] == "true" ? "http://localhost:51818" : "https://next.jx3box.com",
+                "onProxyReq": function (request) {
+                    request.setHeader("origin", "");
+                }
+            },
+        },
+        disableHostCheck: true
     },
 
     //❤️ define path for static files ~
