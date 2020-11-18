@@ -1,11 +1,12 @@
 <template>
     <div id="app">
+        <img class="bg" src="./assets/img/bg.png" alt="">
         <div class="container" v-if="data">
             <div v-for="(item, map) in data" :key="map">
                 <div class="name"><b>{{ map }}</b> <span class="price">{{ item.max }}园宅币</span></div>
                 <div class="list">
                     <div class="line" v-for="line in item.maxLine" :key="line">
-                        {{ line }}
+                        <b>{{ line.split('线')[0] }}</b>线
                     </div>
                 </div>
             </div>
