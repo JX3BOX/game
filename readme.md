@@ -6,6 +6,8 @@
 普通：https://page.j3cx.com/wiki/index.html?type=item&id=5_7764   
 书籍：https://page.j3cx.com/wiki/index.html?type=item&id=5_8029_482  
 type缺省时默认为achievement
++ 花价：/flower?server=长安城&item=绿玫瑰
+
 
 ## rewrite
 ```

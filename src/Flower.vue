@@ -1,9 +1,8 @@
 <template>
     <div id="app">
         <div class="container" v-if="data">
-            <div v-for="(item, name) in data" :key="name">
-                <div class="name">{{ name }}</div>
-                <div class="price">{{ item.max }}园宅币</div>
+            <div v-for="(item, map) in data" :key="map">
+                <div class="name"><b>{{ map }}</b> <span class="price">{{ item.max }}园宅币</span></div>
                 <div class="list">
                     <div class="line" v-for="line in item.maxLine" :key="line">
                         {{ line }}
@@ -47,7 +46,7 @@ export default {
     methods: {},
     mounted: function() {
         $next
-            .get("api/flower/price/rank", {
+            .get("api/flower/price/group-by-map", {
                 params: {
                     flower: flowers[this.item],
                     server: this.server,
