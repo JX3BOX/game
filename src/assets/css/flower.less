@@ -8,11 +8,22 @@ body{
     .size(320px,568px);
     overflow-y: auto;
 }
-.container{
-    padding:40px 20px;
+
+.caption{
+    padding: 24px 12px;
+    color: #eee;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.result{
+    margin-bottom: 40px;
+    padding:0 20px;
     .x;
     .pr;
 }
+
 .bg{
     .pa;.lt(0,0);
 }
@@ -42,12 +53,33 @@ body{
     .fz(18px,2);
     // .bold;
     color:#fff;
+    cursor: pointer;
+    transition: transform .5s;
+
+    &:hover, &:active{
+        transform: scale(1.1);
+    }
+}
+
+.no-data{
+    padding: 128px 0;
+    .x;
+    .pr;
+    &__label{
+        margin: 12px 0;
+        color: #eee;
+    }
 }
 
 .footer{
     .x;
-    .mt(40px);
     .fz(12px);
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 10px 0;
     color:#ccc;
+    background-color:#4f7776;
     a{text-decoration: none;color:#ccc;}
 }
