@@ -1,0 +1,43 @@
+.m-relation-plans {
+  @p: 3px;
+  .u-plan {
+    padding-top: @p;
+    padding-bottom: @p;
+    .pr;
+    .pr(120px);
+    .fz(13px);
+    .nobreak;
+    .u-type {
+      .fz(12px);
+      padding: 3px 5px;
+      .r(2px);
+      img{.size(20px);.db;}
+      .dbi;.y;
+    }
+
+    .u-name{
+      .underline(@color-link);
+    }
+
+    .u-desc{
+      color:#999;
+    }
+  }
+  .u-author {
+    .none;
+    .pa;
+    .rt(0,7px);
+    img {
+      .size(20px);
+      .y;
+      .mr(3px);
+    }
+    .fz(12px);
+    a {
+      color: #666;
+      &:hover {
+        color: @color-link;
+      }
+    }
+  }
+}

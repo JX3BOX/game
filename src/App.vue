@@ -2,6 +2,7 @@
     <div id="app">
         <Content :query="query" ref="content" @setPostId="setPostId"/>
         <Relation :query="query" ref="relation" v-if="type=='achievement'"/>
+        <relation-plans :item_id="query.id" v-if="type=='item'"/>
         <Revision :query="query" ref="revision" @setPostId="setPostId"/>
         <Comment :query="query" ref="comment"/>
     </div>
@@ -12,7 +13,8 @@ const URI = require("urijs");
 const _ = require("lodash");
 import Content from '@/components/Content.vue';
 import Revision from '@/components/Revision.vue';
-import Relation from '@/components/Relation.vue';
+import Relation from '@/components/achievement/Relation.vue';
+import RelationPlans from '@/components/item/RelationPlans.vue';
 import Comment from '@/components/Comment.vue';
 
 export default {
@@ -20,12 +22,11 @@ export default {
     data: function() {
         return {
             query : URI(location.href).query(true),
-            
         };
     },
     computed: {
-        type: function (){
-            return this.query && this.query.type || 'achievement'
+        type() {
+            return this.$options.filters.source_type();
         }
     },
     methods: {
@@ -34,14 +35,12 @@ export default {
             this.$refs.revision.post_id = post_id;
         }
     },
-    mounted: function() {
-    },
     components: {
         Content,
         Revision,
         Relation,
+        'relation-plans' : RelationPlans,
         Comment,
-        
     }
 };
 </script>
