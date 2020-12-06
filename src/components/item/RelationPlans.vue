@@ -14,11 +14,11 @@
               <span v-if="plan.type == 2" class="u-type" :class="'u-type-' + plan.type">
               <img :src="plan_2_icon"/>
             </span>
-              <router-link
+              <a
                   class="u-name"
                   v-text="plan.title"
-                  :to="{ name: 'plan_view', params: { plan_id: plan.id } }"
-              ></router-link>
+                  :href="`https://www.jx3box.com/item/#/plan_view/${plan.id}`"
+              ></a>
               <span class="u-desc" v-text="plan.description"></span>
             </div>
           </el-col>
