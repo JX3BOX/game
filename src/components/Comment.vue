@@ -36,7 +36,7 @@
         props: ["query"],
         data: function () {
             return {
-                type: _.get(this, 'query.type', 'achievement'),
+                type: this.$options.filters.source_type(),
                 comments: null,
                 reply_form: {
                     content: '',

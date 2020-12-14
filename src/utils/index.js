@@ -5,6 +5,7 @@ import star from "./star.js";
 import iconUrl from "./iconUrl.js";
 import iconError from "./iconError.js";
 import ua from "./ua.js";
+import source_type from "./sourceType.js";
 
 export {
     dateFormat,
@@ -14,4 +15,5 @@ export {
     iconUrl,
     iconError,
     ua,
+    source_type,
 }

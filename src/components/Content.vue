@@ -96,7 +96,7 @@
         props: ["query"],
         data() {
             return {
-                type: _.get(this, 'query.type', 'achievement'),
+                type: this.$options.filters.source_type(),
                 source: {},
                 post_id: null,
                 post: {},

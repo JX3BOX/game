@@ -37,7 +37,7 @@
         props: ["query"],
         data: function () {
             return {
-                type: _.get(this, 'query.type', 'achievement'),
+                type: this.$options.filters.source_type(),
                 versions: null,
                 post_id: null,
             };

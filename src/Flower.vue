@@ -1,18 +1,21 @@
 <template>
     <div id="app">
-        <img class="bg" src="./assets/img/bg.png" alt="">
-        <div class="container" v-if="data">
+        <div class="caption">{{server}} 丨 {{item}}</div>
+
+        <div class="result" v-if="data">
             <div v-for="(item, map) in data" :key="map">
-                <div class="name"><b>{{ map }}</b> <span class="price">{{ item.max }}园宅币</span></div>
+                <div class="name"><b>{{ map }}</b> <span class="price"><!--{{ item.max }}园宅币-->1.5倍率</span></div>
                 <div class="list">
-                    <div class="line" v-for="line in item.maxLine" :key="line">
+                    <div class="line" v-for="line in item.maxLine" :key="line" v-clipboard="line.split('线')[0]" v-clipboard:success="onClipboard">
                         <b>{{ line.split('线')[0] }}</b>线
                     </div>
                 </div>
             </div>
         </div>
-        <div v-else>
-            暂时还没有数据
+
+        <div class="no-data" v-else>
+            <a-empty :description="false" />
+            <div class="no-data__label">暂时还没有数据</div>
         </div>
 
         <div class="footer">
@@ -44,7 +47,11 @@ export default {
             return (this.query && this.query.server) || "梦江南";
         },
     },
-    methods: {},
+    methods: {
+        onClipboard({ value }) {
+            this.$message.success(`${value} 已复制到剪切板！`);
+        }
+    },
     mounted: function() {
         $next
             .get("api/flower/price/group-by-map", {
@@ -54,7 +61,9 @@ export default {
                 },
             })
             .then((res) => {
-                this.data = res.data;
+                this.data = res.data && Object.keys(res.data).length > 0
+                    && res.data
+                    || void 0;
             });
     },
     components: {},
