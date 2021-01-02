@@ -63,17 +63,14 @@
         }
     }
 
-    .u-star, .u-date{
+    .u-date{
         .fl;
-        margin-left: 15px;
-        font-size: 14px;
-    }
-
-    .u-date {
+        margin-left: 10px;
         font-size: 12px;
     }
 
     .u-edit{
+        font-size: 14px;
         .pointer;
         &.on{
             cursor: default;
@@ -115,19 +112,31 @@
     .u-level{
         margin-right:20px;
         input{
-            .w(30px);
+            .w(50px);
         }
     }
     .u-author{
         margin-right:20px;
         input{
-            .w(60px);
+            .w(120px);
         }
     }
     .u-remark{
+        .w(100%);
+        .mt(10px);
+
+        input {
+            .w(calc(~"100% - 90px"));
+        }
     }
+
+    .m-other-fields{
+        overflow:hidden;
+    }
+
     .u-btn{
-        .fr;
+        .mt(10px);
+
         a{
             .fz(16px,28px);
             .r(3px);

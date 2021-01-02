@@ -5,7 +5,8 @@
     border-bottom:1px solid @theme-border;
     box-shadow:0 1px 0 lighten(@theme-shadow,40%);
     color:#fff;
-    .h(@header-height);
+    min-height:(@header-height);
+    overflow:hidden;
     .x;
     ul,li{
         padding:0;
@@ -38,12 +39,15 @@
         }
     }
 }
+
+@small-size: 650px;
 .m-header-left{
     .fl;
 }
 .m-header-right{
     .fr;
 }
+
 .m-header-center{
     .u-logo{
         .dbi;.y(top);
@@ -61,4 +65,21 @@
     // &:hover{
         
     // }
+}
+
+@media screen and (max-width: @small-size){
+    .m-header-left, .m-header-right {
+        font-size:12px;
+        a {
+            .pl(5px);
+            .pr(5px);
+        }
+    }
+}
+@media screen and (max-width: @phone){
+    .m-header-center {
+        .u-title {
+            .none;
+        }
+    }
 }

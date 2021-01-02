@@ -7,6 +7,11 @@
                      @error.once="$options.filters.iconError($event)"/>
                 <span class="u-text">{{ source.Name }}</span>
             </span>
+            <span class="u-star">
+                <span>难度</span>
+                &nbsp;
+                <span id="stars" v-text="$options.filters.star(post.level)"></span>
+            </span>
             <span class="u-group">
                 <em>【意见反馈QQ群】</em>
                 <b>614370825</b>
@@ -20,7 +25,7 @@
 
             <!-- Panel -->
             <div class="m-title" id="title">
-                <span class="u-label">✔️ {{type|moduleName}}攻略</span>
+                <span class="u-label">📋 {{type|moduleName}}攻略</span>
                 <a class="u-zhtr" :class="{ on: isTW }" @click="translateHandler" @click.once="translateTrigger"
                    id="translator">
                     🌸[
@@ -28,10 +33,6 @@
                     <span class="u-cn">简体</span>
                     ]
                 </a>
-                <span class="u-star">
-                    <span>难度</span>
-                    <span id="stars" v-text="$options.filters.star(post.level)"></span>
-                </span>
                 <span class="u-date" v-if="post.updated">
                     <span>最后更新于</span>
                     <em id="updated" v-text="$options.filters.dateFormat(post.updated)"></em>
@@ -46,7 +47,7 @@
                         hide: isTW,
                     }"
                 >
-                    <Article :content="content"/>
+                    <Article :content="content" :pageable="false" />
                 </div>
                 <div v-show="!content.trim() && !isEditMode" class="u-null">
                     💧 暂无攻略 , <a class="u-edit" @click="editHandler($event)">我来写</a>
@@ -59,17 +60,19 @@
             </div>
             <!-- Author -->
             <div class="m-author isEditable" :class="{ hide: !isEditMode }">
-                <div class="u-level">
-                    <span>难度(1-5)： </span>
-                    <input type="number" id="level" min="1" max="5" v-model="publish.level"/>
-                </div>
-                <div class="u-author">
-                    <span>作者： </span>
-                    <input type="text" id="author" v-model="publish.author" autocomplete="off"/>
-                </div>
-                <div class="u-remark">
-                    <span>修订说明： </span>
-                    <input type="text" id="remark" v-model="publish.remark" autocomplete="off"/>
+                <div class="m-other-fields">
+                    <div class="u-level">
+                        <span>难度(1-5)： </span>
+                        <input type="number" id="level" min="1" max="5" v-model="publish.level"/>
+                    </div>
+                    <div class="u-author">
+                        <span>作者： </span>
+                        <input type="text" id="author" v-model="publish.author" autocomplete="off"/>
+                    </div>
+                    <div class="u-remark">
+                        <span>修订说明： </span>
+                        <input type="text" id="remark" v-model="publish.remark" autocomplete="off"/>
+                    </div>
                 </div>
                 <div class="u-btn">
                     <a class="u-btn-cancel" id="cancel" @click="cancelHandler($event)">取消</a>
@@ -169,7 +172,7 @@
                             source_id: this.query.id,
                             level: level,
                             user_nickname: author,
-                            content: document.getElementById("content").innerHTML,
+                            content: document.getElementById("c-article").innerHTML,
                             remark: this.publish.remark,
                         },
                     }),
