@@ -199,31 +199,35 @@
             translateTrigger: function () {
                 this.content_tw = cn2tw(this.content);
             },
+            // 获取最新攻略
+            getWikiNewestPost(supply = 1) {
+              if (this.query.id) {
+                let source_id = this.query.id;
+                let $http = null;
+                switch (this.type) {
+                  case 'achievement':
+                  case 'item':
+                    $http = get_wiki_newest_post(this.type, source_id, supply);
+                    break;
+                }
+                $http && $http.then((res) => {
+                  this.post = res.data.data.post || {};
+                  this.publish.level = _.get(this.post, "level");
+                  this.source = res.data.data.source;
+                  this.setPostId(this.post.id);
+                }).catch((err) => {
+                  this.post.content = "⚠️ 数据加载异常";
+                }).finally(() => {
+                  postStat(source_id);
+                });
+              }
+            }
         },
         mounted: function () {
             this.ua = UA();
 
             // 获取最新攻略
-            if (this.query.id) {
-                let source_id = this.query.id;
-                let $http = null;
-                switch (this.type) {
-                    case 'achievement':
-                    case 'item':
-                        $http = get_wiki_newest_post(this.type, source_id);
-                        break;
-                }
-                $http && $http.then((res) => {
-                    this.post = res.data.data.post || {};
-                    this.publish.level = _.get(this.post, "level");
-                    this.source = res.data.data.source;
-                    this.setPostId(this.post.id);
-                }).catch((err) => {
-                    this.post.content = "⚠️ 数据加载异常";
-                }).finally(() => {
-                    postStat(source_id);
-                });
-            }
+            this.getWikiNewestPost();
         },
         watch: {
             post_id() {
@@ -237,6 +241,10 @@
                     });
                 }
             },
+            isEditMode() {
+              // 获取最新攻略
+              this.getWikiNewestPost(this.isEditMode ? 0 : 1);
+            }
         },
         components: {
             Article
