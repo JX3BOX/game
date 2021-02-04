@@ -1,7 +1,5 @@
 import {$http} from "./axios";
-
-const {__helperUrl} = require("@jx3box/jx3box-common/js/jx3box.json");
-const qs = require("qs");
+import {__helperUrl} from "@jx3box/jx3box-common/js/jx3box.json";
 
 function get_items_count() {
   return $http.get(`${__helperUrl}api/items/count`, {

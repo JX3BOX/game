@@ -34,7 +34,7 @@
 
   export default {
     name: "RelationPlans",
-    props: ["item_id"],
+    props: ["sourceId"],
     data() {
       return {
         relation_plans: [],
@@ -43,11 +43,11 @@
       };
     },
     watch: {
-      item_id: {
+      sourceId: {
         immediate: true,
         handler() {
-          if (this.item_id) {
-            get_item_relation_plans(this.item_id, {limit: 6}).then(
+          if (this.sourceId) {
+            get_item_relation_plans(this.sourceId, {limit: 6}).then(
                 (data) => {
                   data = data.data;
                   if (data.code === 200) this.relation_plans = data.data.data;
@@ -64,5 +64,5 @@
 </script>
 
 <style lang="less">
-  @import '../../assets/css/components/item/relation_plans.less';
+  @import '../../assets/css/components/item/relation-plans.less';
 </style>

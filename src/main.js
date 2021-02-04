@@ -10,14 +10,10 @@ Vue.use(ElementUI);
 // import "@jx3box/jx3box-common/css/normalize.css";
 // Vue.use(JX3BOX_UI);
 
-// 注册全局过滤器
-import * as utils from "./utils";
-Object.keys(utils).forEach((key) => {
-    Vue.filter(key, utils[key]);
-});
-
+import router from "./router";
 import App from "./App.vue";
 
 new Vue({
+    router,
     render: h => h(App),
 }).$mount("#app");
