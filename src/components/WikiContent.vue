@@ -109,9 +109,9 @@
 <script>
 const {Utils} = require("@jx3box/jx3box-common");
 const _ = require("lodash");
-import cn2tw from "../../utils/cn2tw";
-import player_name from "../../utils/PlayerName";
-import star from "../../utils/star";
+import cn2tw from "../utils/cn2tw";
+import player_name from "../utils/PlayerName";
+import star from "../utils/star";
 import Article from "@jx3box/jx3box-editor/src/Article.vue";
 import WikiPanel from "@jx3box/jx3box-common-ui/src/WikiPanel";
 import {WikiPost} from "@jx3box/jx3box-common/js/helper";
@@ -222,5 +222,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "../../assets/css/components/achievement/wiki-content.less";
+@import "../assets/css/components/achievement/wiki-content.less";
 </style>
