@@ -1,0 +1,165 @@
+.m-wiki-content {
+  .m-tips {
+    background-color: #fcf8e3;
+    border: 1px solid #faebcc;
+    color: #8a6d3b;
+    .mb(10px);
+    padding: 5px 10px;
+    .fz(13px, 18px);
+    .r(3px);
+
+    a {
+      color: @theme-shadow;
+      .bold;
+      box-shadow: 0 1px 0 @theme-shadow;
+    }
+  }
+
+  .u-content {
+    .mb(10px);
+    font-size: 15px;
+    line-height: 30px;
+
+    img {
+      padding: 5px;
+      border: 1px solid #eee;
+      .r(3px);
+      max-width: 100%;
+    }
+
+    a {
+      color: @theme-shadow;
+      box-shadow: 0 1px 0 @theme-shadow;
+    }
+
+    .c-article-box {
+      &.u-editable {
+        padding: 5px 8px;
+        background-color: white;
+        border: 1px solid #DDDDDD;
+        outline: none;
+        .r(3px);
+
+        &:focus {
+          border-color: blueviolet;
+        }
+
+        .c-article {
+          min-height: 30px;
+        }
+      }
+    }
+  }
+
+  .u-empty {
+    .x;
+
+    .u-edit {
+      color: blueviolet;
+    }
+  }
+
+  .u-label, .u-zhtr {
+    .dbi;
+    font-size: 12px;
+    .mr(15px);
+
+    &:last-child {
+      .mr(0);
+    }
+  }
+
+  .u-label {
+    .u-icon {
+      .r(3px);
+    }
+  }
+
+  .u-zhtr {
+    color: #d31765;
+    .pointer;
+    user-select: none;
+  }
+
+  .u-edit {
+    .pointer;
+  }
+}
+
+.m-publish {
+  color: #3d454d;
+  .clearfix;
+
+  input {
+    .fz(14px, 28px);
+    .h(28px);
+    border: 1px solid #ddd;
+    .r(3px);
+    padding: 0 5px;
+
+    &:focus {
+      outline: none;
+      border-color: blueviolet;
+    }
+  }
+
+  .u-level, .u-remark, .u-author {
+    .fz(14px, 30px);
+    .fl;
+  }
+
+  .u-level {
+    margin-right: 20px;
+
+    input {
+      .w(50px);
+    }
+  }
+
+  .u-author {
+    margin-right: 20px;
+
+    input {
+      .w(120px);
+    }
+  }
+
+  .u-remark {
+    .w(100%);
+    .mt(10px);
+
+    input {
+      .w(calc(~"100% - 90px"));
+    }
+  }
+
+  .m-other-fields {
+    overflow: hidden;
+  }
+
+  .u-btn {
+    .mt(10px);
+
+    a {
+      .fz(16px, 28px);
+      .r(3px);
+      padding: 0 30px;
+      .pointer;
+      outline: none;
+      .dbi;
+      .y(top);
+
+      &.disabled {
+        cursor: default;
+        .tm(0.5);
+      }
+    }
+  }
+
+  .u-btn {
+    .el-button {
+      .w(80px)
+    }
+  }
+}
+

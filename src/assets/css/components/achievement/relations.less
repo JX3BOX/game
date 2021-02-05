@@ -1,0 +1,69 @@
+.m-relations-panel {
+  em.u-remark {
+    .dbi;
+    .ml(15px);
+    font-size: 12px;
+    opacity: .5;
+    vertical-align: middle;
+  }
+
+  .u-boss {
+    &:before {
+      content: "▶";
+      .mr(5px);
+    }
+
+    &.on {
+      &::before {
+        content: "▼";
+      }
+    }
+  }
+
+  .m-relations {
+    a {
+      .dbi;
+      margin: 5px;
+      padding: 8px 10px;
+      color: #2d5650;
+      .fz(14px, 16px);
+      .r(3px);
+      background-color: #eeeeee;
+      line-height: 1em;
+
+      &:hover {
+        color: #fff;
+        background-color: blueviolet;
+      }
+
+      .u-icon {
+        .dbi;
+        .w(16px);
+        .h(16px);
+        .mr(6px);
+        .y(top);
+        .r(2px);
+      }
+    }
+  }
+
+  .m-bossinfo {
+    .dbi;
+    margin: 0;
+    padding: 15px;
+    vertical-align: top;
+    list-style: none;
+
+    li {
+      .db;
+      .fz(13px, 2);
+
+      em {
+        margin: 0 5px;
+        color: #999;
+      }
+    }
+  }
+
+
+}
