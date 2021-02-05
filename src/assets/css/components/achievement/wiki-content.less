@@ -1,10 +1,22 @@
-//文章内容
-.hide {
-  .none;
-}
+.m-wiki-content {
+  .m-tips {
+    background-color: #fcf8e3;
+    border: 1px solid #faebcc;
+    color: #8a6d3b;
+    .mb(10px);
+    padding: 5px 10px;
+    .fz(13px, 18px);
+    .r(3px);
 
-.m-content {
+    a {
+      color: @theme-shadow;
+      .bold;
+      box-shadow: 0 1px 0 @theme-shadow;
+    }
+  }
+
   .u-content {
+    .mb(10px);
     font-size: 15px;
     line-height: 30px;
 
@@ -20,73 +32,61 @@
       box-shadow: 0 1px 0 @theme-shadow;
     }
 
-    #content {
-      padding: 15px;
-
-      &.isEditable {
-        min-height: 30px;
-        border-color: #548379;
+    .c-article-box {
+      &.u-editable {
+        padding: 5px 8px;
+        background-color: white;
+        border: 1px solid #DDDDDD;
         outline: none;
-        box-shadow: inset 0 1px 2px rgb(84, 131, 121), 0 0 0 0.2em rgba(84, 131, 121, 0.46);
+        .r(3px);
+
+        &:focus {
+          border-color: blueviolet;
+        }
+
+        .c-article {
+          min-height: 30px;
+        }
       }
     }
   }
 
-  .u-null {
+  .u-empty {
     .x;
-    color: #888;
-    .fz(24px);
-    padding: 20px 0;
+
+    .u-edit {
+      color: blueviolet;
+    }
+  }
+
+  .u-label, .u-zhtr {
+    .dbi;
+    font-size: 12px;
+    .mr(15px);
+
+    &:last-child {
+      .mr(0);
+    }
+  }
+
+  .u-label {
+    .u-icon {
+      .r(3px);
+    }
   }
 
   .u-zhtr {
-    .fl;
-    .fz(14px, 22px);
-    margin-left: 10px;
     color: #d31765;
     .pointer;
     user-select: none;
-
-    .u-cn {
-      .none;
-    }
-
-    .u-tr {
-      .di;
-    }
-
-    &.on {
-      .u-tr {
-        .none;
-      }
-
-      .u-cn {
-        .di;
-      }
-    }
-  }
-
-  .u-date {
-    .fl;
-    margin-left: 10px;
-    font-size: 12px;
   }
 
   .u-edit {
-    font-size: 14px;
     .pointer;
-
-    &.on {
-      cursor: default;
-      .tm(0.5);
-    }
   }
 }
 
-.m-author {
-  margin-top: 10px;
-  padding: 5px 10px;
-  // background-color: #fafbfc;
+.m-publish {
   color: #3d454d;
   .clearfix;
 
@@ -96,8 +96,12 @@
     border: 1px solid #ddd;
     .r(3px);
     padding: 0 5px;
-  }
 
+    &:focus {
+      outline: none;
+      border-color: blueviolet;
+    }
+  }
 
   .u-level, .u-remark, .u-author {
     .fz(14px, 30px);
@@ -152,45 +156,10 @@
     }
   }
 
-  .u-btn-cancel {
-    background: none;
-    margin-right: 5px;
-    background-color: #eee;
-    border: 1px solid #ddd;
-    color: #555;
-
-    &:hover {
-      background-color: lighten(#eee, 2%);
+  .u-btn {
+    .el-button {
+      .w(80px)
     }
   }
-
-  .u-btn-submit {
-    background: none;
-    background-color: @theme-shadow;
-    border: 1px solid @theme-border;
-    box-shadow: 0 0 2px @theme;
-    color: #fff;
-
-    &:hover {
-      background-color: lighten(@theme-shadow, 5%);
-    }
-  }
-}
-
-.m-tips {
-  background-color: #fcf8e3;
-  border: 1px solid #faebcc;
-  color: #8a6d3b;
-  margin-top: 10px;
-  padding: 5px;
-  .fz(13px, 18px);
-
-  a {
-    color: @theme-shadow;
-    .bold;
-    box-shadow: 0 1px 0 @theme-shadow;
-  }
-
-  .r(3px);
 }
 

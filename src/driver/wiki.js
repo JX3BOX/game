@@ -10,10 +10,10 @@ Vue.use(ElementUI);
 // import "@jx3box/jx3box-common/css/normalize.css";
 // Vue.use(JX3BOX_UI);
 
-import router from "./router";
-import App from "./App.vue";
+import router from "../router/wiki";
+import App from "./wiki.vue";
 
 new Vue({
-    router,
+    router: router,
     render: h => h(App),
 }).$mount("#app");

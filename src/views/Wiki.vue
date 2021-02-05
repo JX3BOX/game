@@ -1,24 +1,7 @@
 <template>
-  <div class="m-wiki-view">
-    <!-- META -->
-    <div class="m-meta">
-      <div class="u-title" v-if="wikiPost.source">
-        <img class="u-icon" :src="icon_url(wikiPost.source.IconID)"
-             @error.once="() => {$event.target.src = icon_url()}"/>
-        <span class="u-text" v-text="wikiPost.source.Name"></span>
-      </div>
-      <div class="u-star">
-        <span>难度</span>
-        <span id="stars" v-text="star(post.level)"></span>
-      </div>
-      <div class="u-group">
-        <em>【意见反馈QQ群】</em>
-        <b>614370825</b>
-      </div>
-    </div>
-
+  <div class="m-wiki-view" v-if="wikiPost">
     <!-- Warning -->
-    <div class="m-warning" :class="{ hide: !warning }">
+    <div class="m-warning" :class="{ none: !warning }">
       ❌ 您的浏览器版本太低,将无法正常使用本应用
     </div>
 
@@ -31,7 +14,9 @@
 </template>
 
 <script>
+const URI = require("urijs");
 import UA from "../utils/ua";
+import star from "../utils/star";
 import WikiContent from '../components/achievement/WikiContent';
 import WikiRevisions from '@jx3box/jx3box-common-ui/src/WikiRevisions';
 import WikiComments from '@jx3box/jx3box-common-ui/src/WikiComments';
@@ -46,15 +31,16 @@ export default {
   data() {
     return {
       ua: UA(),
+      query: URI(location.href).query(true),
       wikiPost: null
     };
   },
   computed: {
     id() {
-      return this.$route.query.id;
+      return this.$route.query.id || this.query.id;
     },
     type() {
-      return this.$route.query.type || 'achievement'
+      return this.$route.query.type || this.query.type || 'achievement'
     },
     warning() {
       return this.ua.browser === "ie" && this.ua.version < 9;
@@ -62,6 +48,7 @@ export default {
   },
   methods: {
     icon_url: iconLink,
+    star,
   },
   created() {
     // 统计
@@ -83,8 +70,8 @@ export default {
       immediate: true,
       handler() {
         // 获取最新攻略
-        if (this.type && this.sourceId) {
-          WikiPost.newest(this.type, this.sourceId).then(
+        if (this.type && this.id) {
+          WikiPost.newest(this.type, this.id).then(
               (res) => {
                 res = res.data;
                 if (res.code === 200) this.wikiPost = res.data;

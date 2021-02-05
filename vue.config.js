@@ -8,8 +8,8 @@ module.exports = {
     //❤️ Multiple pages ~
     pages:{
         index : {
-            title : '成就百科 - JX3BOX',
-            entry:'src/main.js',
+            title : '百科大全 - JX3BOX',
+            entry:'src/driver/wiki.js',
             template : 'public/index.html',
             filename:'index.html',
         },
