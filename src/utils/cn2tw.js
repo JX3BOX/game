@@ -1,4 +1,4 @@
-import dict from '../assets/data/dict'
+import dict from '@jx3box/jx3box-dict/dict.json'
 
 export default function (str){
     if(str.length){

@@ -13,6 +13,7 @@
     "@jx3box/jx3box-common": "^5.8.1",
     "@jx3box/jx3box-common-ui": "^3.0.8",
     "@jx3box/jx3box-data": "^0.5.7",
+    "@jx3box/jx3box-dict": "^1.0.6",
     "@jx3box/jx3box-editor": "^0.4.9",
     "ant-design-vue": "^1.7.2",
     "axios": "^0.21.0",
