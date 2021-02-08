@@ -1,17 +1,51 @@
 <template>
     <div id="app">
-        <div class="caption">{{server}} 丨 {{item}}</div>
+        <div class="caption">{{ server }} 丨 {{ item }}</div>
 
-        <div class="result" v-if="data">
-            <div v-for="(item, map) in data" :key="map">
-                <div class="name"><b>{{ map }}</b> <span class="price"><!--{{ item.max }}园宅币-->1.5倍率</span></div>
-                <div class="list">
-                    <div class="line" v-for="line in item.maxLine" :key="line" v-clipboard="line.split('线')[0]" v-clipboard:success="onClipboard">
-                        <b>{{ line.split('线')[0] }}</b>线
+        <template v-if="data && data.length">
+            <div class="result" v-if="isTraditional">
+                <div v-for="(item, map) in data" :key="map">
+                    <div class="name">
+                        <b>{{ map }}</b>
+                        <span class="price"
+                            ><!--{{ item.max }}园宅币-->1.5倍率</span
+                        >
+                    </div>
+                    <div class="list">
+                        <div
+                            class="line"
+                            v-for="line in item.maxLine"
+                            :key="line"
+                            v-clipboard="line.split('线')[0]"
+                            v-clipboard:success="onClipboard"
+                        >
+                            <b>{{ line.split("线")[0] }}</b
+                            >线
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="result" v-else>
+                <div v-for="(item, i) in data" :key="i">
+                    <div class="name">
+                        <b>{{ item.map }}</b>
+                        <span class="price">1.5倍率</span>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="line"
+                            v-for="(branch,j) in item.branch"
+                            :key="j"
+                            v-clipboard="branch.number"
+                            v-clipboard:success="onClipboard"
+                        >
+                            <b>{{ branch.number }}</b
+                            >线
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
 
         <div class="no-data" v-else>
             <a-empty :description="false" />
@@ -28,9 +62,11 @@
 
 <script>
 const URI = require("urijs");
-const _ = require("lodash");
+import _ from "lodash";
 import flowers from "@/assets/data/flowers.json";
-import { $next } from "@jx3box/jx3box-common/js/axios";
+import flowers_cn from "@/assets/data/flowers_cn.json";
+import { getFlower, getFlowerDetail } from "@/service/flower.js";
+import traditional_servers from "@jx3box/jx3box-data/data/server/server_international.json";
 export default {
     name: "App",
     data: function() {
@@ -46,25 +82,51 @@ export default {
         server: function() {
             return (this.query && this.query.server) || "梦江南";
         },
+        isTraditional: function() {
+            return traditional_servers.includes(this.server);
+        },
     },
     methods: {
         onClipboard({ value }) {
             this.$message.success(`${value} 已复制到剪切板！`);
-        }
+        },
     },
     mounted: function() {
-        $next
-            .get("api/flower/price/group-by-map", {
-                params: {
-                    flower: flowers[this.item],
-                    server: this.server,
-                },
-            })
-            .then((res) => {
-                this.data = res.data && Object.keys(res.data).length > 0
-                    && res.data
-                    || void 0;
+        if (this.isTraditional) {
+            getFlowerDetail({
+                flower: flowers[this.item],
+                server: this.server,
+            }).then((res) => {
+                this.data =
+                    (res.data &&
+                        Object.keys(res.data).length > 0 &&
+                        res.data) ||
+                    void 0;
             });
+        } else {
+            let name = this.item;
+            let level = flowers[this.item];
+            let type = flowers_cn[this.item];
+
+            getFlower({
+                type: type,
+                server: this.server,
+            }).then((res) => {
+                let data = []
+                res.data.data.forEach((item) => {
+                    let hasColor = item.name.indexOf("(");
+                    if (hasColor >= 0) {
+                        item["_name"] = item.name.slice(0, hasColor);
+                    } else {
+                        item._name = item.name;
+                    }
+                    if(item._name == level){
+                        data.push(item)
+                    }
+                });
+                this.data = data
+            });
+        }
     },
     components: {},
 };
