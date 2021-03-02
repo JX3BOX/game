@@ -2,7 +2,7 @@
     <div id="app">
         <div class="caption">{{ server }} 丨 {{ item }}</div>
 
-        <template v-if="data && data.length">
+        <template v-if="data">
             <div class="result" v-if="isTraditional">
                 <div v-for="(item, map) in data" :key="map">
                     <div class="name">
@@ -65,6 +65,7 @@ const URI = require("urijs");
 import _ from "lodash";
 import flowers from "@/assets/data/flowers.json";
 import flowers_cn from "@/assets/data/flowers_cn.json";
+import flowers_tr from "@/assets/data/flowers_tr.json";
 import { getFlower, getFlowerDetail } from "@/service/flower.js";
 import traditional_servers from "@jx3box/jx3box-data/data/server/server_international.json";
 export default {
@@ -93,15 +94,12 @@ export default {
     },
     mounted: function() {
         if (this.isTraditional) {
+            let name = flowers_tr[this.item]
             getFlowerDetail({
-                flower: flowers[this.item],
+                flower: name,
                 server: this.server,
             }).then((res) => {
-                this.data =
-                    (res.data &&
-                        Object.keys(res.data).length > 0 &&
-                        res.data) ||
-                    void 0;
+                this.data = res.data;
             });
         } else {
             let name = this.item;
