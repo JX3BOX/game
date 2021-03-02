@@ -16,7 +16,7 @@
     "@jx3box/jx3box-dict": "^1.0.6",
     "@jx3box/jx3box-editor": "^0.5.1",
     "ant-design-vue": "^1.7.2",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "core-js": "^3.7.0",
     "csslab": "^4.0.3",
     "element-ui": "^2.14.1",
