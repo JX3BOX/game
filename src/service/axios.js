@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const $http = axios.create({
-    withCredentials: true
+    withCredentials: true,
 });
 
-export {$http};
+export { $http };

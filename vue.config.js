@@ -36,12 +36,6 @@ module.exports = {
     //❤️ Porxy ~
     devServer: {
         proxy: {
-            "/api/wiki": {
-                "target": "https://helper.jx3box.com",
-                "onProxyReq": function (request) {
-                    request.setHeader("origin", "");
-                }
-            },
             "/api": {
                 "target": process.env["DEV_SERVER"] == "true" ? "http://localhost:51818" : "https://next.jx3box.com",
                 "onProxyReq": function (request) {
