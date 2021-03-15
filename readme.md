@@ -1,6 +1,14 @@
 # 游戏内嵌页
 
-## 访问地址
+## Dev
+```
+$ npm i
+$ npm run serve
+$ open localhost:8080/index.html?type=achievement&id=5081
+$ open localhost:8080/flowers/5/10000?server=长安城&item=红玫瑰
+```
+
+## Test
 
 -   成就百科：https://page.j3cx.com/wiki/index.html?type=achievement&id=5081
 -   物品百科：  
