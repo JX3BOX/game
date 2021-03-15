@@ -1,5 +1,5 @@
 import {$http} from "./axios";
-import {__helperUrl} from "@jx3box/jx3box-common/js/jx3box.json";
+import {__helperUrl} from "@jx3box/jx3box-common/data/jx3box.json";
 
 function get_items_count() {
   return $http.get(`${__helperUrl}api/items/count`, {

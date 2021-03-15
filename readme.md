@@ -7,7 +7,7 @@
     普通：https://page.j3cx.com/wiki/index.html?type=item&id=5_7764  
     书籍：https://page.j3cx.com/wiki/index.html?type=item&id=5_8029_482  
     type 缺省时默认为 achievement
--   花价：https://page.j3cx.com/flowers/5/10000?server=长安城&item=%E8%8D%A7%E5%85%89%E8%8F%8C
+-   花价：https://page.j3cx.com/flowers/5/10000?server=长安城&item=红玫瑰
 
 ## rewrite
 
