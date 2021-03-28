@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@babel/compat-data": "^7.12.5",
-    "@jx3box/jx3box-common": "^6.1.6",
-    "@jx3box/jx3box-common-ui": "^4.1.0",
+    "@jx3box/jx3box-common": "^6.2.9",
+    "@jx3box/jx3box-common-ui": "^4.2.9",
     "@jx3box/jx3box-data": "^0.5.7",
     "@jx3box/jx3box-dict": "^1.0.6",
     "@jx3box/jx3box-editor": "^0.5.2",

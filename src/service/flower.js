@@ -1,6 +1,6 @@
-import { __spider, __next } from "@jx3box/jx3box-common/data/jx3box.json";
-import { $https } from "@jx3box/jx3box-common/js/https";
+import { __spider } from "@jx3box/jx3box-common/data/jx3box.json";
 import axios from "axios";
+import { $next } from "@jx3box/jx3box-common/js/https";
 
 // let __spider = 'http://localhost:3002/'
 function getFlower(params) {
@@ -10,9 +10,7 @@ function getFlower(params) {
 }
 
 function getFlowerDetail(params) {
-    return $https("next", {
-        interceptor: "next",
-    }).get("/api/flower/price/group-by-map", {
+    return $next().get("/api/flower/price/group-by-map", {
         params: params,
     });
 }
