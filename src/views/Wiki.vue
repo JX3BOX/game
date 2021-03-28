@@ -17,6 +17,7 @@
   const URI = require("urijs");
   import UA from "../utils/ua";
   import star from "../utils/star";
+  import player_name from "../utils/PlayerName";
   import WikiContent from "../components/WikiContent";
   import WikiRevisions from "@jx3box/jx3box-common-ui/src/WikiRevisions";
   import WikiComments from "@jx3box/jx3box-common-ui/src/WikiComments";
@@ -79,9 +80,15 @@
                   let pet = res.data.pet;
                   if (pet) {
                     if (pet.achievement_id) {
-                      this.$router.push({name: 'wiki', query: {type: 'achievement', id: pet.achievement_id}})
+                      this.$router.push({
+                        name: 'wiki',
+                        query: {type: 'achievement', id: pet.achievement_id, player: player_name()}
+                      })
                     } else if (pet.item_id) {
-                      this.$router.push({name: 'wiki', query: {type: 'item', id: pet.item_id}})
+                      this.$router.push({
+                        name: 'wiki',
+                        query: {type: 'item', id: pet.item_id, player: player_name()}
+                      })
                     }
                   }
                 }
