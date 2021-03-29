@@ -96,7 +96,13 @@
             } else {
               WikiPost.newest(this.type, this.id).then((res) => {
                 res = res.data;
-                if (res.code === 200) this.wikiPost = res.data;
+                if (res.code === 200) {
+                  this.wikiPost = res.data;
+                  if (this.wikiPost && this.wikiPost.source) {
+                    let pet = this.wikiPost.source.pet;
+                    if (pet.id) postStat('pet', pet.id);
+                  }
+                }
               });
             }
           }
