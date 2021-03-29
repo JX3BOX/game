@@ -100,7 +100,7 @@
                   this.wikiPost = res.data;
                   if (this.wikiPost && this.wikiPost.source) {
                     let pet = this.wikiPost.source.pet;
-                    if (pet.id) postStat('pet', pet.id);
+                    if (pet && pet.id) postStat('pet', pet.id);
                   }
                 }
               });
