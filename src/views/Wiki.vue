@@ -51,12 +51,34 @@
     methods: {
       icon_url: iconLink,
       star,
+      pet_redirect() {
+          get_pet(this.id).then((res) => {
+              res = res.data;
+              if (res.code === 200) {
+                  let pet = res.data.pet;
+                  if (pet) {
+                      if (pet.achievement_id) {
+                          this.$router.push({
+                              name: 'wiki',
+                              query: {type: 'achievement', id: pet.achievement_id, player: player_name()}
+                          })
+                      } else if (pet.item_id) {
+                          this.$router.push({
+                              name: 'wiki',
+                              query: {type: 'item', id: pet.item_id, player: player_name()}
+                          })
+                      }
+                  }
+              }
+          });
+      },
     },
     created() {
       // 统计
       if (this.type && this.id) {
         let type = this.type;
-        if (type === "achievement") type = "cj";
+        if (type === 'pet') return;
+        if (type === 'achievement') type = "cj";
         postStat(type, this.id);
       }
     },
@@ -74,25 +96,7 @@
           // 获取最新攻略
           if (this.type && this.id) {
             if (this.type === 'pet') {
-              get_pet(this.id).then((res) => {
-                res = res.data;
-                if (res.code === 200) {
-                  let pet = res.data.pet;
-                  if (pet) {
-                    if (pet.achievement_id) {
-                      this.$router.push({
-                        name: 'wiki',
-                        query: {type: 'achievement', id: pet.achievement_id, player: player_name()}
-                      })
-                    } else if (pet.item_id) {
-                      this.$router.push({
-                        name: 'wiki',
-                        query: {type: 'item', id: pet.item_id, player: player_name()}
-                      })
-                    }
-                  }
-                }
-              });
+                this.pet_redirect();
             } else {
               WikiPost.newest(this.type, this.id).then((res) => {
                 res = res.data;
