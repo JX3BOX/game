@@ -6,11 +6,11 @@
     </div>
 
     <WikiContent :wiki-post="wikiPost"/>
+    <PriceTabs v-if="type == 'item' && wikiPost && wikiPost.source && wikiPost.source.BindType != 3" :source-id="id"/>
     <Relations :source-id="id" v-if="type == 'achievement'"/>
     <RelationPlans :source-id="id" v-if="type == 'item'"/>
     <WikiRevisions v-if="wikiPost && wikiPost.post" :type="type" :source-id="id"/>
     <WikiComments v-if="wikiPost && wikiPost.post" :type="type" :source-id="id"/>
-    <PriceTabs v-if="type == 'item' && wikiPost && wikiPost.source && wikiPost.source.BindType != 3" :source-id="id"/>
   </div>
 </template>
 
