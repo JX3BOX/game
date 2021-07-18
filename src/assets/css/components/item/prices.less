@@ -1,0 +1,51 @@
+.m-item-prices {
+  table {
+    .w(100%);
+    border-spacing: 0;
+  }
+
+  tr {
+    th {
+      padding: 10px;
+      text-align: left;
+    }
+
+    td {
+      padding: 10px;
+      border-top: 1px solid #cccccc;
+    }
+  }
+
+  .m-item-icon, .u-name {
+    .dbi;
+    vertical-align: middle;
+  }
+
+  .u-name {
+    .ml(10px);
+    font-size: 12px;
+    font-weight: bold;
+
+    &.white {
+      color: @color !important;
+    }
+  }
+
+  .m-item-icon {
+    .pr;
+    line-height: 0;
+
+    .u-icon {
+      width: 28px
+    }
+
+    .u-count {
+      .pa;
+      right: 2px;
+      bottom: 2px;
+      line-height: 1em;
+      color: white;
+      text-shadow: 0 0 2px black;
+    }
+  }
+}

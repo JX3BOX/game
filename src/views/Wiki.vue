@@ -8,8 +8,9 @@
     <WikiContent :wiki-post="wikiPost"/>
     <Relations :source-id="id" v-if="type == 'achievement'"/>
     <RelationPlans :source-id="id" v-if="type == 'item'"/>
-    <WikiRevisions :type="type" :source-id="id"/>
-    <WikiComments :type="type" :source-id="id"/>
+    <WikiRevisions v-if="wikiPost && wikiPost.post" :type="type" :source-id="id"/>
+    <WikiComments v-if="wikiPost && wikiPost.post" :type="type" :source-id="id"/>
+    <PriceTabs v-if="type == 'item' && wikiPost && wikiPost.source && wikiPost.source.BindType != 3" :source-id="id"/>
   </div>
 </template>
 
@@ -23,6 +24,7 @@
   import WikiComments from "@jx3box/jx3box-common-ui/src/WikiComments";
   import Relations from "@/components/achievement/Relations.vue";
   import RelationPlans from "@/components/item/RelationPlans.vue";
+  import PriceTabs from "@/components/item/PriceTabs.vue";
   import {WikiPost} from "@jx3box/jx3box-common/js/helper";
   import {iconLink} from "@jx3box/jx3box-common/js/utils";
   import {postStat} from "@jx3box/jx3box-common/js/stat";
@@ -88,6 +90,7 @@
       WikiComments,
       Relations,
       RelationPlans,
+      PriceTabs,
     },
     watch: {
       id: {
