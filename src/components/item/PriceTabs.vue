@@ -29,7 +29,7 @@
     props: ['sourceId'],
     data() {
       return {
-        server: "",
+        server: this.$route.query.server || '',
         servers: servers,
         activeTab: "item-price-chart",
       };
