@@ -1,5 +1,5 @@
 <template>
-    <div class="m-block" v-if="relation_plans.length">
+    <div class="m-item-plan" v-if="relation_plans.length">
         <div class="m-title">
             <span class="u-label">📜 相关物品清单</span>
         </div>
