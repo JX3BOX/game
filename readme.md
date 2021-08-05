@@ -20,7 +20,6 @@ type 缺省时默认为 achievement
 
 ## Rewrite
 ```
-
     rewrite ^/flowers/(\d+)/(\d+)?(.*) /flower/?$3 permanent;
     rewrite ^/wiki/(\d+) /game/index.html?id=$1 permanent;
     rewrite ^/pet/(\d+) /game/index.html?type=pet&id=$1 permanent;
