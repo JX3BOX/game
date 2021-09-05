@@ -22,12 +22,7 @@
             </div>
         </template>
         <template slot="head-actions">
-            <el-button
-                v-if="!isEditMode"
-                type="primary"
-                class="u-edit"
-                @click="editHandler"
-            >
+            <el-button v-if="!isEditMode" type="primary" class="u-edit" @click="editHandler">
                 <i class="el-icon-edit"></i>
                 <span>编辑修订</span>
             </el-button>
@@ -46,10 +41,7 @@
 
             <!-- Article -->
             <template v-if="wiki_post.source">
-                <div
-                    class="u-content"
-                    v-if="content || (!content && isEditMode)"
-                >
+                <div class="u-content" v-if="content || (!content && isEditMode)">
                     <Article
                         id="content"
                         v-if="isEditMode || !isTW"
@@ -58,22 +50,14 @@
                         :contenteditable="isEditMode"
                         :class="{ 'u-editable': isEditMode }"
                     />
-                    <Article
-                        id="content-tw"
-                        v-else
-                        :content="cn2tw(content)"
-                        :pageable="false"
-                    />
+                    <Article id="content-tw" v-else :content="cn2tw(content)" :pageable="false" />
                 </div>
                 <div v-else class="u-empty">
                     <i class="el-icon-s-opportunity"></i>
                     <span>
-                        暂无百科攻略，我来<span
-                            class="u-edit"
-                            @click="editHandler"
-                            >完善攻略</span
-                        ></span
-                    >
+                        暂无百科攻略，我来
+                        <span class="u-edit" @click="editHandler">完善攻略</span>
+                    </span>
                 </div>
             </template>
 
@@ -81,41 +65,21 @@
             <div class="m-publish" v-if="isEditMode">
                 <div class="m-other-fields">
                     <div class="u-level">
-                        <span>难度(1-5)： </span>
-                        <input
-                            type="number"
-                            id="level"
-                            min="1"
-                            max="5"
-                            v-model="publish.level"
-                        />
+                        <span>难度(1-5)：</span>
+                        <input type="number" id="level" min="1" max="5" v-model="publish.level" />
                     </div>
                     <div class="u-author">
-                        <span>昵称： </span>
-                        <input
-                            type="text"
-                            id="author"
-                            v-model="publish.author"
-                            autocomplete="off"
-                        />
+                        <span>昵称：</span>
+                        <input type="text" id="author" v-model="publish.author" autocomplete="off" />
                     </div>
                     <div class="u-remark">
-                        <span>修订说明： </span>
-                        <input
-                            type="text"
-                            id="remark"
-                            v-model="publish.remark"
-                            autocomplete="off"
-                        />
+                        <span>修订说明：</span>
+                        <input type="text" id="remark" v-model="publish.remark" autocomplete="off" />
                     </div>
                 </div>
                 <div class="u-btn">
-                    <el-button size="mini" type="primary" @click="submitHanlder"
-                        >提交</el-button
-                    >
-                    <el-button size="mini" @click="cancelHandler"
-                        >取消</el-button
-                    >
+                    <el-button size="mini" type="primary" @click="submitHanlder">提交</el-button>
+                    <el-button size="mini" @click="cancelHandler">取消</el-button>
                 </div>
             </div>
         </template>
@@ -123,8 +87,8 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import Utils from '@jx3box/jx3box-common/js/utils'
+import _ from "lodash";
+import Utils from "@jx3box/jx3box-common/js/utils";
 import cn2tw from "../utils/cn2tw";
 import player_name from "../utils/PlayerName";
 import star from "../utils/star";
@@ -166,6 +130,11 @@ export default {
             );
             content = content.replace(/(<p>)?\s*◆成就攻略\s*(<\/p>)?/gi, "");
             return content ? content.trim() : "";
+        },
+        clientID: function () {
+            let params = new URLSearchParams(location.search);
+            let client = params.get('L') == 'classic' ? '2' : '1'
+            return client;
         },
     },
     methods: {
