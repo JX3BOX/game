@@ -9,7 +9,7 @@
     <PriceTabs v-if="type == 'item' && wikiPost && wikiPost.source && wikiPost.source.BindType != 3" :source-id="id"/>
     <Relations :source-id="id" v-if="type == 'achievement'"/>
     <RelationPlans :source-id="id" v-if="type == 'item'"/>
-    <WikiRevisions v-if="wikiPost && wikiPost.post" :type="type" :source-id="id"/>
+    <WikiRevisions v-if="wikiPost && wikiPost.post" :type="type" :source-id="id" :isGame="true"/>
     <WikiComments v-if="wikiPost && wikiPost.post" :type="type" :source-id="id"/>
   </div>
 </template>
