@@ -52,11 +52,9 @@ export default {
         },
     },
     mounted: function () {
-        if(this.isOrigin){
-            let params = new URLSearchParams(location.search);
-            let server = params.get("server")
-            this.server = server
-        }
+        let params = new URLSearchParams(location.search);
+        let server = params.get("server")
+        this.server = server
     },
     components: {
         "item-prices": ItemPrices,
