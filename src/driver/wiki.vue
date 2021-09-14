@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+    <div id="app">
+        <router-view />
+    </div>
 </template>
 
 <script>
 export default {
-  name: "App",
+    name: "App",
 };
 </script>
 
@@ -25,8 +25,8 @@ export default {
 // }
 //------ ⚠️预览用,发布前请注释 ------ //
 
-@import '../assets/css/common.less';
-@import '../assets/css/header.less';
-@import '../assets/css/block.less';
-@import '../assets/css/footer.less';
+@import "../assets/css/common.less";
+@import "../assets/css/header.less";
+@import "../assets/css/block.less";
+@import "../assets/css/footer.less";
 </style>

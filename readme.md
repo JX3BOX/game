@@ -11,10 +11,10 @@ $ open localhost:8080/flowers/5/10000?server=长安城&item=红玫瑰
 ## Test
 ### 百科
 type 缺省时默认为 achievement
--   百科：https://page.j3cx.com/wiki/index.html?type=achievement&id=5081
--   普通：https://page.j3cx.com/wiki/index.html?type=item&id=5_7764  
--   书籍：https://page.j3cx.com/wiki/index.html?type=item&id=5_8029_482  
--   宠物：https://page.j3cx.com/wiki/index.html?type=pet&id=228  
+-   百科：https://page.j3cx.com/index.html?type=achievement&id=5081
+-   普通：https://page.j3cx.com/index.html?type=item&id=5_24428  
+-   书籍：https://page.j3cx.com/index.html?type=item&id=5_8029_482  
+-   宠物：https://page.j3cx.com/index.html?type=pet&id=228  
 ### 花价
 -   花价：https://page.j3cx.com/flowers/5/10000?server=长安城&item=红玫瑰
 
