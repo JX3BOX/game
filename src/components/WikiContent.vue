@@ -93,7 +93,7 @@ import cn2tw from "../utils/cn2tw";
 import player_name from "../utils/PlayerName";
 import star from "../utils/star";
 import Article from "@jx3box/jx3box-editor/src/Article.vue";
-import WikiPanel from "@jx3box/jx3box-common-ui/src/WikiPanel";
+import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
 import { WikiPost } from "@jx3box/jx3box-common/js/helper";
 import { getTypeLabel, iconLink } from "@jx3box/jx3box-common/js/utils";
 

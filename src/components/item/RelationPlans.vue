@@ -46,7 +46,7 @@
 </template>
 
 <script>
-const { JX3BOX } = require("@jx3box/jx3box-common");
+import { __iconPath } from '@jx3box/jx3box-common/data/jx3box.json'
 import { get_item_relation_plans } from "../../service/item";
 
 export default {
@@ -55,8 +55,8 @@ export default {
     data() {
         return {
             relation_plans: [],
-            plan_2_icon: JX3BOX.__iconPath + "icon/2410.png",
-            plan_1_icon: JX3BOX.__iconPath + "icon/3089.png",
+            plan_2_icon: __iconPath + "icon/2410.png",
+            plan_1_icon: __iconPath + "icon/3089.png",
         };
     },
     watch: {
@@ -67,8 +67,7 @@ export default {
                     get_item_relation_plans(this.sourceId, { limit: 6 }).then(
                         (data) => {
                             data = data.data;
-                            if (data.code === 200)
-                                this.relation_plans = data.data.data;
+                            this.relation_plans = data.data.data;
                         },
                         (err) => {
                             this.relation_plans = [];

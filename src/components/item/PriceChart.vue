@@ -90,41 +90,37 @@ export default {
                         server: this.server,
                     }).then((data) => {
                         data = data.data;
-                        if (data.code === 200) {
-                            let output = [];
-                            for (let i in data.data.logs) {
-                                let log = data.data.logs[i];
-                                output.push({
-                                    date: log.date,
-                                    price: log.price,
-                                    type: "均价",
-                                });
-                                output.push({
-                                    date: log.date,
-                                    price: log.min_price,
-                                    type: "最低价",
-                                });
-                                output.push({
-                                    date: log.date,
-                                    price: log.max_price,
-                                    type: "最高价",
-                                });
-                            }
-                            this.today = data.data.today;
-                            this.yesterday = data.data.yesterday;
-                            this.logs = output;
-                            this.hidden = !(this.logs.length > 0);
+                        let output = [];
+                        for (let i in data.data.logs) {
+                            let log = data.data.logs[i];
+                            output.push({
+                                date: log.date,
+                                price: log.price,
+                                type: "均价",
+                            });
+                            output.push({
+                                date: log.date,
+                                price: log.min_price,
+                                type: "最低价",
+                            });
+                            output.push({
+                                date: log.date,
+                                price: log.max_price,
+                                type: "最高价",
+                            });
                         }
+                        this.today = data.data.today;
+                        this.yesterday = data.data.yesterday;
+                        this.logs = output;
+                        this.hidden = !(this.logs.length > 0);
                     });
                 } else {
                     get_item_servers_price_logs(this.item_id, {limit: 3}).then((data) => {
                         data = data.data;
-                        if (data.code === 200) {
-                            this.today = null;
-                            this.yesterday = null;
-                            this.logs = data.data.logs;
-                            this.hidden = !(this.logs.length > 0);
-                        }
+                        this.today = null;
+                        this.yesterday = null;
+                        this.logs = data.data.logs;
+                        this.hidden = !(this.logs.length > 0);
                     });
                 }
             }

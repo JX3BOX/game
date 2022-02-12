@@ -26,8 +26,8 @@ import UA from "../utils/ua";
 import star from "../utils/star";
 import player_name from "../utils/PlayerName";
 import WikiContent from "../components/WikiContent";
-import WikiRevisions from "@jx3box/jx3box-common-ui/src/WikiRevisions";
-import WikiComments from "@jx3box/jx3box-common-ui/src/WikiComments";
+import WikiRevisions from "@jx3box/jx3box-common-ui/src/wiki/WikiRevisions";
+import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 import Relations from "@/components/achievement/Relations.vue";
 // import RelationPlans from "@/components/item/RelationPlans.vue";
 import PriceTabs from "@/components/item/PriceTabs.vue";
@@ -72,28 +72,26 @@ export default {
         pet_redirect() {
             get_pet(this.id).then((res) => {
                 res = res.data;
-                if (res.code === 200) {
-                    let pet = res.data.pet;
-                    if (pet) {
-                        if (pet.achievement_id) {
-                            this.$router.push({
-                                name: "wiki",
-                                query: {
-                                    type: "achievement",
-                                    id: pet.achievement_id,
-                                    player: player_name(),
-                                },
-                            });
-                        } else if (pet.item_id) {
-                            this.$router.push({
-                                name: "wiki",
-                                query: {
-                                    type: "item",
-                                    id: pet.item_id,
-                                    player: player_name(),
-                                },
-                            });
-                        }
+                let pet = res.data.pet;
+                if (pet) {
+                    if (pet.achievement_id) {
+                        this.$router.push({
+                            name: "wiki",
+                            query: {
+                                type: "achievement",
+                                id: pet.achievement_id,
+                                player: player_name(),
+                            },
+                        });
+                    } else if (pet.item_id) {
+                        this.$router.push({
+                            name: "wiki",
+                            query: {
+                                type: "item",
+                                id: pet.item_id,
+                                player: player_name(),
+                            },
+                        });
                     }
                 }
             });
@@ -127,12 +125,10 @@ export default {
                     } else {
                         WikiPost.newest(this.type, this.id).then((res) => {
                             res = res.data;
-                            if (res.code === 200) {
-                                this.wikiPost = res.data;
-                                if (this.wikiPost && this.wikiPost.source) {
-                                    let pet = this.wikiPost.source.pet;
-                                    if (pet && pet.id) postStat("pet", pet.id);
-                                }
+                            this.wikiPost = res.data;
+                            if (this.wikiPost && this.wikiPost.source) {
+                                let pet = this.wikiPost.source.pet;
+                                if (pet && pet.id) postStat("pet", pet.id);
                             }
                         });
                     }
@@ -146,7 +142,7 @@ export default {
                 if (this.$route.query.post_id) {
                     WikiPost.view(this.$route.query.post_id).then((res) => {
                         res = res.data;
-                        if (res.code === 200) this.wikiPost = res.data;
+                        this.wikiPost = res.data;
                     });
                 }
             },

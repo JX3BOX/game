@@ -1,0 +1,133 @@
+{
+    "base": [
+        {
+            "key": "Title",
+            "zh": "称谓"
+        },
+        {
+            "key": "Level",
+            "zh": "等级"
+        },
+        {
+            "key": "Intensity",
+            "zh": "强度"
+        },
+        {
+            "key": "MapName",
+            "zh": "地图"
+        },
+        {
+            "key": "_Notation",
+            "zh": "备注"
+        },
+        {
+            "key": "MaxLife",
+            "zh": "血量"
+        },
+        {
+            "key": "MaxMana",
+            "zh": "蓝量"
+        },
+        {
+            "key": "RunSpeed",
+            "zh": "跑速"
+        },
+        {
+            "key": "WalkSpeed",
+            "zh": "移速"
+        },
+        {
+            "key": "TouchRange",
+            "zh": "体积",
+            "title": "攻击补偿距离/64"
+        }
+    ],
+    "shield": [
+        {
+            "key": "Sense",
+            "zh": "识破"
+        },
+        {
+            "key": "Dodge",
+            "zh": "闪避"
+        },
+        {
+            "key": "PhysicsShieldBase",
+            "zh": "外功防御"
+        },
+        {
+            "key": "NeutralMagicDefence",
+            "zh": "混元防御"
+        },
+        {
+            "key": "SolarMagicDefence",
+            "zh": "阳性防御"
+        },
+        {
+            "key": "LunarMagicDefence",
+            "zh": "阴性防御"
+        },
+        {
+            "key": "PoisonMagicDefence",
+            "zh": "毒性防御"
+        }
+    ],
+    "strike": [
+        {
+            "key": "PhysicsCriticalStrike",
+            "zh": "外功会心"
+        },
+        {
+            "key": "NeutralCriticalStrike",
+            "zh": "混元会心"
+        },
+        {
+            "key": "SolarCriticalStrike",
+            "zh": "阳性会心"
+        },
+        {
+            "key": "LunarCriticalStrike",
+            "zh": "阴性会心"
+        },
+        {
+            "key": "PoisonCriticalStrike",
+            "zh": "毒性会心"
+        }
+    ],
+    "hit": [
+        {
+            "key": "PhysicsAttackHit",
+            "zh": "外功命中"
+        },
+        {
+            "key": "NeutralMagicHit",
+            "zh": "混元命中"
+        },
+        {
+            "key": "SolarMagicHit",
+            "zh": "阳性命中"
+        },
+        {
+            "key": "LunarMagicHit",
+            "zh": "阴性命中"
+        },
+        {
+            "key": "PoisonMagicHit",
+            "zh": "毒性命中"
+        }
+    ],
+    "other": [
+        {
+            "key": "CanSeeLifeBar",
+            "zh": "血条是否可见"
+        },
+        {
+            "key": "IsSelectable",
+            "zh": "是否可被选择"
+        },
+        {
+            "key": "ReviveTime",
+            "zh": "复活时间"
+        }
+    ]
+}
