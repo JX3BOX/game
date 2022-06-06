@@ -57,14 +57,14 @@ export default {
         },
         client: function () {
             let params = new URLSearchParams(location.search);
-            let client = params.get("L") == "classic" ? "origin" : "std";
+            let client = params.get("L") == "classic_yq" ? "origin" : "std";
             return client;
         },
     },
     provide : function (){
         return {
           client : this.client
-        }  
+        }
     },
     methods: {
         icon_url: iconLink,
@@ -123,14 +123,30 @@ export default {
                     if (this.type === "pet") {
                         this.pet_redirect();
                     } else {
-                        WikiPost.newest(this.type, this.id).then((res) => {
-                            res = res.data;
-                            this.wikiPost = res.data;
-                            if (this.wikiPost && this.wikiPost.source) {
-                                let pet = this.wikiPost.source.pet;
-                                if (pet && pet.id) postStat("pet", pet.id);
-                            }
-                        });
+                        if (this.client === "std") {
+                            WikiPost.newest("achievement", this.id, 1, "std").then((res) => {
+                                this.wikiPost = res.data.data;
+                                console.log("获取重制攻略");
+                            });
+                        } else {
+                            WikiPost.newest("achievement", this.id, 1, "origin").then((res) => {
+                                this.wikiPost = res.data.data;
+                                console.log("获取缘起攻略");
+                                return !!res.data.data.post
+                            }).then(data => {
+                                if (!data) {
+                                    console.log("兼容：获取重制攻略");
+                                    WikiPost.newest("achievement", this.id, 1, "std").then((res) => {
+                                        this.wikiPost = res.data.data;
+                                    });
+                                }
+                            }).finally(() => {
+                                if (this.wikiPost && this.wikiPost.source) {
+                                    let pet = this.wikiPost.source.pet;
+                                    if (pet && pet.id) postStat("pet", pet.id);
+                                }
+                            })
+                        }
                     }
                 }
             },
