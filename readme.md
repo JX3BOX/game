@@ -18,13 +18,14 @@ type 缺省时默认为 achievement
 ### 花价
 -   花价：https://page.j3cx.com/flowers/5/10000?server=长安城&item=红玫瑰
 
-## Rewrite
+## Nginx
 ```
     rewrite ^/flowers/(\d+)/(\d+)?(.*) /flower/?$3 permanent;
     rewrite ^/wiki/(\d+) /game/index.html?id=$1 permanent;
     rewrite ^/pet/(\d+) /game/index.html?type=pet&id=$1 permanent;
     rewrite ^/item/(\d+)/(\d+) /game/index.html?type=item&id=$1_$2 permanent;
     rewrite ^/item/(\d+)/(\d+)/(\d+) /game/index.html?type=item&id=$1_$2_$3 permanent;
+
     location /game {
         add_header Cache-Control no-cache;
         expires 0;
@@ -48,4 +49,9 @@ type 缺省时默认为 achievement
         alias /www/wwwroot/jx3box/game/;
         index flower.html;
     }
+```
+
+## rewrite
+```
+rewrite ^/game/(.*) /?$1 permanent;
 ```
