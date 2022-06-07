@@ -5,8 +5,8 @@ export default function (str){
         let arr = new Array(str.length)
         let i = -1
         for(let char of str){
-            i = dict['zh-cn'].indexOf(char)
-            i > -1 ? arr.push(dict['zh-tr'][i]) : arr.push(char)
+            i = dict['cn'].indexOf(char)
+            i > -1 ? arr.push(dict['tr'][i]) : arr.push(char)
         }
         return arr.join('')
     }else{
