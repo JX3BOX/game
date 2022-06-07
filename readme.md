@@ -4,8 +4,8 @@
 ```
 $ npm i
 $ npm run serve
-$ open localhost:8080/index.html?id=5081
-$ open localhost:8080/flowers/5/10000?server=长安城&item=红玫瑰
+$ open http://localhost:8080/?type=achievement&id=493&L=classic_yq
+$ open http://localhost:8080/flowers/5/10000?server=长安城&item=红玫瑰
 ```
 
 ## Test

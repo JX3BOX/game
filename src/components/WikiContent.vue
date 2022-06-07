@@ -39,7 +39,7 @@
                 操作
             </div>
             <div class="m-wiki-compatible" v-if="compatible">
-                <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a class="s-link" :href="publish_url(`achievement/${wikiPost.post.source_id}`)">参与修订</a>。
+                <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a :href="publish_url(`achievement/${wikiPost.post.source_id}`)">参与修订</a>。
             </div>
 
             <!-- Article -->
@@ -99,7 +99,7 @@ import Article from "@jx3box/jx3box-editor/src/Article.vue";
 import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
 import { WikiPost } from "@jx3box/jx3box-common/js/helper";
 import { getTypeLabel, iconLink, publishLink } from "@jx3box/jx3box-common/js/utils";
-
+import {__Root,__OriginRoot} from '@jx3box/jx3box-common/data/jx3box.json';
 export default {
     name: "WikiContent",
     props: ["wikiPost", 'compatible'],
@@ -114,6 +114,8 @@ export default {
                 author: player_name(),
                 remark: "",
             },
+
+            params : new URLSearchParams(location.search)
         };
     },
     computed: {
@@ -134,14 +136,22 @@ export default {
             content = content.replace(/(<p>)?\s*◆成就攻略\s*(<\/p>)?/gi, "");
             return content ? content.trim() : "";
         },
-        clientID: function () {
-            let params = new URLSearchParams(location.search);
-            let client = params.get('L') == 'classic' ? '2' : '1'
+        client : function (){
+            let client = this.params.get('L') == 'classic_yq' ? 'origin' : 'std'
             return client;
         },
+        clientID: function () {
+            let clientID = this.params.get('L') == 'classic_yq' ? '2' : '1'
+            return clientID;
+        },
+        rootPath : function (){
+            return this.client == 'origin' ? __OriginRoot : __Root;
+        }
     },
     methods: {
-        publish_url: publishLink,
+        publish_url: function (path){
+            return this.rootPath + publishLink(path).slice(1)
+        },
         cn2tw,
         star,
         getTypeLabel,
