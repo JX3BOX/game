@@ -47,7 +47,9 @@ export default {
             return this.query.id;
         },
         type() {
-            return this.query.type || "achievement";
+            let type = this.query.type;
+            if(type == 'cj') type = 'achievement';
+            return type ||  "achievement";
         },
         warning() {
             return this.ua.browser === "ie" && this.ua.version < 9;
