@@ -38,6 +38,9 @@
                 <a href="https://www.jx3box.com">JX3BOX网站</a>
                 操作
             </div>
+            <div class="m-wiki-compatible" v-if="compatible">
+                <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a class="s-link" :href="publish_url(`achievement/${wikiPost.post.source_id}`)">参与修订</a>。
+            </div>
 
             <!-- Article -->
             <template v-if="wiki_post.source">
@@ -95,11 +98,11 @@ import star from "../utils/star";
 import Article from "@jx3box/jx3box-editor/src/Article.vue";
 import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
 import { WikiPost } from "@jx3box/jx3box-common/js/helper";
-import { getTypeLabel, iconLink } from "@jx3box/jx3box-common/js/utils";
+import { getTypeLabel, iconLink, publishLink } from "@jx3box/jx3box-common/js/utils";
 
 export default {
     name: "WikiContent",
-    props: ["wikiPost"],
+    props: ["wikiPost", 'compatible'],
     data() {
         return {
             wiki_post: this.wikiPost,
@@ -138,6 +141,7 @@ export default {
         },
     },
     methods: {
+        publish_url: publishLink,
         cn2tw,
         star,
         getTypeLabel,
@@ -220,6 +224,12 @@ export default {
                 });
             }
         },
+        wikiPost: {
+            deep: true,
+            handler(val) {
+                this.wiki_post = val;
+            },
+        }
     },
     components: {
         Article,

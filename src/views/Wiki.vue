@@ -3,7 +3,7 @@
         <!-- Warning -->
         <div class="m-warning" :class="{ none: !warning }">❌ 您的浏览器版本太低,将无法正常使用本应用</div>
 
-        <WikiContent :wiki-post="wikiPost" />
+        <WikiContent :wiki-post="wikiPost" :compatible="compatible" />
         <PriceTabs
             v-if="type == 'item' && wikiPost && wikiPost.source && wikiPost.source.BindType != 3"
             :source-id="id"
@@ -43,6 +43,8 @@ export default {
             ua: UA(),
             query: URI(location.href).query(true),
             wikiPost: null,
+            compatible: false,
+            // client: "std",
         };
     },
     computed: {
@@ -138,6 +140,8 @@ export default {
                                     console.log("兼容：获取重制攻略");
                                     WikiPost.newest("achievement", this.id, 1, "std").then((res) => {
                                         this.wikiPost = res.data.data;
+                                        this.compatible = true;
+                                        console.log(this.compatible);
                                     });
                                 }
                             }).finally(() => {

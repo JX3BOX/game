@@ -7,6 +7,7 @@ const Wiki = () => import("../views/Wiki.vue");
 Vue.use(VueRouter);
 
 export default new VueRouter({
+    mode: "history",
     routes: [
         // 百科详情
         {name: 'wiki', path: '/', component: Wiki},
