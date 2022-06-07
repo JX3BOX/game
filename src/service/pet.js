@@ -1,4 +1,10 @@
-import { $helper } from '@jx3box/jx3box-common/js/https';
+import { $helper,$node } from '@jx3box/jx3box-common/js/https';
+
+function getPet(petid, params) {
+    return $node().get(`/pet/${petid}`, {
+        params
+    });
+}
 
 // 获取宠物统计信息
 function get_count() {
@@ -24,4 +30,4 @@ function get_type_list(params) {
   })
 }
 
-export {get_count, get_list, get_pet, get_type_list};
+export {get_count, get_list, get_pet, get_type_list,getPet};

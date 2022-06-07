@@ -10,12 +10,7 @@
         />
         <Relations :source-id="id" v-if="type == 'achievement'" />
         <!-- <RelationPlans :source-id="id" v-if="type == 'item'" /> -->
-        <WikiRevisions
-            v-if="wikiPost && wikiPost.post"
-            :type="type"
-            :source-id="id"
-            :isGame="true"
-        />
+        <WikiRevisions v-if="wikiPost && wikiPost.post" :type="type" :source-id="id" :isGame="true" />
         <WikiComments v-if="wikiPost && wikiPost.post" :type="type" :source-id="id" />
     </div>
 </template>
@@ -34,7 +29,7 @@ import PriceTabs from "@/components/item/PriceTabs.vue";
 import { WikiPost } from "@jx3box/jx3box-common/js/helper";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import { postStat } from "@jx3box/jx3box-common/js/stat";
-import { get_pet } from "../service/pet";
+import { getPet } from "../service/pet";
 
 export default {
     name: "Wiki",
@@ -49,10 +44,10 @@ export default {
     },
     computed: {
         id() {
-            return this.$route.query.id || this.query.id;
+            return this.query.id;
         },
         type() {
-            return this.$route.query.type || this.query.type || "achievement";
+            return this.query.type || "achievement";
         },
         warning() {
             return this.ua.browser === "ie" && this.ua.version < 9;
@@ -63,47 +58,44 @@ export default {
             return client;
         },
     },
-    provide : function (){
+    provide: function () {
         return {
-          client : this.client
-        }
+            client: this.client,
+        };
     },
     methods: {
         icon_url: iconLink,
         star,
-        pet_redirect() {
-            get_pet(this.id).then((res) => {
-                res = res.data;
-                let pet = res.data.pet;
-                if (pet) {
-                    if (pet.achievement_id) {
-                        this.$router.push({
-                            name: "wiki",
-                            query: {
-                                type: "achievement",
-                                id: pet.achievement_id,
-                                player: player_name(),
-                            },
-                        });
-                    } else if (pet.item_id) {
-                        this.$router.push({
-                            name: "wiki",
-                            query: {
-                                type: "item",
-                                id: pet.item_id,
-                                player: player_name(),
-                            },
-                        });
-                    }
-                }
-            });
+        loadWiki: function (type, id) {
+            if (this.client === "std") {
+                WikiPost.newest(type, id, 1, "std").then((res) => {
+                    this.wikiPost = res.data.data;
+                    console.log("获取重制攻略");
+                });
+            } else {
+                WikiPost.newest(type, id, 1, "origin")
+                    .then((res) => {
+                        this.wikiPost = res.data.data;
+                        console.log("获取缘起攻略");
+                        return !!res.data.data.post;
+                    })
+                    .then((data) => {
+                        if (!data) {
+                            console.log("兼容：获取重制攻略");
+                            WikiPost.newest(type, id, 1, "std").then((res) => {
+                                this.wikiPost = res.data.data;
+                                this.compatible = true;
+                                console.log(this.compatible);
+                            });
+                        }
+                    });
+            }
         },
     },
     created() {
         // 统计
         if (this.type && this.id) {
             let type = this.type;
-            if (type === "pet") return;
             if (type === "achievement") type = "cj";
             postStat(type, this.id);
         }
@@ -123,34 +115,15 @@ export default {
                 // 获取最新攻略
                 if (this.type && this.id) {
                     if (this.type === "pet") {
-                        this.pet_redirect();
+                        getPet(this.id).then((res) => {
+                            let pet = res.data;
+                            let item_id = pet?.ItemTabType + "_" + pet?.ItemTabIndex;
+                            this.loadWiki("item", item_id);
+                        });
+                    } else if (this.type === "cj") {
+                        this.loadWiki('achievement', this.id);
                     } else {
-                        if (this.client === "std") {
-                            WikiPost.newest("achievement", this.id, 1, "std").then((res) => {
-                                this.wikiPost = res.data.data;
-                                console.log("获取重制攻略");
-                            });
-                        } else {
-                            WikiPost.newest("achievement", this.id, 1, "origin").then((res) => {
-                                this.wikiPost = res.data.data;
-                                console.log("获取缘起攻略");
-                                return !!res.data.data.post
-                            }).then(data => {
-                                if (!data) {
-                                    console.log("兼容：获取重制攻略");
-                                    WikiPost.newest("achievement", this.id, 1, "std").then((res) => {
-                                        this.wikiPost = res.data.data;
-                                        this.compatible = true;
-                                        console.log(this.compatible);
-                                    });
-                                }
-                            }).finally(() => {
-                                if (this.wikiPost && this.wikiPost.source) {
-                                    let pet = this.wikiPost.source.pet;
-                                    if (pet && pet.id) postStat("pet", pet.id);
-                                }
-                            })
-                        }
+                        this.loadWiki(this.type, this.id);
                     }
                 }
             },
