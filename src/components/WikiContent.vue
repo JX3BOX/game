@@ -183,7 +183,7 @@ export default {
                 user_nickname: this.publish.author,
                 content: document.getElementById("c-article").innerHTML,
                 remark: this.publish.remark,
-            }).then(
+            }, this.client).then(
                 (res) => {
                     res = res.data;
                     if (res.code === 200) {
@@ -223,7 +223,8 @@ export default {
                 WikiPost.newest(
                     this.wiki_post.type,
                     this.wiki_post.source_id,
-                    this.isEditMode ? 0 : 1
+                    this.isEditMode ? 0 : 1,
+                    this.client
                 ).then((res) => {
                     res = res.data;
                     if (res.code === 200) {

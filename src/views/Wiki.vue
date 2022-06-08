@@ -19,7 +19,7 @@
 const URI = require("urijs");
 import UA from "../utils/ua";
 import star from "../utils/star";
-import player_name from "../utils/PlayerName";
+// import player_name from "../utils/PlayerName";
 import WikiContent from "../components/WikiContent";
 import WikiRevisions from "@jx3box/jx3box-common-ui/src/wiki/WikiRevisions";
 import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
@@ -87,7 +87,6 @@ export default {
                             WikiPost.newest(type, id, 1, "std").then((res) => {
                                 this.wikiPost = res.data.data;
                                 this.compatible = true;
-                                console.log(this.compatible);
                             });
                         }
                     });
