@@ -85,7 +85,7 @@ export default {
                         if (!data) {
                             console.log("兼容：获取重制攻略");
                             WikiPost.newest(type, id, 1, "std").then((res) => {
-                                this.wikiPost = res.data.data;
+                                this.wikiPost.post = res.data.data.post;
                                 this.compatible = true;
                             });
                         }

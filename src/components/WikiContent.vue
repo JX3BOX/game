@@ -39,7 +39,10 @@
                 操作
             </div>
             <div class="m-wiki-compatible" v-if="compatible">
-                <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a :href="publish_url(`achievement/${wikiPost.post.source_id}`)">参与修订</a>。
+                <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
+                    :href="publish_url(`${wiki_post.type}/${wikiPost.post && wikiPost.post.source_id || wikiPost.source_id}`)"
+                    >参与修订</a
+                >。
             </div>
 
             <!-- Article -->
@@ -99,10 +102,10 @@ import Article from "@jx3box/jx3box-editor/src/Article.vue";
 import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
 import { WikiPost } from "@jx3box/jx3box-common/js/helper";
 import { getTypeLabel, iconLink, publishLink } from "@jx3box/jx3box-common/js/utils";
-import {__Root,__OriginRoot} from '@jx3box/jx3box-common/data/jx3box.json';
+import { __Root, __OriginRoot } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "WikiContent",
-    props: ["wikiPost", 'compatible'],
+    props: ["wikiPost", "compatible"],
     data() {
         return {
             wiki_post: this.wikiPost,
@@ -115,7 +118,7 @@ export default {
                 remark: "",
             },
 
-            params : new URLSearchParams(location.search)
+            params: new URLSearchParams(location.search),
         };
     },
     computed: {
@@ -125,32 +128,26 @@ export default {
             let content = _.get(post, "content");
             if (!content) return "";
             content = Utils.resolveImagePath(content);
-            content = content.replace(
-                /(<p>)?\s*◆成就难度 [★]+\s*(<\/p>)?/gi,
-                ""
-            );
-            content = content.replace(
-                /(<p>)?\s*◆花费时长 [★]+\s*(<\/p>)?/gi,
-                ""
-            );
+            content = content.replace(/(<p>)?\s*◆成就难度 [★]+\s*(<\/p>)?/gi, "");
+            content = content.replace(/(<p>)?\s*◆花费时长 [★]+\s*(<\/p>)?/gi, "");
             content = content.replace(/(<p>)?\s*◆成就攻略\s*(<\/p>)?/gi, "");
             return content ? content.trim() : "";
         },
-        client : function (){
-            let client = this.params.get('L') == 'classic_yq' ? 'origin' : 'std'
+        client: function () {
+            let client = this.params.get("L") == "classic_yq" ? "origin" : "std";
             return client;
         },
         clientID: function () {
-            let clientID = this.params.get('L') == 'classic_yq' ? '2' : '1'
+            let clientID = this.params.get("L") == "classic_yq" ? "2" : "1";
             return clientID;
         },
-        rootPath : function (){
-            return this.client == 'origin' ? __OriginRoot : __Root;
-        }
+        rootPath: function () {
+            return this.client == "origin" ? __OriginRoot : __Root;
+        },
     },
     methods: {
-        publish_url: function (path){
-            return this.rootPath + publishLink(path).slice(1)
+        publish_url: function (path) {
+            return this.rootPath + publishLink(path).slice(1);
         },
         cn2tw,
         star,
@@ -176,14 +173,17 @@ export default {
                 return;
             }
 
-            WikiPost.save({
-                type: this.wiki_post.type,
-                source_id: this.wiki_post.source_id,
-                level: this.publish.level,
-                user_nickname: this.publish.author,
-                content: document.getElementById("c-article").innerHTML,
-                remark: this.publish.remark,
-            }, this.client).then(
+            WikiPost.save(
+                {
+                    type: this.wiki_post.type,
+                    source_id: this.wiki_post.source_id,
+                    level: this.publish.level,
+                    user_nickname: this.publish.author,
+                    content: document.getElementById("c-article").innerHTML,
+                    remark: this.publish.remark,
+                },
+                this.client
+            ).then(
                 (res) => {
                     res = res.data;
                     if (res.code === 200) {
@@ -214,12 +214,9 @@ export default {
     },
     watch: {
         isEditMode() {
+            console.log(this.wiki_post);
             // 获取最新攻略
-            if (
-                this.wiki_post &&
-                this.wiki_post.type &&
-                this.wiki_post.source_id
-            ) {
+            if (this.wiki_post && this.wiki_post.type && this.wiki_post.source_id) {
                 WikiPost.newest(
                     this.wiki_post.type,
                     this.wiki_post.source_id,
@@ -229,8 +226,7 @@ export default {
                     res = res.data;
                     if (res.code === 200) {
                         this.wiki_post = res.data;
-                        this.publish.level =
-                            _.get(this, "wiki_post.post.level") || 1;
+                        this.publish.level = _.get(this, "wiki_post.post.level") || 1;
                     }
                 });
             }
@@ -240,7 +236,7 @@ export default {
             handler(val) {
                 this.wiki_post = val;
             },
-        }
+        },
     },
     components: {
         Article,
