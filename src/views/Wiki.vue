@@ -6,12 +6,12 @@
         <WikiContent :wiki-post="wikiPost" :compatible="compatible" />
         <PriceTabs
             v-if="type == 'item' && wikiPost && wikiPost.source && wikiPost.source.BindType != 3"
-            :source-id="id"
+            :source-id="source_id"
         />
-        <Relations :source-id="id" v-if="type == 'achievement'" />
+        <Relations :source-id="source_id" v-if="type == 'achievement'" />
         <!-- <RelationPlans :source-id="id" v-if="type == 'item'" /> -->
-        <WikiRevisions v-if="wikiPost && wikiPost.post" :type="type" :source-id="id" :isGame="true" />
-        <WikiComments v-if="wikiPost && wikiPost.post" :type="type" :source-id="id" />
+        <WikiRevisions v-if="wikiPost && wikiPost.post" :type="source_type" :source-id="source_id" :isGame="true" />
+        <WikiComments v-if="wikiPost && wikiPost.post" :type="source_type" :source-id="source_id" />
     </div>
 </template>
 
@@ -39,43 +39,43 @@ export default {
             query: URI(location.href).query(true),
             wikiPost: null,
             compatible: false,
-            // client: "std",
+
+            source_id: "",
+            source_type: "",
         };
-    },
-    computed: {
-        id() {
-            return this.query.id;
-        },
-        type() {
-            let type = this.query.type;
-            if(type == 'cj') type = 'achievement';
-            return type ||  "achievement";
-        },
-        warning() {
-            return this.ua.browser === "ie" && this.ua.version < 9;
-        },
-        client: function () {
-            let params = new URLSearchParams(location.search);
-            let client = params.get("L") == "classic_yq" ? "origin" : "std";
-            return client;
-        },
     },
     provide: function () {
         return {
             client: this.client,
         };
     },
+    computed: {
+        client: function () {
+            let params = new URLSearchParams(location.search);
+            let client = params.get("L") == "classic_yq" ? "origin" : "std";
+            return client;
+        },
+        id() {
+            return this.query.id;
+        },
+        type() {
+            return this.query.type;
+        },
+        warning() {
+            return this.ua.browser === "ie" && this.ua.version < 9;
+        },
+    },
     methods: {
         icon_url: iconLink,
         star,
-        loadWiki: function (type, id) {
+        loadWiki: function (source_type, source_id) {
             if (this.client === "std") {
-                WikiPost.newest(type, id, 1, "std").then((res) => {
+                WikiPost.newest(source_type, source_id, 1, "std").then((res) => {
                     this.wikiPost = res.data.data;
                     console.log("获取重制攻略");
                 });
             } else {
-                WikiPost.newest(type, id, 1, "origin")
+                WikiPost.newest(source_type, source_id, 1, "origin")
                     .then((res) => {
                         this.wikiPost = res.data.data;
                         console.log("获取缘起攻略");
@@ -84,13 +84,56 @@ export default {
                     .then((data) => {
                         if (!data) {
                             console.log("兼容：获取重制攻略");
-                            WikiPost.newest(type, id, 1, "std").then((res) => {
+                            WikiPost.newest(source_type, source_id, 1, "std").then((res) => {
                                 this.wikiPost.post = res.data.data.post;
                                 this.compatible = true;
                             });
                         }
                     });
             }
+        },
+    },
+    watch: {
+        id: {
+            immediate: true,
+            handler(id) {
+                // fix source_type
+                if (this.type == "cj") {
+                    this.source_type = "achievement";
+                } else if (this.type == "pet") {
+                    this.source_type = "item";
+                } else {
+                    this.source_type = this.type || "achievement";
+                }
+
+                // 获取最新攻略
+                if (id) {
+                    this.source_id = id;
+
+                    if (this.type === "pet") {
+                        getPet(id).then((res) => {
+                            let pet = res.data;
+                            let source_id = pet?.ItemTabType + "_" + pet?.ItemTabIndex;
+                            this.source_id = source_id;
+                            this.loadWiki("item", source_id);
+                        });
+                    } else {
+                        this.loadWiki(this.source_type, this.source_id);
+                    }
+                }
+            },
+        },
+        "$route.query.post_id": {
+            immediate: true,
+            handler() {
+                // 获取攻略
+                if (this.$route.query.post_id) {
+                    WikiPost.view(this.$route.query.post_id).then((res) => {
+                        res = res.data;
+                        this.wikiPost = res.data;
+                    });
+                }
+            },
         },
     },
     created() {
@@ -108,39 +151,6 @@ export default {
         Relations,
         // RelationPlans,
         PriceTabs,
-    },
-    watch: {
-        id: {
-            immediate: true,
-            handler() {
-                // 获取最新攻略
-                if (this.type && this.id) {
-                    if (this.type === "pet") {
-                        getPet(this.id).then((res) => {
-                            let pet = res.data;
-                            let item_id = pet?.ItemTabType + "_" + pet?.ItemTabIndex;
-                            this.loadWiki("item", item_id);
-                        });
-                    } else if (this.type === "cj") {
-                        this.loadWiki('achievement', this.id);
-                    } else {
-                        this.loadWiki(this.type, this.id);
-                    }
-                }
-            },
-        },
-        "$route.query.post_id": {
-            immediate: true,
-            handler() {
-                // 获取攻略
-                if (this.$route.query.post_id) {
-                    WikiPost.view(this.$route.query.post_id).then((res) => {
-                        res = res.data;
-                        this.wikiPost = res.data;
-                    });
-                }
-            },
-        },
     },
 };
 </script>
