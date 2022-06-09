@@ -40,7 +40,7 @@
             </div>
             <div class="m-wiki-compatible" v-if="compatible">
                 <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
-                    :href="publish_url(`${wiki_post.type}/${wikiPost.post && wikiPost.post.source_id || wikiPost.source_id}`)"
+                    :href="publish_url(`${wiki_post.type}/${wikiPost.source_id}`)"
                     >参与修订</a
                 >。
             </div>
