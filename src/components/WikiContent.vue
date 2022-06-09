@@ -32,18 +32,21 @@
             </el-button>
         </template>
         <template slot="body">
+
+            <div class="m-wiki-compatible" v-if="compatible && !isEditMode">
+                <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
+                    :href="publish_url(`${wiki_post.type}/${wikiPost.source_id}`)"
+                    >参与修订</a
+                >。
+            </div>
+
             <!-- Tips -->
             <div class="m-tips" v-if="isEditMode">
                 游戏内仅支持简易文本修订,如需上传图片等,请至
                 <a href="https://www.jx3box.com">JX3BOX网站</a>
                 操作
             </div>
-            <div class="m-wiki-compatible" v-if="compatible">
-                <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
-                    :href="publish_url(`${wiki_post.type}/${wikiPost.source_id}`)"
-                    >参与修订</a
-                >。
-            </div>
+
 
             <!-- Article -->
             <template v-if="wiki_post.source">
