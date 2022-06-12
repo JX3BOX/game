@@ -19,17 +19,14 @@
 const URI = require("urijs");
 import UA from "../utils/ua";
 import star from "../utils/star";
-// import player_name from "../utils/PlayerName";
 import WikiContent from "../components/WikiContent";
 import WikiRevisions from "@jx3box/jx3box-common-ui/src/wiki/WikiRevisions";
 import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 import Relations from "@/components/achievement/Relations.vue";
-// import RelationPlans from "@/components/item/RelationPlans.vue";
 import PriceTabs from "@/components/item/PriceTabs.vue";
-import { WikiPost } from "@jx3box/jx3box-common/js/helper";
+import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import { postStat } from "@jx3box/jx3box-common/js/stat";
-import { getPet } from "../service/pet";
 
 export default {
     name: "Wiki",
@@ -69,28 +66,16 @@ export default {
         icon_url: iconLink,
         star,
         loadWiki: function (source_type, source_id) {
-            if (this.client === "std") {
-                WikiPost.newest(source_type, source_id, 1, "std").then((res) => {
-                    this.wikiPost = res.data.data;
-                    console.log("获取重制攻略");
-                });
-            } else {
-                WikiPost.newest(source_type, source_id, 1, "origin")
-                    .then((res) => {
-                        this.wikiPost = res.data.data;
-                        console.log("获取缘起攻略");
-                        return !!res.data.data.post;
-                    })
-                    .then((data) => {
-                        if (!data) {
-                            console.log("兼容：获取重制攻略");
-                            WikiPost.newest(source_type, source_id, 1, "std").then((res) => {
-                                this.wikiPost.post = res.data.data.post;
-                                this.compatible = true;
-                            });
-                        }
-                    });
-            }
+            wiki.mix({ type: source_type, id: source_id, client: this.client }, { supply: 1 }).then(res => {
+                const { post, source, compatible } = res;
+                this.wikiPost = {
+                    post,
+                    source
+                };
+                this.compatible = compatible;
+            }).catch(err => {
+                console.log(err, 'err')
+            });
         },
     },
     watch: {
@@ -110,16 +95,7 @@ export default {
                 if (id) {
                     this.source_id = id;
 
-                    if (this.type === "pet") {
-                        getPet(id).then((res) => {
-                            let pet = res.data;
-                            let source_id = pet?.ItemTabType + "_" + pet?.ItemTabIndex;
-                            this.source_id = source_id;
-                            this.loadWiki("item", source_id);
-                        });
-                    } else {
-                        this.loadWiki(this.source_type, this.source_id);
-                    }
+                    this.loadWiki(this.type, this.source_id);
                 }
             },
         },
@@ -128,7 +104,8 @@ export default {
             handler() {
                 // 获取攻略
                 if (this.$route.query.post_id) {
-                    WikiPost.view(this.$route.query.post_id).then((res) => {
+                    wiki.getById(this.$route.query.post_id, { client: this.client })
+                    .then((res) => {
                         res = res.data;
                         this.wikiPost = res.data;
                     });

@@ -103,7 +103,7 @@ import player_name from "../utils/PlayerName";
 import star from "../utils/star";
 import Article from "@jx3box/jx3box-editor/src/Article.vue";
 import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
-import { WikiPost } from "@jx3box/jx3box-common/js/helper";
+import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
 import { getTypeLabel, iconLink, publishLink } from "@jx3box/jx3box-common/js/utils";
 import { __Root, __OriginRoot } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
@@ -175,18 +175,15 @@ export default {
                 });
                 return;
             }
-
-            WikiPost.save(
-                {
-                    type: this.wiki_post.type,
-                    source_id: this.wiki_post.source_id,
-                    level: this.publish.level,
-                    user_nickname: this.publish.author,
-                    content: document.getElementById("c-article").innerHTML,
-                    remark: this.publish.remark,
-                },
-                this.client
-            ).then(
+            const data = {
+                source_id: this.wiki_post.source_id,
+                level: this.publish.level,
+                user_nickname: this.publish.author,
+                content: document.getElementById("c-article").innerHTML,
+                remark: this.publish.remark,
+            }
+            wiki.post({ type: this.wiki_post.type, data: data, client: this.client }, {})
+            .then(
                 (res) => {
                     res = res.data;
                     if (res.code === 200) {
@@ -217,15 +214,10 @@ export default {
     },
     watch: {
         isEditMode() {
-            console.log(this.wiki_post);
             // 获取最新攻略
             if (this.wiki_post && this.wiki_post.type && this.wiki_post.source_id) {
-                WikiPost.newest(
-                    this.wiki_post.type,
-                    this.wiki_post.source_id,
-                    this.isEditMode ? 0 : 1,
-                    this.client
-                ).then((res) => {
+                wiki.get({ type: this.wiki_post.type, id: this.wiki_post.source_id }, { supply: this.isEditMode ? 0 : 1, client: this.client })
+                .then((res) => {
                     res = res.data;
                     if (res.code === 200) {
                         this.wiki_post = res.data;
