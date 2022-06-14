@@ -67,10 +67,12 @@ export default {
         star,
         loadWiki: function (source_type, source_id) {
             wiki.mix({ type: source_type, id: source_id, client: this.client }, { supply: 1 }).then(res => {
-                const { post, source, compatible } = res;
+                const { post, source, compatible, type, source_id } = res;
                 this.wikiPost = {
                     post,
-                    source
+                    source,
+                    type,
+                    source_id
                 };
                 this.compatible = compatible;
             }).catch(err => {
