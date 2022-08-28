@@ -63,17 +63,14 @@
 
 <script>
 import { Chart } from "@antv/g2";
-import {
-    get_item_price_logs,
-    get_item_servers_price_logs,
-} from "../../service/item";
+import { get_item_servers_price_logs, } from "../../service/item";
 import GamePrice from "@/components/GamePrice.vue";
 import item_price from "../../utils/ItemPrice.js";
 
 export default {
     name: "ItemPriceChart",
     props: ["item_id", "server"],
-    data() {
+    data () {
         return {
             today: null,
             yesterday: null,
@@ -83,49 +80,52 @@ export default {
         };
     },
     methods: {
-        get_data() {
+        get_data () {
             if (this.item_id) {
-                if (this.server) {
-                    get_item_price_logs(this.item_id, {
-                        server: this.server,
-                    }).then((data) => {
-                        data = data.data;
-                        let output = [];
+                get_item_servers_price_logs(this.item_id, {
+                    server: this.server,
+                }).then((data) => {
+                    data = data.data;
+                    let output = [];
+                    if (this.server) {
                         for (let i in data.data.logs) {
                             let log = data.data.logs[i];
                             output.push({
                                 date: log.date,
-                                price: log.price,
+                                price: log.AvgPrice,
                                 type: "均价",
                             });
                             output.push({
                                 date: log.date,
-                                price: log.min_price,
+                                price: log.LowestPrice,
                                 type: "最低价",
                             });
                             output.push({
                                 date: log.date,
-                                price: log.max_price,
+                                price: log.HighestPrice,
                                 type: "最高价",
                             });
                         }
-                        this.today = data.data.today;
-                        this.yesterday = data.data.yesterday;
-                        this.logs = output;
-                        this.hidden = !(this.logs.length > 0);
-                    });
-                } else {
-                    get_item_servers_price_logs(this.item_id, {limit: 3}).then((data) => {
-                        data = data.data;
-                        this.today = null;
-                        this.yesterday = null;
-                        this.logs = data.data.logs;
-                        this.hidden = !(this.logs.length > 0);
-                    });
-                }
+                    } else {
+                        for (let i in data.data.logs) {
+                            let log = data.data.logs[i];
+                            output.push({
+                                date: log.date,
+                                price: log.AvgPrice,
+                                server: log.Server,
+                            });
+                        }
+                    }
+                    this.today = null;
+                    this.yesterday = null;
+                    this.logs = output;
+                    console.log(this.logs)
+                    this.hidden = !(this.logs.length > 0);
+                });
+
             }
         },
-        render() {
+        render () {
             if (this.chart) this.chart.destroy();
             this.chart = new Chart({
                 container: "m-item-price-chart",
@@ -179,16 +179,16 @@ export default {
         },
     },
     watch: {
-        item_id() {
+        item_id () {
             this.get_data();
         },
         server: {
             immediate: true,
-            handler() {
+            handler () {
                 this.get_data();
             },
         },
-        logs() {
+        logs () {
             this.render();
         },
     },

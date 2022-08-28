@@ -1,4 +1,4 @@
-import { $helper } from '@jx3box/jx3box-common/js/https';
+import { $helper, $next } from '@jx3box/jx3box-common/js/https';
 
 function get_items_count() {
     return $helper().get(`api/items/count`)
@@ -29,7 +29,8 @@ function get_item_prices(item_id, params) {
 // 物品价格日志
 function get_item_price_logs(item_id, params) {
     if (!item_id) return;
-    return $helper().get(`api/item/${item_id}/prices/logs`, {
+    return $next().get(`api/item-price/list`, {
+        itemIds:item_id,
         params
     })
 }
@@ -37,7 +38,7 @@ function get_item_price_logs(item_id, params) {
 // 物品区服价格日志
 function get_item_servers_price_logs(item_id, params) {
     if (!item_id) return;
-    return $helper().get(`api/item/${item_id}/price/servers/logs`, {
+    return $next().get(`api/item-price/${item_id}/logs`, {
         params: params,
     })
 }
