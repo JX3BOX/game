@@ -53,8 +53,8 @@
         </div>
 
         <div class="footer">
-            &copy; <a href="https://www.jx3box.com">剑三魔盒</a> [
-            <a class="u-link" href="https://www.jx3box.com">www.jx3box.com</a>
+            &copy; <a :href="rootPath">剑三魔盒</a> [
+            <a class="u-link" :href="rootPath">{{ rootDomain }}</a>
             ]
         </div>
     </div>
@@ -68,6 +68,8 @@ import flowers_cn from "@/assets/data/flowers_cn.json";
 import flowers_tr from "@/assets/data/flowers_tr.json";
 import { getFlower, getFlowerDetail } from "@/service/flower.js";
 import traditional_servers from "@jx3box/jx3box-data/data/server/server_international.json";
+import { __iconPath, __Root, __OriginRoot } from '@jx3box/jx3box-common/data/jx3box.json'
+
 export default {
     name: "App",
     data: function() {
@@ -77,6 +79,16 @@ export default {
         };
     },
     computed: {
+        client: function () {
+            let client = this.params.get("L") == "classic_yq" ? "origin" : "std";
+            return client;
+        },
+        rootPath: function () {
+            return this.client == "origin" ? __OriginRoot : __Root;
+        },
+        rootDomain: function() {
+            return this.rootPath.replace(/^https?:\/\//ui, '').replace(/\/.*$/ui, '');
+        },
         item: function() {
             return (this.query && this.query.item) || "红玫瑰";
         },

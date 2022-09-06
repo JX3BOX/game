@@ -43,7 +43,7 @@
             <!-- Tips -->
             <div class="m-tips" v-if="isEditMode">
                 游戏内仅支持简易文本修订,如需上传图片等,请至
-                <a href="https://www.jx3box.com">JX3BOX网站</a>
+                <a :href="rootPath">JX3BOX网站</a>
                 操作
             </div>
 

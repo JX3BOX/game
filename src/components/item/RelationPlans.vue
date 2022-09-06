@@ -30,7 +30,7 @@
                                 class="u-name"
                                 v-text="plan.title"
                                 :href="
-                                    `https://www.jx3box.com/item/#/plan_view/${plan.id}`
+                                    `${rootPath}item/#/plan_view/${plan.id}`
                                 "
                             ></a>
                             <span
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { __iconPath } from '@jx3box/jx3box-common/data/jx3box.json'
+import { __iconPath, __Root, __OriginRoot } from '@jx3box/jx3box-common/data/jx3box.json'
 import { get_item_relation_plans } from "../../service/item";
 
 export default {
@@ -58,6 +58,15 @@ export default {
             plan_2_icon: __iconPath + "icon/2410.png",
             plan_1_icon: __iconPath + "icon/3089.png",
         };
+    },
+    computed: {
+        client: function () {
+            let client = this.params.get("L") == "classic_yq" ? "origin" : "std";
+            return client;
+        },
+        rootPath: function () {
+            return this.client == "origin" ? __OriginRoot : __Root;
+        },
     },
     watch: {
         sourceId: {
