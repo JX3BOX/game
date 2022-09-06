@@ -75,6 +75,7 @@ export default {
     data: function() {
         return {
             query: URI(location.href).query(true),
+            params: new URLSearchParams(location.search),
             data: "",
         };
     },

@@ -54,6 +54,7 @@ export default {
     props: ["sourceId"],
     data() {
         return {
+            params: new URLSearchParams(location.search),
             relation_plans: [],
             plan_2_icon: __iconPath + "icon/2410.png",
             plan_1_icon: __iconPath + "icon/3089.png",

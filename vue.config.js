@@ -10,7 +10,7 @@ module.exports = {
         index : {
             title : '百科大全 - JX3BOX',
             entry:'src/driver/wiki.js',
-            template : 'public/index.html',
+            template : 'public/wiki.html',
             filename:'index.html',
         },
         macros : {

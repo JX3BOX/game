@@ -11,7 +11,7 @@ Vue.use(ElementUI);
 // Vue.use(JX3BOX_UI);
 
 import router from "../router/wiki";
-import App from "./wiki.vue";
+import App from "./app.vue";
 
 new Vue({
     router: router,
