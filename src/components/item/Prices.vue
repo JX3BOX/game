@@ -86,12 +86,14 @@ export default {
             }
         },
     },
+    computed: {
+        params() {
+            return [this.item_id, this.server];
+        }
+    },
     watch: {
-        item_id() {
-            this.get_data();
-        },
-        server: {
-            immediate: true,
+        params: {
+            deep: true,
             handler() {
                 this.get_data();
             },

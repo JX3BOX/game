@@ -91,17 +91,17 @@ export default {
                         for (let i in data.data.logs) {
                             let log = data.data.logs[i];
                             output.push({
-                                date: log.date,
+                                date: log.Date,
                                 price: log.AvgPrice,
                                 type: "均价",
                             });
                             output.push({
-                                date: log.date,
+                                date: log.Date,
                                 price: log.LowestPrice,
                                 type: "最低价",
                             });
                             output.push({
-                                date: log.date,
+                                date: log.Date,
                                 price: log.HighestPrice,
                                 type: "最高价",
                             });
@@ -110,7 +110,7 @@ export default {
                         for (let i in data.data.logs) {
                             let log = data.data.logs[i];
                             output.push({
-                                date: log.date,
+                                date: log.Date,
                                 price: log.AvgPrice,
                                 server: log.Server,
                             });
@@ -119,7 +119,7 @@ export default {
                     this.today = null;
                     this.yesterday = null;
                     this.logs = output;
-                    console.log(this.logs)
+                    this.render();
                     this.hidden = !(this.logs.length > 0);
                 });
 
@@ -178,19 +178,19 @@ export default {
             this.chart.render();
         },
     },
+    computed: {
+        params() {
+            return [this.item_id, this.server];
+        }
+    },
     watch: {
-        item_id () {
-            this.get_data();
-        },
-        server: {
+        params: {
+            deep: true,
             immediate: true,
-            handler () {
+            handler() {
                 this.get_data();
-            },
-        },
-        logs () {
-            this.render();
-        },
+            }
+        }
     },
     components: {
         GamePrice,
