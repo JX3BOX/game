@@ -21,7 +21,7 @@ function get_item_relation_plans(item_id, params) {
 // 物品价格
 function get_item_prices(item_id, params) {
     if (!item_id) return;
-    return $helper().get(`api/item/${item_id}/prices`, {
+    return $next().get(`api/item-price/${item_id}/detail`, {
         params
     })
 }
@@ -29,19 +29,19 @@ function get_item_prices(item_id, params) {
 // 物品价格日志
 function get_item_price_logs(item_id, params) {
     if (!item_id) return;
-    return $next().get(`api/item-price/list`, {
-        itemIds:item_id,
-        params
-    })
+    return $next().get(`api/item-price/${item_id}/logs`, {
+        params,
+    });
 }
 
 // 物品区服价格日志
 function get_item_servers_price_logs(item_id, params) {
     if (!item_id) return;
     return $next().get(`api/item-price/${item_id}/logs`, {
-        params: params,
-    })
+        params,
+    });
 }
+
 
 function get_items(params) {
     return $helper().get(`api/items`, {
