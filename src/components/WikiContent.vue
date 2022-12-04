@@ -54,7 +54,7 @@
                     <Article
                         id="content"
                         v-if="isEditMode || !isTW"
-                        :content="content"
+                        :content="content || '<div>&nbsp;</div>'"
                         :pageable="false"
                         :contenteditable="isEditMode"
                         :class="{ 'u-editable': isEditMode }"
