@@ -3,7 +3,7 @@
         <div class="m-price-server">
             <i class="el-icon-s-shop"></i> 全服价格
             <el-select class="u-server" v-model="server" placeholder="请选择服务器" size="mini">
-                <el-option key label="前五低价区服" value v-if="!isOrigin"></el-option>
+                <!-- <el-option key label="前五低价区服" value v-if="!isOrigin"></el-option> -->
                 <el-option v-for="serve in servers" :key="serve" :label="serve" :value="serve"></el-option>
             </el-select>
         </div>
@@ -54,7 +54,7 @@ export default {
     mounted: function () {
         let params = new URLSearchParams(location.search);
         let server = params.get("server")
-        this.server = server
+        this.server = server || (this.isOrigin ? '缘起稻香' : '梦江南');
     },
     components: {
         "item-prices": ItemPrices,
