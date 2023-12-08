@@ -11,10 +11,10 @@ $ npm run serve
 type 缺省时默认为 achievement
 
 #### 正式服
-- 百科：https://page.j3cx.com/index.html?type=achievement&id=5081
-- 普通：https://page.j3cx.com/index.html?type=item&id=5_24428  
-- 书籍：https://page.j3cx.com/index.html?type=item&id=5_8029_482  
-- 宠物：https://page.j3cx.com/index.html?type=pet&id=228  
+- 百科：https://page.j3cx.com/?type=achievement&id=5081
+- 普通：https://page.j3cx.com/?type=item&id=5_24428  
+- 书籍：https://page.j3cx.com/?type=item&id=5_8029_482  
+- 宠物：https://page.j3cx.com/?type=pet&id=228  
 
 #### 怀旧服
 - 成就：http://localhost:8080/?type=cj&id=493&L=classic_yq
