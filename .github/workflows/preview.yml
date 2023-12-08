@@ -1,0 +1,33 @@
+name: Preview Dev
+on:
+    push:
+        branches:
+            - dev
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [v16.18.1]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install && Build
+              run: |
+                  npm install
+                  npm run preview
+
+            ## TODO:下方修改1处
+            - name: GrayEnv
+              uses: appleboy/scp-action@v0.1.4
+              with:
+                  host: ${{ secrets.HOST_NANJING2 }}
+                  username: ${{ secrets.DEPLOY_USER }}
+                  key: ${{ secrets.DEPLOY_KEY }}
+                  source: game/*
+                  target: /www/wwwroot/jx3box/test
+

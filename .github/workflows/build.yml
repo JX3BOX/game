@@ -1,0 +1,41 @@
+name: Preview Master
+on:
+    push:
+        branches:
+            - master
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [v16.18.1]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install && Build
+              run: |
+                  npm install
+                  npm run build
+
+            - name: Github Pages
+              uses: JamesIves/github-pages-deploy-action@releases/v3
+              with:
+                  ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                  BRANCH: gh-pages
+                  FOLDER: dist
+                  CLEAN: true
+
+            ## TODO:下方修改两处
+            - name: OSS
+              uses: manyuanrong/setup-ossutil@v2.0
+              with:
+                  endpoint: "oss-cn-hangzhou.aliyuncs.com"
+                  access-key-id: ${{secrets.AccessKey_ID}}
+                  access-key-secret: ${{secrets.Access_Key_Secret}}
+            - run: ossutil cp -rf dist oss://jx3box/static/game
+            #- run: ossutil cp -rf dist oss://jx3box-www/game
+
