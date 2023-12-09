@@ -4,15 +4,13 @@
         <header class="m-header">
             <ul class="m-header-left">
                 <li><a :href="`${rootPath}macro/`">宏库</a></li>
-                <li><a :href="`${rootPath}jx3dat/`">插件</a></li>
-                <li><a :href="`${rootPath}fb/`">副本</a></li>
                 <li><a :href="`${rootPath}bps/`">职业</a></li>
-                <li><a :href="`${rootPath}team/`">团队</a></li>
+                <li><a :href="`${rootPath}pvp/`">竞技</a></li>
+                <li><a :href="`${rootPath}fb/`">副本</a></li>
             </ul>
             <ul class="m-header-right">
-                <li><a :href="`${rootPath}cj/`">成就</a></li>
-                <li><a :href="`${rootPath}item/`">物品</a></li>
-                <li><a :href="`${rootPath}share/`">捏脸</a></li>
+                <li><a :href="`${rootPath}cj/`">百科</a></li>
+                <li><a :href="`${rootPath}pvx/`">休闲</a></li>
                 <li><a :href="`${rootPath}tool/`">工具</a></li>
                 <li><a :href="`${rootPath}bbs/`">茶馆</a></li>
             </ul>

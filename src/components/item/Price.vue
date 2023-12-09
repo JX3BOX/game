@@ -88,7 +88,7 @@ export default {
         }
     }
     .m-price-content {
-        padding: 20px 50px;
+        padding: 20px;
         box-sizing: border-box;
         border: 1px solid #e4e7ed;
         margin-bottom: 30px;
