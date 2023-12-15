@@ -91,7 +91,7 @@ export default {
                 // fix source_type
                 if (this.type == "cj") {
                     this.source_type = "achievement";
-                } else if (this.type == "pet") {
+                } else if (this.type == "pet" || this.type == "horse") {
                     this.source_type = "item";
                 } else {
                     this.source_type = this.type || "achievement";
@@ -101,7 +101,7 @@ export default {
                 if (id) {
                     this.source_id = id;
 
-                    this.loadWiki(this.type, this.source_id);
+                    this.loadWiki(this.source_type, this.source_id);
                 }
             },
         },
