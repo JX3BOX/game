@@ -1,0 +1,66 @@
+.m-wiki-top {
+    background-color: @bg-light;
+    border:1px solid #eee;
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.m-wiki-top__header{
+    .flex;
+    justify-content: space-between;
+    .mb(5px);
+    .u-title{
+        .fz(14px);
+        .bold;
+        margin:0;
+        i{
+            .mr(3px);
+        }
+    }
+    .u-more{
+        .fz(12px);
+        color:#999;
+    }
+}
+
+.m-wiki-top__item {
+    padding:4px 0;
+    .fz(13px,1.6);
+    .flex;
+    align-items: center;
+    justify-content: space-between;
+    .pr;
+    .u-type {
+        padding: 2px 8px;
+        font-size: 12px;
+        color: #fff;
+        border-radius: 2px;
+        margin-right: 8px;
+        background-color:@primary;
+    }
+
+    .m-item_left {
+        .flex;
+        align-items: center;
+        flex: 1;
+        .pr;
+        .nobreak();
+    }
+
+    .u-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &.is-bold {
+            font-weight: bold;
+        }
+    }
+
+    .u-time {
+        font-size: 12px;
+        color: #999;
+        margin-left: 5px;
+    }
+}

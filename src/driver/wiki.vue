@@ -4,6 +4,6 @@
 
 <script>
 export default {
-    name: "Wiki",
+    name: "WikiPage",
 };
 </script>

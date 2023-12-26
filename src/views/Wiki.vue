@@ -2,7 +2,7 @@
     <div class="m-wiki-view" v-if="wikiPost">
         <!-- Warning -->
         <div class="m-warning" :class="{ none: !warning }">❌ 您的浏览器版本太低,将无法正常使用本应用</div>
-
+        <Notice v-if="type === 'achievement'"></Notice>
         <WikiContent v-if="type !== 'price'" :wiki-post="wikiPost" :compatible="compatible" />
         <PriceTabs
             v-if="type == 'item' && wikiPost && wikiPost.source && wikiPost.source.BindType != 3"
@@ -26,12 +26,23 @@ import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 import Relations from "@/components/achievement/Relations.vue";
 import PriceTabs from "@/components/item/PriceTabs.vue";
 import Price from "@/components/item/Price.vue";
+import Notice from "@/components/achievement/Notice.vue";
 import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import { postStat } from "@jx3box/jx3box-common/js/stat";
 
 export default {
     name: "Wiki",
+    components: {
+        WikiContent,
+        WikiRevisions,
+        WikiComments,
+        Relations,
+        // RelationPlans,
+        PriceTabs,
+        Price,
+        Notice,
+    },
     data() {
         return {
             ua: UA(),
@@ -125,15 +136,6 @@ export default {
             if (type === "achievement") type = "cj";
             postStat(type, this.id);
         }
-    },
-    components: {
-        WikiContent,
-        WikiRevisions,
-        WikiComments,
-        Relations,
-        // RelationPlans,
-        PriceTabs,
-        Price,
     },
 };
 </script>
