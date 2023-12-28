@@ -9,7 +9,7 @@
             :source-id="source_id"
         />
         <Price v-if="type === 'price'" :source-id="source_id"></Price>
-        <Relations :source-id="source_id" v-if="type == 'achievement'" />
+        <!-- <Relations :source-id="source_id" v-if="type == 'achievement'" /> -->
         <!-- <RelationPlans :source-id="id" v-if="type == 'item'" /> -->
         <WikiRevisions v-if="wikiPost && wikiPost.post" :type="source_type" :source-id="source_id" :isGame="true" />
         <WikiComments v-if="wikiPost && wikiPost.post" :type="source_type" :source-id="source_id" />
@@ -23,11 +23,11 @@ import star from "../utils/star";
 import WikiContent from "../components/WikiContent";
 import WikiRevisions from "@jx3box/jx3box-common-ui/src/wiki/WikiRevisions";
 import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
-import Relations from "@/components/achievement/Relations.vue";
+// import Relations from "@/components/achievement/Relations.vue";
 import PriceTabs from "@/components/item/PriceTabs.vue";
 import Price from "@/components/item/Price.vue";
 import Notice from "@/components/achievement/Notice.vue";
-import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
+import { wiki } from "@jx3box/jx3box-common/js/wiki_v2.js";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import { postStat } from "@jx3box/jx3box-common/js/stat";
 
@@ -37,7 +37,7 @@ export default {
         WikiContent,
         WikiRevisions,
         WikiComments,
-        Relations,
+        // Relations,
         // RelationPlans,
         PriceTabs,
         Price,
@@ -79,16 +79,18 @@ export default {
         icon_url: iconLink,
         star,
         loadWiki: function (source_type, source_id) {
-            wiki.mix({ type: source_type, id: source_id, client: this.client }, { supply: 1 })
+            wiki.mix({ type: source_type, id: source_id, client: this.client })
                 .then((res) => {
-                    const { post, source, compatible, type, source_id } = res;
+                    const { post, source, compatible, type, source_id, users } = res;
                     this.wikiPost = {
                         post,
                         source,
                         type,
                         source_id,
+                        users
                     };
                     this.compatible = compatible;
+                    this.source_id = source_id;
                 })
                 .catch((err) => {
                     console.log(err, "err");
@@ -99,20 +101,20 @@ export default {
         id: {
             immediate: true,
             handler(id) {
+                let source_type = ""
                 // fix source_type
                 if (this.type == "cj") {
-                    this.source_type = "achievement";
-                } else if (this.type == "pet" || this.type == "horse") {
+                    this.source_type = source_type = "achievement";
+                } else if (this.type == 'pet' || this.type == "horse") {
                     this.source_type = "item";
+                    source_type = this.type == 'pet' ? "pet" : "item";
                 } else {
-                    this.source_type = this.type || "achievement";
+                    this.source_type = source_type = this.type || "achievement";
                 }
 
                 // 获取最新攻略
                 if (id) {
-                    this.source_id = id;
-
-                    this.loadWiki(this.source_type, this.source_id);
+                    this.loadWiki(source_type, this.id);
                 }
             },
         },
@@ -121,7 +123,7 @@ export default {
             handler() {
                 // 获取攻略
                 if (this.$route.query.post_id) {
-                    wiki.getById(this.$route.query.post_id, { client: this.client }).then((res) => {
+                    wiki.getById(this.$route.query.post_id).then((res) => {
                         res = res.data;
                         this.wikiPost = res.data;
                     });

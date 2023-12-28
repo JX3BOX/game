@@ -79,9 +79,8 @@ export default {
                     this.prices = data.data.prices || [];
                 });
                 // 获取物品信息
-                get_item(this.item_id).then((data) => {
-                    data = data.data;
-                    this.item = data.data.item;
+                get_item(this.item_id).then((res) => {
+                    this.item = res.data.list?.[0];
                 });
             }
         },

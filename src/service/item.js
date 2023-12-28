@@ -1,13 +1,11 @@
-import { $helper, $next } from '@jx3box/jx3box-common/js/https';
-
-function get_items_count() {
-    return $helper().get(`api/items/count`)
-}
+import { $helper, $next, $node } from '@jx3box/jx3box-common/js/https';
 
 // 获取物品
-function get_item(item_id) {
+function get_item(item_id, params) {
     if (!item_id) return;
-    return $helper().get(`api/item/${item_id}`)
+    return $node().get(`/item/id/${item_id}`, {
+        params
+    })
 }
 
 // 相关物品清单
@@ -42,41 +40,10 @@ function get_item_servers_price_logs(item_id, params) {
     });
 }
 
-
-function get_items(params) {
-    return $helper().get(`api/items`, {
-        params
-    })
-}
-
-function get_items_search(params) {
-    return $helper().get(`api/item/search`, {
-        params
-    })
-}
-
-function get_menu_items(params) {
-    return $helper().get(`api/item/menu_list`, {
-        params
-    })
-}
-
-// 获取物品攻略列表
-function get_item_posts() {
-    return $helper().get(`api/wiki/posts/newest`, {
-        params: { type: "item" },
-    })
-}
-
 export {
-    get_items_count,
     get_item,
     get_item_relation_plans,
     get_item_prices,
     get_item_price_logs,
     get_item_servers_price_logs,
-    get_items,
-    get_items_search,
-    get_menu_items,
-    get_item_posts,
 };
