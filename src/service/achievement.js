@@ -1,9 +1,12 @@
-import { $helper, $cms } from "@jx3box/jx3box-common/js/https";
-
+import { $cms, $node } from "@jx3box/jx3box-common/js/https";
 
 function get_relation_achievements(source_id) {
     if (!source_id) return null;
-    return $helper().get(`api/achievement/${source_id}/relations`);
+    return $node().get(`/api/node/achievement/${source_id}/relations`, {
+        params: {
+            client,
+        },
+    });
 }
 // 获取成就公告
 function getBreadcrumb(key = "wiki_cj_ac") {

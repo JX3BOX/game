@@ -32,7 +32,6 @@
             </el-button>
         </template>
         <template slot="body">
-
             <div class="m-wiki-compatible" v-if="compatible && !isEditMode">
                 <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
                     :href="publish_url(`${wiki_post.type}/${wikiPost.source_id}`)"
@@ -46,7 +45,6 @@
                 <a :href="rootPath">JX3BOX网站</a>
                 操作
             </div>
-
 
             <!-- Article -->
             <template v-if="wiki_post.source">
@@ -181,35 +179,34 @@ export default {
                 user_nickname: this.publish.author,
                 content: document.getElementById("c-article").innerHTML,
                 remark: this.publish.remark,
-            }
-            wiki.post({ type: this.wiki_post.type, ...data, client: this.client })
-            .then(
-                (res) => {
-                    res = res.data;
-                    this.$message({
-                        message: "提交成功，请等待审核",
-                        type: "success",
-                    });
-                    this.publish = {
-                        level: 1,
-                        author: player_name(),
-                        remark: "",
-                    };
-                    this.isEditMode = false;
-                }
-            );
+            };
+            wiki.post({ type: this.wiki_post.type, ...data, client: this.client }).then((res) => {
+                res = res.data;
+                this.$message({
+                    message: "提交成功，请等待审核",
+                    type: "success",
+                });
+                this.publish = {
+                    level: 1,
+                    author: player_name(),
+                    remark: "",
+                };
+                this.isEditMode = false;
+            });
         },
     },
     watch: {
         isEditMode() {
             // 获取最新攻略
             if (this.wiki_post && this.wiki_post.type && this.wiki_post.source_id) {
-                wiki.get({ type: this.wiki_post.type, id: this.wiki_post.source_id }, { client: this.client })
-                .then((res) => {
-                    res = res.data;
-                    this.wiki_post = res.data;
-                    this.publish.level = _.get(this, "wiki_post.post.level") || 1;
-                });
+                wiki.get({ type: this.wiki_post.type, id: this.wiki_post.source_id }, { client: this.client }).then(
+                    (res) => {
+                        console.log(res);
+                        res = res.data;
+                        this.wiki_post = res.data;
+                        this.publish.level = _.get(this, "wiki_post.post.level") || 1;
+                    }
+                );
             }
         },
         wikiPost: {

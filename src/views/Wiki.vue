@@ -87,7 +87,7 @@ export default {
                         source,
                         type,
                         source_id,
-                        users
+                        users,
                     };
                     this.compatible = compatible;
                     this.source_id = source_id;
@@ -101,13 +101,13 @@ export default {
         id: {
             immediate: true,
             handler(id) {
-                let source_type = ""
+                let source_type = "";
                 // fix source_type
                 if (this.type == "cj") {
                     this.source_type = source_type = "achievement";
-                } else if (this.type == 'pet' || this.type == "horse") {
+                } else if (this.type == "pet" || this.type == "horse") {
                     this.source_type = "item";
-                    source_type = this.type == 'pet' ? "pet" : "item";
+                    source_type = this.type == "pet" ? "pet" : "item";
                 } else {
                     this.source_type = source_type = this.type || "achievement";
                 }

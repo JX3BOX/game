@@ -1,20 +1,12 @@
 <template>
-    <WikiPanel
-        class="m-relations-panel"
-        scene="detail"
-        v-if="(relations && relations.length) || npc"
-    >
+    <WikiPanel class="m-relations-panel" scene="detail" v-if="(relations && relations.length) || npc">
         <template slot="head-title">
             <i class="el-icon-link"></i>
             <span>关联成就</span>
             <em class="u-remark">同BOSS下的其它成就</em>
         </template>
         <template slot="head-actions">
-            <el-button
-                type="primary"
-                class="u-boss"
-                :class="{ on: show_npc }"
-                @click="show_npc = !show_npc"
+            <el-button type="primary" class="u-boss" :class="{ on: show_npc }" @click="show_npc = !show_npc"
                 >BOSS属性参考
             </el-button>
         </template>
@@ -23,9 +15,7 @@
                 <div class="u-empty" v-if="!relations || !relations.length">
                     <span v-if="relations === null">🎉 数据加载中...</span>
                     <span v-if="relations === false">⚠️ 数据加载异常</span>
-                    <span v-if="relations && !relations.length"
-                        >💧 暂无相关成就</span
-                    >
+                    <span v-if="relations && !relations.length">💧 暂无相关成就</span>
                 </div>
                 <div class="m-relations" v-if="relations && relations.length">
                     <router-link
@@ -54,12 +44,7 @@
                 <ul class="m-bossinfo">
                     <li class="u-id">ID:<em></em>{{ npc.ID }}</li>
                     <li class="u-name">首领:<em></em>{{ npc.Name }}</li>
-                    <li
-                        v-for="item in bossInfo.base"
-                        :key="item.key"
-                        class="u-desc"
-                        :title="item.title"
-                    >
+                    <li v-for="item in bossInfo.base" :key="item.key" class="u-desc" :title="item.title">
                         {{ item.zh }}
                         <em>{{ item.key }}</em>
                         {{ npc[item.key] }}
@@ -67,12 +52,7 @@
                 </ul>
 
                 <ul class="m-bossinfo">
-                    <li
-                        v-for="item in bossInfo.shield"
-                        :key="item.key"
-                        class="u-desc"
-                        :title="item.title"
-                    >
+                    <li v-for="item in bossInfo.shield" :key="item.key" class="u-desc" :title="item.title">
                         {{ item.zh }}
                         <em>{{ item.key }}</em>
                         {{ npc[item.key] }}
@@ -80,12 +60,7 @@
                 </ul>
 
                 <ul class="m-bossinfo">
-                    <li
-                        v-for="item in bossInfo.strike"
-                        :key="item.key"
-                        class="u-desc"
-                        :title="item.title"
-                    >
+                    <li v-for="item in bossInfo.strike" :key="item.key" class="u-desc" :title="item.title">
                         {{ item.zh }}
                         <em>{{ item.key }}</em>
                         {{ npc[item.key] }}
@@ -93,12 +68,7 @@
                 </ul>
 
                 <ul class="m-bossinfo">
-                    <li
-                        v-for="item in bossInfo.hit"
-                        :key="item.key"
-                        class="u-desc"
-                        :title="item.title"
-                    >
+                    <li v-for="item in bossInfo.hit" :key="item.key" class="u-desc" :title="item.title">
                         {{ item.zh }}
                         <em>{{ item.key }}</em>
                         {{ npc[item.key] }}
@@ -106,12 +76,7 @@
                 </ul>
 
                 <ul class="m-bossinfo">
-                    <li
-                        v-for="item in bossInfo.other"
-                        :key="item.key"
-                        class="u-desc"
-                        :title="item.title"
-                    >
+                    <li v-for="item in bossInfo.other" :key="item.key" class="u-desc" :title="item.title">
                         {{ item.zh }}
                         <em>{{ item.key }}</em>
                         {{ npc[item.key] }}
@@ -161,6 +126,7 @@ export default {
             handler() {
                 if (this.sourceId) {
                     get_relation_achievements(this.sourceId).then((res) => {
+                        console.log(res);
                         res = res.data;
                         let result = res.data;
                         this.relations = result.relations;

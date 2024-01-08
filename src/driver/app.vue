@@ -2,22 +2,20 @@
     <Fragment>
         <!-- 头部导航 -->
         <header class="m-header">
-            <ul class="m-header-left">
+            <a class="m-header-logo" :href="rootPath">
+                <img class="u-logo" src="/img/logo.png" alt="JX3BOX" />
+                <span class="u-title">JX3BOX魔盒</span>
+            </a>
+            <ul class="m-header-list">
                 <li><a :href="`${rootPath}macro/`">宏库</a></li>
                 <li><a :href="`${rootPath}bps/`">职业</a></li>
                 <li><a :href="`${rootPath}pvp/`">竞技</a></li>
                 <li><a :href="`${rootPath}fb/`">副本</a></li>
-            </ul>
-            <ul class="m-header-right">
                 <li><a :href="`${rootPath}cj/`">百科</a></li>
                 <li><a :href="`${rootPath}pvx/`">休闲</a></li>
                 <li><a :href="`${rootPath}tool/`">工具</a></li>
                 <li><a :href="`${rootPath}bbs/`">茶馆</a></li>
             </ul>
-            <a class="m-header-center" :href="rootPath">
-                <img class="u-logo" src="/img/logo.png" alt="JX3BOX" />
-                <strong class="u-title">JX3BOX</strong>
-            </a>
         </header>
 
         <!-- 主体区域 -->
@@ -29,21 +27,20 @@
 
         <!-- 底部链接 -->
         <div class="m-footer">
-            &copy; <a :href="rootPath">剑三魔盒</a> [
-            <a class="u-link" :href="rootPath">{{ rootDomain }}</a> ]
+            &copy; <a :href="rootPath">剑三魔盒</a> [ <a class="u-link" :href="rootPath">{{ rootDomain }}</a> ]
         </div>
     </Fragment>
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment'
+import { Fragment } from "vue-fragment";
 import { __Root, __OriginRoot } from "@jx3box/jx3box-common/data/jx3box.json";
 
 import Wiki from "./wiki.vue";
 
 export default {
     name: "App",
-    data: function() {
+    data: function () {
         return {
             params: new URLSearchParams(location.search),
         };
@@ -56,8 +53,8 @@ export default {
         rootPath: function () {
             return this.client == "origin" ? __OriginRoot : __Root;
         },
-        rootDomain: function() {
-            return this.rootPath.replace(/^https?:\/\//ui, '').replace(/\/.*$/ui, '');
+        rootDomain: function () {
+            return this.rootPath.replace(/^https?:\/\//iu, "").replace(/\/.*$/iu, "");
         },
     },
     components: {

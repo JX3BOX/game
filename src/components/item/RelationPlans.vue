@@ -6,37 +6,16 @@
         <div class="m-section">
             <div class="m-relation-plans">
                 <el-row :gutter="20">
-                    <el-col
-                        :span="12"
-                        v-for="(plan, key) in relation_plans"
-                        :key="key"
-                    >
+                    <el-col :span="12" v-for="(plan, key) in relation_plans" :key="key">
                         <div class="u-plan">
-                            <span
-                                v-if="plan.type == 1"
-                                class="u-type"
-                                :class="'u-type-' + plan.type"
-                            >
+                            <span v-if="plan.type == 1" class="u-type" :class="'u-type-' + plan.type">
                                 <img :src="plan_1_icon" />
                             </span>
-                            <span
-                                v-if="plan.type == 2"
-                                class="u-type"
-                                :class="'u-type-' + plan.type"
-                            >
+                            <span v-if="plan.type == 2" class="u-type" :class="'u-type-' + plan.type">
                                 <img :src="plan_2_icon" />
                             </span>
-                            <a
-                                class="u-name"
-                                v-text="plan.title"
-                                :href="
-                                    `${rootPath}item/#/plan_view/${plan.id}`
-                                "
-                            ></a>
-                            <span
-                                class="u-desc"
-                                v-text="plan.description"
-                            ></span>
+                            <a class="u-name" v-text="plan.title" :href="`${rootPath}item/#/plan_view/${plan.id}`"></a>
+                            <span class="u-desc" v-text="plan.description"></span>
                         </div>
                     </el-col>
                 </el-row>
@@ -46,7 +25,8 @@
 </template>
 
 <script>
-import { __iconPath, __Root, __OriginRoot } from '@jx3box/jx3box-common/data/jx3box.json'
+// 该文件与接口已废弃
+import { __iconPath, __Root, __OriginRoot } from "@jx3box/jx3box-common/data/jx3box.json";
 import { get_item_relation_plans } from "../../service/item";
 
 export default {
