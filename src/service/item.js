@@ -3,7 +3,7 @@ import { $next, $node } from '@jx3box/jx3box-common/js/https';
 // 获取物品
 function get_item(item_id, params) {
     if (!item_id) return;
-    return $node().get(`/item/id/${item_id}`, {
+    return $node().get(`/item/${item_id}`, {
         params
     })
 }

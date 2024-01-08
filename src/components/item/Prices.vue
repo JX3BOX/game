@@ -13,11 +13,7 @@
                 <td>
                     <div class="m-item-icon">
                         <img class="u-icon" :src="icon_url(item.IconID)" />
-                        <span
-                            class="u-count"
-                            v-if="price.n_count > 1"
-                            v-text="price.n_count"
-                        ></span>
+                        <span class="u-count" v-if="price.n_count > 1" v-text="price.n_count"></span>
                     </div>
                     <span
                         class="u-name"
@@ -26,19 +22,11 @@
                         :style="{ color: item_color(item.Quality) }"
                     ></span>
                 </td>
-                <td
-                    v-text="item && item.RequireLevel ? item.RequireLevel : 1"
-                ></td>
+                <td v-text="item && item.RequireLevel ? item.RequireLevel : 1"></td>
                 <td v-text="date_format(price.created)"></td>
                 <td v-text="price.server"></td>
-                <td
-                    style="text-align: right"
-                    v-text="item_price(price.n_money)"
-                ></td>
-                <td
-                    style="text-align: right"
-                    v-text="item_price(price.unit_price)"
-                ></td>
+                <td style="text-align: right" v-text="item_price(price.n_money)"></td>
+                <td style="text-align: right" v-text="item_price(price.unit_price)"></td>
             </tr>
         </table>
         <div v-else style="text-align: center">🐖 暂无记录</div>
@@ -46,7 +34,7 @@
 </template>
 
 <script>
-import { get_item_prices,get_item } from "../../service/item";
+import { get_item_prices, get_item } from "../../service/item";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import item_color from "@jx3box/jx3box-editor/assets/js/item/color.js";
 import item_price from "../../utils/ItemPrice.js";
@@ -80,7 +68,7 @@ export default {
                 });
                 // 获取物品信息
                 get_item(this.item_id).then((res) => {
-                    this.item = res.data.list?.[0];
+                    this.item = res.data.data.item;
                 });
             }
         },
@@ -88,7 +76,7 @@ export default {
     computed: {
         params() {
             return [this.item_id, this.server];
-        }
+        },
     },
     watch: {
         params: {
